@@ -18,6 +18,7 @@ from django.urls import path
 from django.conf.urls import url, include
 from main import views as main_views
 from accounts import views as accounts_views
+from threads import views as forum_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,4 +28,7 @@ urlpatterns = [
     url(r'^login/$', accounts_views.login, name='login'),
     url(r'^logout/$', accounts_views.logout, name='logout'),
     url(r'^pages/', include('django.contrib.flatpages.urls')),
+    url(r'^forum/$', forum_views.forum),
+    url(r'^threads/(?P<subject_id>\d+)/$', forum_views.threads, name='threads'),
+    url(r'^new_thread/(?P<subject_id>\d+)/$',  forum_views.new_thread, name='new_thread'),
 ]

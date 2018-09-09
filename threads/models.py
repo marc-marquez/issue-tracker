@@ -16,3 +16,9 @@ class Thread(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='threads',on_delete='models.CASCADE')
     subject = models.ForeignKey(Subject, related_name='threads',on_delete='models.CASCADE')
     created_at = models.DateTimeField(default=timezone.now)
+
+class Post(models.Model):
+    thread = models.ForeignKey(Thread, related_name='posts',on_delete='models.CASCADE')
+    comment = HTMLField(blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts',on_delete='models.CASCADE')
+    created_at = models.DateTimeField(default=timezone.now)
