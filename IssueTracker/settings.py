@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'tinymce',
     'emoticons',
     'main',
+    'threads',
+    #'blog',
     'accounts',
 ]
 
@@ -141,6 +143,8 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'accounts.backends.EmailAuth',
 )
+
+AUTH_USER_MODEL = 'accounts.User'
 
 # tinymce settings
 TINYMCE_JS_ROOT = os.path.join(BASE_DIR, "static", 'js', 'tinymce', 'tinymce.min.js')
