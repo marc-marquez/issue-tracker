@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'django_forms_bootstrap',
     'django.contrib.sites',
     'django.contrib.flatpages',
+    'tinymce',
+    'emoticons',
     'main',
     'accounts',
 ]
@@ -129,8 +131,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"), # static directory at the project level
+)
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'accounts.backends.EmailAuth',
 )
+
+# tinymce settings
+TINYMCE_JS_ROOT = os.path.join(BASE_DIR, "static", 'js', 'tinymce', 'tinymce.min.js')
