@@ -12,12 +12,12 @@
            </p>
            <table>
                <tr>
-                   <th>THREADS</th>
-                   <th> POSTS</th>
+                   <th style="padding-right: 10px">TICKETS</th>
+                   <th style="padding-right: 10px">COMMENTS</th>
                </tr>
                <tr>
-                   <td>{{ subject.threads.count }}</td>
-                   <td>{{ subject|get_total_subject_posts }}</td>
+                   <td style="padding-right: 10px">{{ subject.threads.count }}</td>
+                   <td style="padding-right: 10px">{{ subject|get_total_subject_posts }}</td>
                </tr>
            </table>
        </section>
