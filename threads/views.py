@@ -1,11 +1,12 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Subject, Thread, Post
+#from .models import Subject, Thread, Post
 from django.shortcuts import redirect
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.template.context_processors import csrf
 from .forms import ThreadForm, PostForm
+from threads.models import Subject, Post, Thread
 
 
 def forum(request):
@@ -48,3 +49,36 @@ def new_thread(request, subject_id):
     args.update(csrf(request))
 
     return render(request, 'forum/thread_form.html', args)
+
+@login_required
+def new_post(request, thread_id):
+    thread = get_object_or_404(Thread, pk=thread_id)
+
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(False)
+            post.thread = thread
+            post.user = request.user
+            post.save()
+
+            messages.success(request, "Your post has been added to the thread!")
+
+            return redirect(reverse('thread', args={thread.pk}))
+    else:
+        form = PostForm()
+
+    args = {
+        'form': form,
+        'form_action': reverse('new_post', args={thread.id}),
+        'button_text': 'Update Post'
+    }
+    args.update(csrf(request))
+
+    return render(request, 'forum/post_form.html', args)
+
+def thread(request, thread_id):
+    thread_ = get_object_or_404(Thread, pk=thread_id)
+    args = {'thread': thread_}
+    args.update(csrf(request))
+    return render(request, 'forum/thread.html', args)
