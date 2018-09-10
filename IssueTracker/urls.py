@@ -18,7 +18,7 @@ from django.urls import path
 from django.conf.urls import url, include
 from main import views as main_views
 from accounts import views as accounts_views
-from threads import views as forum_views
+from tickets import views as forum_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,11 +29,11 @@ urlpatterns = [
     url(r'^logout/$', accounts_views.logout, name='logout'),
     url(r'^pages/', include('django.contrib.flatpages.urls')),
     url(r'^forum/$', forum_views.forum),
-    url(r'^threads/(?P<subject_id>\d+)/$', forum_views.threads, name='threads'),
-    url(r'^new_thread/(?P<subject_id>\d+)/$',  forum_views.new_thread, name='new_thread'),
-    url(r'^thread/(?P<thread_id>\d+)/$', forum_views.thread, name='thread'),
-    url(r'^post/new/(?P<thread_id>\d+)/$', forum_views.new_post, name='new_post'),
-    url(r'^post/edit/(?P<thread_id>\d+)/(?P<post_id>\d+)/$',forum_views.edit_post, name='edit_post'),
-    url(r'^post/delete/(?P<thread_id>\d+)/(?P<post_id>\d+)/$', forum_views.delete_post, name='delete_post'),
-    url(r'^thread/vote/(?P<thread_id>\d+)/(?P<subject_id>\d+)/$', forum_views.thread_vote, name='cast_vote'),
+    url(r'^tickets/(?P<subject_id>\d+)/$', forum_views.tickets, name='tickets'),
+    url(r'^new_ticket/(?P<subject_id>\d+)/$',  forum_views.new_ticket, name='new_ticket'),
+    url(r'^ticket/(?P<ticket_id>\d+)/$', forum_views.ticket, name='ticket'),
+    url(r'^post/new/(?P<ticket_id>\d+)/$', forum_views.new_post, name='new_post'),
+    url(r'^post/edit/(?P<ticket_id>\d+)/(?P<post_id>\d+)/$',forum_views.edit_post, name='edit_post'),
+    url(r'^post/delete/(?P<ticket_id>\d+)/(?P<post_id>\d+)/$', forum_views.delete_post, name='delete_post'),
+    url(r'^thread/vote/(?P<ticket_id>\d+)/(?P<subject_id>\d+)/$', forum_views.ticket_vote, name='cast_vote'),
 ]

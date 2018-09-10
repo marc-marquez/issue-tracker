@@ -15,10 +15,10 @@
 {% block content %}
     <section>
        <div class="col-md-9">
-           <form method="post" action="{% url 'new_thread' subject.id %}">
+           <form method="post" action="{% url 'new_ticket' subject.id %}">
                {% csrf_token %}
                <div class="form-group">
-                   {{ thread_form | as_bootstrap }}
+                   {{ ticket_form | as_bootstrap }}
                    <hr>
                    {{ post_form | as_bootstrap }}
                </div>
@@ -30,7 +30,7 @@
                    {% endfor %}
                </div>
                <div class="form-group">
-                   <button type="submit" class="btn-primary"> Post New Thread</button>
+                   <button type="submit" class="btn-primary">Post New Ticket</button>
                </div>
            </form>
        </div>

@@ -1,12 +1,12 @@
 {% extends "base.html" %}
-{% load thread_extras %}
+{% load ticket_extras %}
 {% block content %}
    {% load bootstrap_tags %}
    {% for subject in subjects %}
        <section class="subject">
-           <h2><a href="{% url "threads" subject.id %}">{{ subject.name }}</a></h2>
+           <h2><a href="{% url "tickets" subject.id %}">{{ subject.name }}</a></h2>
            <p>
-               <a href="{% url "threads" subject.id %}">
+               <a href="{% url "tickets" subject.id %}">
                    {% autoescape off %}{{ subject.description }}{% endautoescape %}
                </a>
            </p>
@@ -16,7 +16,7 @@
                    <th style="padding-right: 10px">COMMENTS</th>
                </tr>
                <tr>
-                   <td style="padding-right: 10px">{{ subject.threads.count }}</td>
+                   <td style="padding-right: 10px">{{ subject.tickets.count }}</td>
                    <td style="padding-right: 10px">{{ subject|get_total_subject_posts }}</td>
                </tr>
            </table>

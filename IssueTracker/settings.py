@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 AUTH_USER_MODEL = 'accounts.User'
 
 
-SITE_ID = 4
+SITE_ID = 5
 
 # Application definition
 
@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'tinymce',
     'emoticons',
     'main',
-    'threads',
+    'tickets',
     #'blog',
     'accounts',
     'polls',

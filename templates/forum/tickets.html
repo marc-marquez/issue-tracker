@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load thread_extras %}
+{% load ticket_extras %}
 {% block content %}
  <div class="row header">
    <div class="jumbotron"><h1>{{ subject.name }}</h1></div>
@@ -7,11 +7,11 @@
  <div class="col-md-12">
    {% if user.is_authenticated %}
      <p>
-       <a href="{% url 'new_thread' subject.id %}" class="btn btn-primary">New Ticket</a>
+       <a href="{% url 'new_ticket' subject.id %}" class="btn btn-primary">New Ticket</a>
      </p>
    {% endif %}
-   {% for thread in subject.threads.all %}
-     {% include "forum/thread_item.html" %}
+   {% for ticket in subject.tickets.all %}
+     {% include "forum/ticket_item.html" %}
    {% endfor %}
  </div>
 {% endblock %}

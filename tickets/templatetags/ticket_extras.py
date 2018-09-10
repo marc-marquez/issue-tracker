@@ -8,8 +8,8 @@ register = template.Library()
 @register.filter
 def get_total_subject_posts(subject):
     total_posts = 0
-    for thread in subject.threads.all():
-        total_posts += thread.posts.count()
+    for ticket in subject.tickets.all():
+        total_posts += ticket.posts.count()
     return total_posts
 
 
@@ -19,14 +19,14 @@ def started_time(created_at):
 
 
 @register.simple_tag
-def last_posted_user_name(thread):
-    last_post = thread.posts.all().order_by('created_at').last()
+def last_posted_user_name(ticket):
+    last_post = ticket.posts.all().order_by('created_at').last()
     return last_post.user.username
 
 
 @register.simple_tag
-def user_vote_button(thread, subject, user):
-    vote = thread.poll.votes.filter(user_id=user.id).first()
+def user_vote_button(ticket, subject, user):
+    vote = ticket.poll.votes.filter(user_id=user.id).first()
 
     if not vote:
         if user.is_authenticated:
@@ -35,7 +35,7 @@ def user_vote_button(thread, subject, user):
             <a href="%s" class="btn btn-default btn-sm">
                 Add my vote!
             </a>
-            </div>""" % reverse('cast_vote', kwargs={'thread_id': thread.id, 'subject_id': subject.id})
+            </div>""" % reverse('cast_vote', kwargs={'ticket_id': ticket.id, 'subject_id': subject.id})
 
             return link
 

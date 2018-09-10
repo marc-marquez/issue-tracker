@@ -11,14 +11,14 @@ class Subject(models.Model):
     def __unicode__(self):
         return self.name
 
-class Thread(models.Model):
+class Ticket(models.Model):
     name = models.CharField(max_length=255)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='threads',on_delete='models.CASCADE')
-    subject = models.ForeignKey(Subject, related_name='threads',on_delete='models.CASCADE')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='tickets',on_delete='models.CASCADE')
+    subject = models.ForeignKey(Subject, related_name='tickets',on_delete='models.CASCADE')
     created_at = models.DateTimeField(default=timezone.now)
 
 class Post(models.Model):
-    thread = models.ForeignKey(Thread, related_name='posts',on_delete='models.CASCADE')
+    ticket = models.ForeignKey(Ticket, related_name='posts', on_delete='models.CASCADE')
     comment = HTMLField(blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts',on_delete='models.CASCADE')
     created_at = models.DateTimeField(default=timezone.now)

@@ -1,11 +1,11 @@
 from django.db import models
 from django.conf import settings
-from threads.models import Thread
+from tickets.models import Ticket
 
 
 class Poll(models.Model):
     question = models.TextField()
-    thread = models.OneToOneField(Thread, null=True,on_delete='models.CASCADE')
+    ticket = models.OneToOneField(Ticket, null=True, on_delete='models.CASCADE')
 
     def __unicode__(self):
         return self.question
