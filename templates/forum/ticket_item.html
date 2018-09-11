@@ -1,12 +1,27 @@
-<section class="ticket">
- <header>
-   <table>
-     <tr>
-       <td>
-         <a href="{% url 'ticket' ticket.id %}"><h4>{{ ticket.name }}</h4></a>
-       </td>
-     </tr>
-   </table>
+<!--section class="ticket">
+    <header>
+        <table width="100%"-->
 
- </header>
-</section>
+            <tr style="border: 1px solid black">
+                <td>
+                    <a href="{% url 'ticket' ticket.id %}"><p>{{ ticket.name }}</p></a>
+                </td>
+                <td>
+                    <p>{{ ticket.posts.first.comment | striptags | truncatechars:100 }}</p>
+                </td>
+                <td>
+                    <p>{{ ticket.posts.last.created_at }}</p>
+                </td>
+                <td>
+                    <p>{{ ticket.user}}</p>
+                </td>
+                {% if subject.name == 'Feature'%}
+                <td>
+                    <p>Donate Here</p>
+                </td>
+                {% endif %}
+            </tr>
+        <!--/table>
+
+    </header>
+</section-->
