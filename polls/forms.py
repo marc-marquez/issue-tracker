@@ -1,5 +1,5 @@
 from django import forms
-from .models import Poll, PollSubject
+from .models import Poll, PollOption
 
 
 class PollForm(forms.ModelForm):
@@ -19,5 +19,5 @@ class PollSubjectForm(forms.ModelForm):
         self.empty_permitted = False
 
     class Meta:
-        model = PollSubject
+        model = PollOption
         fields = ['name']

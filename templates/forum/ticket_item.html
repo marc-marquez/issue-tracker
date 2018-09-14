@@ -1,3 +1,4 @@
+{% load ticket_extras %}
 <!--section class="ticket">
     <header>
         <table width="100%"-->
@@ -14,6 +15,15 @@
                 </td>
                 <td>
                     <p>{{ ticket.user}}</p>
+                </td>
+                <td>
+                    <!--p>{{ ticket.posts.last.status }}</p-->
+                    <p>My Status</p>
+                </td>
+                <td>
+                    {% autoescape off %}
+                    {% user_vote_button ticket subject user %}
+                    {% endautoescape %}
                 </td>
                 {% if subject.name == 'Feature'%}
                 <td>

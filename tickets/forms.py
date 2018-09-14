@@ -3,8 +3,8 @@ from .models import Ticket, Post
 
 
 class TicketForm(forms.ModelForm):
-    name = forms.CharField(label="Ticket name")
-    is_a_poll = forms.BooleanField(label="Include a poll?", required=False)
+    name = forms.CharField(label="Title")
+    #is_a_poll = forms.BooleanField(label="Include a poll?", required=False)
     
     class Meta:
         model = Ticket
