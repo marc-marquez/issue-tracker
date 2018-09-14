@@ -2,7 +2,6 @@ import arrow
 from django import template
 from django.urls import reverse
 from django.contrib.auth import models
-from tickets.models import Subject
 
 register = template.Library()
 
@@ -27,21 +26,24 @@ def last_posted_user_name(ticket):
 
 @register.simple_tag
 def user_vote_button(ticket, subject, user):
-    #vote = ticket.poll.votes.filter(user_id=user.id).first()
-    vote = subject.poll.votes.filter(user_id=user.id).first()
-    #vote = None #TEMPORARY
+    votes = subject.poll.votes.filter(user_id=user.id)
 
-    if not vote:
-        if user.is_authenticated:
-            link = """
-            <div class="col-md-3 btn-vote">
-            <a href="%s" class="btn btn-default btn-sm">
-                Add my vote!
-            </a>
-            </div>""" % reverse('cast_vote', kwargs={'ticket_id': ticket.id, 'subject_id': subject.id})
+    if(votes):
+        for vote in votes:
 
-            return link
+            # Check to see if already voted on this option
+            if(ticket.id == vote.option_id):
+                return ""
 
+    if user.is_authenticated:
+        link = """
+        <div class="col-md-3 btn-vote">
+        <a href="%s" class="btn btn-default btn-sm">
+            Add my vote!
+        </a>
+        </div>""" % reverse('cast_vote', kwargs={'ticket_id': ticket.id, 'subject_id': subject.id})
+
+        return link
     return ""
 
 @register.filter
