@@ -15,3 +15,17 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['comment']
+
+class StatusForm(forms.ModelForm):
+    #status =forms.CharField(label="Status")
+    status = forms.ChoiceField(label="Status",choices=Ticket.STATUS_CHOICES)
+
+    #def __init__(self,*args,**kwargs):
+    #    super(StatusForm,self).__init__(*args,**kwargs)
+    #    if (args) is not None:
+
+
+    class Meta:
+        model = Ticket
+        fields = ['status']
+

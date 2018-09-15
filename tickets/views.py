@@ -4,7 +4,7 @@ from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.template.context_processors import csrf
-from .forms import TicketForm, PostForm
+from .forms import TicketForm, PostForm, StatusForm
 from tickets.models import Subject, Post, Ticket
 from polls.models import PollOption, Poll
 
@@ -86,21 +86,35 @@ def new_post(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
 
     if request.method == "POST":
-        form = PostForm(request.POST)
-        if form.is_valid():
-            post = form.save(False)
-            post.ticket = ticket
-            post.user = request.user
-            post.save()
+        #Need to check if the requester is the admin to add status to be updated
+        if request.user.is_staff:
+            status_form = StatusForm(request.POST,prefix="statusform")
+            if status_form.is_valid():
+                statusform = status_form.save(False)
+                ticket.status = statusform.status
+                ticket.save()
+
+        post_form = PostForm(request.POST,prefix="postform")
+        if post_form.is_valid(): #and status_form.is_valid():
+            #statusform = status_form.save(False)
+            #ticket.status = statusform.status
+            #ticket.save()
+
+            postform = post_form.save(False)
+            postform.ticket = ticket
+            postform.user = request.user
+            postform.save()
 
             messages.success(request, "Your post has been added to the ticket!")
 
             return redirect(reverse('ticket', args={ticket.pk}))
     else:
-        form = PostForm()
+        status_form = StatusForm(prefix="statusform")
+        post_form = PostForm(prefix="postform")
 
     args = {
-        'form': form,
+        'post_form': post_form,
+        'status_form': status_form,
         'form_action': reverse('new_post', args={ticket.id}),
         'button_text': 'Update Post'
     }
@@ -124,7 +138,7 @@ def edit_post(request, ticket_id, post_id):
         form = PostForm(instance=post)
 
     args = {
-        'form': form,
+        'post_form': form,
         'form_action': reverse('edit_post', kwargs={"ticket_id": ticket.id, "post_id": post.id}),
         'button_text': 'Update Post'
     }

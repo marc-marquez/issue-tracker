@@ -16,7 +16,12 @@
    <div class="col-md-9">
      <form method="post" action="{{ form_action }}">
        {% csrf_token %}
-       {{ form|as_bootstrap }}
+       {% if post.user == user or user.is_staff %}
+           {% if post_form.instance.id == None %}
+            {{ status_form|as_bootstrap }}
+           {% endif %}
+       {% endif %}
+       {{ post_form|as_bootstrap }}
        <div class="form-group">
          <button type="submit" class="btn btn-primary">{{button_text}}</button>
        </div>

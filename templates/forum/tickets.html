@@ -9,14 +9,14 @@
        {% if subject.poll %}
            <div class="container">
                <div class="col-md-6">
-                   <h2>Poll</h2>
+                   <h2>{{ subject.poll.question }}</h2>
                    <!--strong>{# { ticket.poll.question }#}</strong><br><br-->
 
-                   <p>Here’s how the votes are so far:</p>
+                   <!--p>Here’s how the votes are so far:</p-->
                    {% for option in subject.poll.options.all %}
                        <div class="col-md-10">
                            <strong>{{ option.name }}</strong>
-                           <span class="pull-right">{{ option|vote_percentage }}%</span>
+                           <span class="pull-right">{{ option|vote_percentage|floatformat:2 }}%</span>
                        </div>
 
                        {#% autoescape off %#}

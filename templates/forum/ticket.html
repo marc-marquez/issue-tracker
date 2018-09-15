@@ -13,6 +13,7 @@
                        <th>CREATED</th>
                        <th>OWNER</th>
                        <th>LAST POST</th>
+                       <th>STATUS</th>
                    </tr>
                    <tr>
                        <!--td-->
@@ -22,6 +23,7 @@
                        <td>{{ ticket.created_at }}</td>
                        <td>{{ ticket.user.username }}</td>
                        <td>{{ ticket.posts.last.user.username }}</td>
+                       <td>{{ ticket.status }}</td>
                    </tr>
                    </tbody>
                </table>
