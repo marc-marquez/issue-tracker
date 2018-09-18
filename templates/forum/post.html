@@ -11,6 +11,7 @@
                 <time datetime="{{ post.created_at }}">Posted: {{ post.created_at|started_time }}
                 </time>
             </th>
+            <!--th style="border: 1px solid black">{#{ ticket.status }#}</th-->
             {% if post.user == user or user.is_staff %}
                <th style="border: 1px solid black"><a href="{% url 'edit_post' ticket.id post.id %}"><i class="fa fa-pencil-square-o"></i></a></th>
                <th style="border: 1px solid black"><a href="{% url 'delete_post' ticket.id post.id %}"><i class="fa fa-trash-o"></i></a></th>
@@ -18,7 +19,7 @@
         </tr>
         <tr style="border: 1px solid black">
             {% autoescape off %}
-            <td colspan="5" style="border: 1px solid black">{{ post.comment | emoticons| striptags }}</td>
+            <td colspan="6" style="border: 1px solid black">{{ post.comment | emoticons| striptags }}</td>
             {% endautoescape %}
         </tr>
     </table>

@@ -166,7 +166,7 @@ def ticket_vote(request, ticket_id, subject_id):
     option = subject.poll.votes.filter(user=request.user)
 
     for x in option:
-        print(request.user.username + " voted for " + str(x.option_id))
+        #print(request.user.username + " voted for " + str(x.option_id))
 
         if (x.option_id==int(ticket_id)):
             messages.error(request, "You already voted on this! ... You’re not trying to cheat are you?")
@@ -179,3 +179,6 @@ def ticket_vote(request, ticket_id, subject_id):
     messages.success(request, "We've registered your vote!")
 
     return redirect(reverse('tickets', args={subject_id}))
+
+def ticket_donate(request,ticket_id,subject_id):
+    pass

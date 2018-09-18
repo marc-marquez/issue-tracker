@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
-    <h2>Success!</h2>
+    <h2>Account Details</h2>
     <p>You are logged in as {{ user.email }} </p>
+    <hr>
+    <h2>Credit Card Details</h2>
+    <a href="{% url 'addcard' %}">Add a credit card</a>
+    <div>
+    {#% include 'stripe/card_form2.html' %#}
+    </div>
+
 {% endblock %}

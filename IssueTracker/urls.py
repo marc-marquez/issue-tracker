@@ -36,4 +36,6 @@ urlpatterns = [
     url(r'^post/edit/(?P<ticket_id>\d+)/(?P<post_id>\d+)/$',forum_views.edit_post, name='edit_post'),
     url(r'^post/delete/(?P<ticket_id>\d+)/(?P<post_id>\d+)/$', forum_views.delete_post, name='delete_post'),
     url(r'^ticket/vote/(?P<ticket_id>\d+)/(?P<subject_id>\d+)/$', forum_views.ticket_vote, name='cast_vote'),
+    url(r'^profile/addcard/$', accounts_views.add_card, name='addcard'),
+    url(r'^ticket/donate/(?P<ticket_id>\d+)/(?P<subject_id>\d+)/$', forum_views.ticket_donate, name='donate'),
 ]

@@ -23,7 +23,6 @@ class Ticket(models.Model):
         (COMPLETED, 'Completed'),
         (CLOSED, 'Closed'),
     )
-
     name = models.CharField(max_length=255)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='tickets',on_delete='models.CASCADE')
     subject = models.ForeignKey(Subject, related_name='tickets',on_delete='models.CASCADE')
@@ -35,3 +34,4 @@ class Post(models.Model):
     comment = HTMLField(blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts',on_delete='models.CASCADE')
     created_at = models.DateTimeField(default=timezone.now)
+    #status = models.CharField(max_length=11, choices=STATUS_CHOICES, default=CREATED)

@@ -30,10 +30,11 @@ def user_vote_button(ticket, subject, user):
 
     if(votes):
         for vote in votes:
-
-            # Check to see if already voted on this option
-            if(ticket.id == vote.option_id):
-                return ""
+            #if bug, each user only gets one vote per ticket
+            if(ticket.subject.name == 'Bug'):
+                # Check to see if already voted on this option
+                if(ticket.id == vote.option_id):
+                    return ""
 
     if user.is_authenticated:
         link = """

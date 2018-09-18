@@ -26,7 +26,7 @@
                 </td>
                 {% if subject.name == 'Feature'%}
                 <td>
-                    <p>Donate Here</p>
+                    <a href={% url 'donate' ticket.id subject.id %}>Donate Here</a>
                 </td>
                 {% endif %}
             </tr>
