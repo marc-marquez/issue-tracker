@@ -1,6 +1,7 @@
 {% load ticket_extras %}
-<!--section class="ticket">
-    <header>
+{% load bootstrap_tags %}
+<section class="ticket">
+    <!--header>
         <table width="100%"-->
 
             <tr style="border: 1px solid black">
@@ -8,7 +9,7 @@
                     <a href="{% url 'ticket' ticket.id %}"><p>{{ ticket.name }}</p></a>
                 </td>
                 <td>
-                    <p>{{ ticket.posts.first.comment | striptags | truncatechars:100 }}</p>
+                    <p>{{ ticket.description | striptags | truncatechars:100 }}</p>
                 </td>
                 <td>
                     <p>{{ ticket.posts.last.created_at }}</p>
@@ -19,18 +20,21 @@
                 <td>
                     <p>{{ ticket.status }}</p>
                 </td>
-                <td>
-                    {% autoescape off %}
-                    {% user_vote_button ticket subject user %}
-                    {% endautoescape %}
+                <td class="text-center">
+                    {% if subject.name == 'Feature'%}
+                        <form action={% url 'donate' ticket.id subject.id %} method="post">
+                            {% csrf_token %}
+                            <input type="submit" class="submit" value="Donate $10">
+                        </form>
+                    {% else %}
+                        {% autoescape off %}
+                        {% user_vote_button ticket subject user %}
+                        {% endautoescape %}
+                    {% endif %}
                 </td>
-                {% if subject.name == 'Feature'%}
-                <td>
-                    <a href={% url 'donate' ticket.id subject.id %}>Donate Here</a>
-                </td>
-                {% endif %}
             </tr>
         <!--/table>
 
-    </header>
-</section-->
+    </header-->
+
+</section>

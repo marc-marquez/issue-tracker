@@ -25,10 +25,16 @@ class UserRegistrationForm(UserCreationForm):
         password2 = self.cleaned_data.get('password2')
 
         if password1 and password2 and password1 != password2:
-            message = "Passwords do not match"
+            message = "Passwords do not match. "
             raise ValidationError(message)
 
         return password2
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            message = "This email address already exists. Please choose another one. "
+            raise ValidationError(message)
 
     def save(self, commit=True):
         instance = super(UserRegistrationForm, self).save(commit=False)

@@ -7,14 +7,19 @@ from django.template.context_processors import csrf
 from .forms import TicketForm, PostForm, StatusForm
 from tickets.models import Subject, Post, Ticket
 from polls.models import PollOption, Poll
+from django.conf import settings
+import stripe
+from django.db.models import Count
 
+stripe.api_key = settings.STRIPE_SECRET
 
 def forum(request):
     return render(request, 'forum/forum.html', {'subjects': Subject.objects.all()})
 
 def tickets(request, subject_id):
     subject = get_object_or_404(Subject, pk=subject_id)
-    return render(request, 'forum/tickets.html', {'subject': subject})
+    options = PollOption.objects.filter(poll_id=subject_id).annotate(vote_count=Count('votes')).order_by('-vote_count')
+    return render(request, 'forum/tickets.html', {'subject': subject,'options':options})
 
 
 @login_required
@@ -22,18 +27,12 @@ def new_ticket(request, subject_id):
     subject = get_object_or_404(Subject, pk=subject_id)
     if request.method == "POST":
         ticket_form = TicketForm(request.POST)
-        post_form = PostForm(request.POST)
-        if (ticket_form.is_valid() and
-                post_form.is_valid()):
+        if ticket_form.is_valid(): #and
+                #post_form.is_valid()):
             ticket = ticket_form.save(False)
             ticket.subject = subject
             ticket.user = request.user
             ticket.save()
-
-            post = post_form.save(False)
-            post.user = request.user
-            post.ticket = ticket
-            post.save()
 
             #if first ticket in subject then create poll
             try:
@@ -67,7 +66,6 @@ def new_ticket(request, subject_id):
 
     args = {
         'ticket_form': ticket_form,
-        'post_form': post_form,
         'subject': subject,
     }
 
@@ -95,10 +93,7 @@ def new_post(request, ticket_id):
                 ticket.save()
 
         post_form = PostForm(request.POST,prefix="postform")
-        if post_form.is_valid(): #and status_form.is_valid():
-            #statusform = status_form.save(False)
-            #ticket.status = statusform.status
-            #ticket.save()
+        if post_form.is_valid():
 
             postform = post_form.save(False)
             postform.ticket = ticket
@@ -116,7 +111,7 @@ def new_post(request, ticket_id):
         'post_form': post_form,
         'status_form': status_form,
         'form_action': reverse('new_post', args={ticket.id}),
-        'button_text': 'Update Post'
+        'button_text': 'Add Post'
     }
     args.update(csrf(request))
 
@@ -162,15 +157,14 @@ def delete_post(request, ticket_id, post_id):
 def ticket_vote(request, ticket_id, subject_id):
     subject = Subject.objects.get(id=subject_id)
 
-    #Check to see if voted on poll option
+    #Check to see if voted on poll option is on bugs
     option = subject.poll.votes.filter(user=request.user)
 
-    for x in option:
-        #print(request.user.username + " voted for " + str(x.option_id))
-
-        if (x.option_id==int(ticket_id)):
-            messages.error(request, "You already voted on this! ... You’re not trying to cheat are you?")
-            return redirect(reverse('tickets', args={subject_id}))
+    if(subject.name == 'Bug'):
+        for x in option:
+            if (x.option_id==int(ticket_id)):
+                messages.error(request, "You already voted on this! ... You’re not trying to cheat are you?")
+                return redirect(reverse('tickets', args={subject_id}))
 
     option = PollOption.objects.get(ticket_id=ticket_id)
 
@@ -181,4 +175,33 @@ def ticket_vote(request, ticket_id, subject_id):
     return redirect(reverse('tickets', args={subject_id}))
 
 def ticket_donate(request,ticket_id,subject_id):
-    pass
+    if request.method == 'POST':
+        ticket = Ticket.objects.get(id=ticket_id)
+        subject = Subject.objects.get(id=subject_id)
+        print("I'm donating to " + ticket.name + " " + subject.name)
+
+        try:
+            customer = stripe.Customer.retrieve(request.user.stripe_id)
+        except stripe.error.StripeError as e:
+            messages.error(request, "No credit card on file. Please add a credit card.")
+            #redirect to profile page to add a card
+            return redirect(reverse('profile'))
+
+        try:
+            #retrive list of cards for customer
+            cards = stripe.Customer.retrieve(customer.id).sources.list(limit=5,object='card')
+            charge = stripe.Charge.create(
+                amount=1000,
+                currency="usd",
+                source=cards.data[0].id,
+                customer=customer.id,
+                description="Donation for the "+ticket.name+" "+subject.name
+            )
+        except stripe.error.StripeError as e:
+            messages.error(request, e)
+            return redirect(reverse('tickets', args={subject_id}))
+        messages.success(request,"Thanks for the $10 donation!")
+        #After successfull charge, add vote to ticket
+        ticket_vote(request, ticket_id, subject_id)
+
+    return redirect(reverse('tickets', args={subject_id}))

@@ -20,12 +20,12 @@ def register(request):
                                      password=request.POST.get('password1'))
 
             if user:
-                messages.success(request, "You have successfully registered")
+                messages.success(request, "You have successfully registered. ")
                 return redirect(reverse('profile'))
-
             else:
-                messages.error(request, "unable to log you in at this time!")
-
+                messages.error(request, "Unable to log you in at this time! ")
+        #else:
+        #    messages.error(request,"This email already exists. ")
     else:
         form = UserRegistrationForm()
 
@@ -47,7 +47,7 @@ def login(request):
 
             if user is not None:
                 auth.login(request, user)
-                messages.error(request, "You have successfully logged in")
+                messages.success(request, "You have successfully logged in.")
                 return redirect(reverse('profile'))
             else:
                 form.add_error(None, "Your email or password was not recognized")

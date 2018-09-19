@@ -28,6 +28,7 @@ class Ticket(models.Model):
     subject = models.ForeignKey(Subject, related_name='tickets',on_delete='models.CASCADE')
     created_at = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=11, choices=STATUS_CHOICES, default=CREATED)
+    description = HTMLField(blank=False)
 
 class Post(models.Model):
     ticket = models.ForeignKey(Ticket, related_name='posts', on_delete='models.CASCADE')

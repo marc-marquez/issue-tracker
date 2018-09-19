@@ -6,7 +6,7 @@
    <div class="row header">
        <div class="container">
            <span>
-               <h2 class="pull-left" align="center">{{ ticket.name }}</h2>
+               <h2 class="pull-left">{{ ticket.name }}</h2>
                {% if user.is_authenticated %}
                    <a href="{% url 'new_post' ticket.id %}" class="btn btn-primary pull-right">New post</a>
                {% endif %}
@@ -15,9 +15,15 @@
                <table class="table">
                    <tbody>
                    <tr>
+                       <th>DESCRIPTION</th>
+                   </tr>
+                   <tr>
+                       <td>{{ ticket.description | striptags }}</td>
+                   </tr>
+                   <tr>
                        <th>CREATED</th>
                        <th>OWNER</th>
-                       <th>LAST POST</th>
+                       <th>LAST POST BY</th>
                        <th>STATUS</th>
                    </tr>
                    <tr>

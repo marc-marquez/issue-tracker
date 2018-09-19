@@ -2,13 +2,12 @@
 {% load bootstrap_tags %}
 {% load staticfiles %}
 {% block head_js %}
-
 {% endblock %}
 {% block content %}
 <section>
     <!--h1>Credit Card Information</h1-->
     <div class="col-md-6">
-        <form action={% url 'addcard'%} method="post" id="payment-form">
+        <form action={% url 'addcard'%} method="post" id="card-form">
             {% csrf_token %}
             <div class="form-row">
                 <label for="card-element">

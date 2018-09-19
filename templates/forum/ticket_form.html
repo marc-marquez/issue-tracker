@@ -19,27 +19,12 @@
                <div class="form-group">
                    {{ ticket_form | as_bootstrap }}
                    <hr>
-                   {{ post_form | as_bootstrap }}
+                   {#{ post_form | as_bootstrap }#}
                </div>
                <div class="form-group">
-                   <button type="submit" class="btn-primary">Post New Ticket</button>
+                   <button type="submit" class="btn-primary">Add New {{ subject.name }} Ticket</button>
                </div>
            </form>
        </div>
     </section>
-    <script>
-        /*
-        function showOrHidePollForm() {
-            if ($('#id_is_a_poll').is(':checked')) {
-                $('#poll_form').show();
-                $('#id_question').prop("disabled", false);
-            } else {
-                $('#poll_form').hide();
-                $('#id_question').prop("disabled", true);
-            }
-        }
-        $(document).ready(showOrHidePollForm);
-        $('#id_is_a_poll').change(showOrHidePollForm);
-        */
-    </script>
 {% endblock %}
