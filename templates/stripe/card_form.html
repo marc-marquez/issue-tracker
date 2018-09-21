@@ -7,7 +7,7 @@
 <section>
     <!--h1>Credit Card Information</h1-->
     <div class="col-md-6">
-        <form action={% url 'addcard'%} method="post" id="card-form">
+        <form action={% url 'add_card'%} method="post" id="card-form">
             {% csrf_token %}
             <div class="form-row">
                 <label for="card-element">

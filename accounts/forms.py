@@ -36,6 +36,8 @@ class UserRegistrationForm(UserCreationForm):
             message = "This email address already exists. Please choose another one. "
             raise ValidationError(message)
 
+        return email
+
     def save(self, commit=True):
         instance = super(UserRegistrationForm, self).save(commit=False)
 

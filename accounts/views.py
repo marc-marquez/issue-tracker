@@ -23,9 +23,7 @@ def register(request):
                 messages.success(request, "You have successfully registered. ")
                 return redirect(reverse('profile'))
             else:
-                messages.error(request, "Unable to log you in at this time! ")
-        #else:
-        #    messages.error(request,"This email already exists. ")
+                messages.error(request, "Unable register you at this time! ")
     else:
         form = UserRegistrationForm()
 
@@ -36,7 +34,16 @@ def register(request):
 
 @login_required(login_url='/login/')
 def profile(request):
-    return render(request, 'profile.html')
+    try:
+        customer = stripe.Customer.retrieve(request.user.stripe_id)
+        cards = stripe.Customer.retrieve(customer.id).sources.list(object='card')
+        default_source = customer.default_source
+    except:
+        messages.error(request,"No customer on file.")
+        return redirect(reverse('profile'))
+
+    args = {'cards':cards,'default_source':default_source}
+    return render(request, 'profile.html',args)
 
 def login(request):
     if request.method == 'POST':
@@ -64,6 +71,7 @@ def logout(request):
     messages.success(request, 'You have successfully logged out')
     return redirect(reverse('index'))
 
+@login_required
 def add_card(request):
     if request.method == 'POST':
         if not request.user.stripe_id:
@@ -73,22 +81,69 @@ def add_card(request):
                     description="Customer for " + str(request.user.username),
                     source=request.POST.get('stripeToken')
                 )
-            except stripe.error.StripeError as e:
-                messages.error(request,"Could not create a customer with Stripe.")
-            messages.success(request,"Stripe customer has been created.")
-            #Add customer token to database
-            user = User.objects.get(id=request.user.id)
-            user.stripe_id = customer.id
-            user.save()
+            except stripe.error.CardError as e:
+                message = str(e).split(":",maxsplit=1)[1]
+                messages.error(request,message)
+                return redirect(reverse('profile'))
+
+            if (customer):
+                messages.success(request,"Stripe customer has been created.")
+
+                #Add customer token to database
+                user = User.objects.get(id=request.user.id)
+                user.stripe_id = customer.id
+                user.save()
+            else:
+                messages.error(request, "Stripe customer was NOT created.")
         else:
             try:
                 customer = stripe.Customer.retrieve(request.user.stripe_id)
-                customer.sources.create(source=request.POST.get('stripeToken'))
-            except stripe.error.StripeError as e:
-                messages.error(request, "Could not add card to customer with Stripe.")
-            messages.success(request,"Card has been added to your account.")
+                source = customer.sources.create(source=request.POST.get('stripeToken'))
+            except stripe.error.CardError as e:
+                message = str(e).split(":", maxsplit=1)[1]
+                messages.error(request, message)
+                return redirect(reverse('profile'))
+
+            if (source):
+                messages.success(request,"Card has been added to your account.")
     else:
         return render(request, 'stripe/card_form.html')
+
     args = {'stripe_key':settings.STRIPE_PUBLISHABLE}
     args.update(csrf(request))
-    return render(request, 'stripe/card_form.html', args)
+    return redirect(reverse('profile'))
+
+'''
+def get_cards(request):
+    try:
+        customer = stripe.Customer.retrieve(request.user.stripe_id)
+        cards = stripe.Customer.retrieve(customer.id).sources.list(object='card')
+    except:
+        messages.error(request,"No customer on file.")
+        return render(request, 'stripe/cards.html')
+    #if request.method == 'POST':
+    #    pass
+
+    args = {'cards':cards}
+    return render(request,'stripe/cards.html',args)
+'''
+
+@login_required
+def delete_card(request,card_id):
+    if request.method == 'POST':
+        print("Made it to POST in delete_card")
+        customer = stripe.Customer.retrieve(request.user.stripe_id)
+        try:
+            deleted_card = customer.sources.retrieve(card_id).delete()
+        except stripe.error.CardError as e:
+            message = str(e).split(":", maxsplit=1)[1]
+            messages.error(request, message)
+            return redirect(reverse('profile'))
+
+        if deleted_card.deleted:
+            messages.success(request,"Card has been deleted.")
+
+    return redirect(reverse('profile'))
+
+def edit_card(request):
+    pass

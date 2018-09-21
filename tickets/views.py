@@ -178,7 +178,7 @@ def ticket_donate(request,ticket_id,subject_id):
     if request.method == 'POST':
         ticket = Ticket.objects.get(id=ticket_id)
         subject = Subject.objects.get(id=subject_id)
-        print("I'm donating to " + ticket.name + " " + subject.name)
+        #print("I'm donating to " + ticket.name + " " + subject.name)
 
         try:
             customer = stripe.Customer.retrieve(request.user.stripe_id)
@@ -189,7 +189,7 @@ def ticket_donate(request,ticket_id,subject_id):
 
         try:
             #retrive list of cards for customer
-            cards = stripe.Customer.retrieve(customer.id).sources.list(limit=5,object='card')
+            cards = stripe.Customer.retrieve(customer.id).sources.list(object='card')
             charge = stripe.Charge.create(
                 amount=1000,
                 currency="usd",
@@ -200,8 +200,12 @@ def ticket_donate(request,ticket_id,subject_id):
         except stripe.error.StripeError as e:
             messages.error(request, e)
             return redirect(reverse('tickets', args={subject_id}))
-        messages.success(request,"Thanks for the $10 donation!")
-        #After successfull charge, add vote to ticket
-        ticket_vote(request, ticket_id, subject_id)
+
+        if(charge.status=='succeeded'):
+            messages.success(request,"Thanks for the $10 donation!")
+            #After successfull charge, add vote to ticket
+            ticket_vote(request, ticket_id, subject_id)
+        else:
+            messages.error(request,"Could not process donation.")
 
     return redirect(reverse('tickets', args={subject_id}))
