@@ -4,12 +4,13 @@ from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.template.context_processors import csrf
-from .forms import TicketForm, PostForm, StatusForm
+from .forms import TicketForm, PostForm, StatusForm, DonationGoalForm
 from tickets.models import Subject, Post, Ticket
 from polls.models import PollOption, Poll
 from django.conf import settings
 import stripe
 from django.db.models import Count
+from decimal import Decimal
 
 stripe.api_key = settings.STRIPE_SECRET
 
@@ -19,10 +20,35 @@ def forum(request):
 def tickets(request, subject_id):
     subject = get_object_or_404(Subject, pk=subject_id)
     options = PollOption.objects.filter(poll_id=subject_id).annotate(vote_count=Count('votes')).order_by('-vote_count')
-    return render(request, 'forum/tickets.html', {'subject': subject,'options':options})
+
+    #get charge list
+    list = stripe.Charge.list()
+
+    #dict to get total donations for each ticket_id
+    total_donations = {}
+    for charge in list:
+        current_id = int(charge['metadata']['ticket_id'])
+
+        if current_id not in total_donations:
+            total_donations[current_id] = 0
+
+        total_donations[current_id] += float(charge['amount']/100)
+    #print(total_donations)
+
+    for option in options:
+        #current_ticket = option.ticket.id
+        try:
+            print(total_donations[option.ticket.id])
+            option.ticket.total_donations = total_donations[option.ticket.id]
+        except:
+            print("No donations for ticket: "+str(option.ticket.id))
+            option.ticket.total_donations = 0
+        option.ticket.save()
+
+    return render(request, 'forum/tickets.html', {'subject': subject,'options': options})
 
 
-@login_required
+@login_required(login_url='/login/')
 def new_ticket(request, subject_id):
     subject = get_object_or_404(Subject, pk=subject_id)
     if request.method == "POST":
@@ -79,7 +105,7 @@ def ticket(request, ticket_id):
     args.update(csrf(request))
     return render(request, 'forum/ticket.html', args)
 
-@login_required
+@login_required(login_url='/login/')
 def new_post(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
 
@@ -90,6 +116,11 @@ def new_post(request, ticket_id):
             if status_form.is_valid():
                 statusform = status_form.save(False)
                 ticket.status = statusform.status
+                ticket.save()
+            donation_goal_form = DonationGoalForm(request.POST,prefix="donationgoalform")
+            if donation_goal_form.is_valid():
+                donationgoalform = donation_goal_form.save(False)
+                ticket.donation_goal = donationgoalform.donation_goal
                 ticket.save()
 
         post_form = PostForm(request.POST,prefix="postform")
@@ -106,10 +137,12 @@ def new_post(request, ticket_id):
     else:
         status_form = StatusForm(prefix="statusform")
         post_form = PostForm(prefix="postform")
+        donation_goal_form = DonationGoalForm(prefix="donationgoalform")
 
     args = {
         'post_form': post_form,
         'status_form': status_form,
+        'donation_goal_form': donation_goal_form,
         'form_action': reverse('new_post', args={ticket.id}),
         'button_text': 'Add Post'
     }
@@ -117,7 +150,7 @@ def new_post(request, ticket_id):
 
     return render(request, 'forum/post_form.html', args)
 
-@login_required
+@login_required(login_url='/login/')
 def edit_post(request, ticket_id, post_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
     post = get_object_or_404(Post, pk=post_id)
@@ -142,7 +175,7 @@ def edit_post(request, ticket_id, post_id):
     return render(request, 'forum/post_form.html', args)
 
 
-@login_required
+@login_required(login_url='/login/')
 def delete_post(request, ticket_id, post_id):
     post = get_object_or_404(Post, pk=post_id)
     ticket_id = post.ticket.id
@@ -153,7 +186,7 @@ def delete_post(request, ticket_id, post_id):
     return redirect(reverse('ticket', args={ticket_id}))
 
 
-@login_required
+@login_required(login_url='/login/')
 def ticket_vote(request, ticket_id, subject_id):
     subject = Subject.objects.get(id=subject_id)
 
@@ -174,11 +207,11 @@ def ticket_vote(request, ticket_id, subject_id):
 
     return redirect(reverse('tickets', args={subject_id}))
 
+@login_required(login_url='/login/')
 def ticket_donate(request,ticket_id,subject_id):
     if request.method == 'POST':
         ticket = Ticket.objects.get(id=ticket_id)
         subject = Subject.objects.get(id=subject_id)
-        #print("I'm donating to " + ticket.name + " " + subject.name)
 
         try:
             customer = stripe.Customer.retrieve(request.user.stripe_id)
@@ -195,7 +228,8 @@ def ticket_donate(request,ticket_id,subject_id):
                 currency="usd",
                 source=cards.data[0].id,
                 customer=customer.id,
-                description="Donation for the "+ticket.name+" "+subject.name
+                description="Donation for the "+ticket.name+" "+subject.name,
+                metadata={'ticket_id':ticket.id}
             )
         except stripe.error.StripeError as e:
             messages.error(request, e)

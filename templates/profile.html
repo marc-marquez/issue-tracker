@@ -11,18 +11,18 @@
         {% if cards %}
             <table width="100%">
                 <tr>
-                    <th>Default</th>
+                    <th class="text-center">Default</th>
                     <th>Type</th>
                     <th>Last 4</th>
                     <th>Expiration Date</th>
                     <th>Card Token Id</th>
-                    <th class="text-center">Edit</th>
+                    <th class="text-center">Set Default</th>
                     <th class="text-center">Delete</th>
                 </tr>
             {% for card in cards %}
                 <tr>
                     {% if card.id == default_source %}
-                        <td><i style="color:green" class="glyphicon glyphicon-check"></i></td>
+                        <td align="center"><i style="color:green" class="glyphicon glyphicon-check"></i></td>
                     {% else %}
                         <td></td>
                     {% endif %}
@@ -30,10 +30,14 @@
                     <td>{{ card.last4 }}</td>
                     <td>{{ card.exp_month }}/{{ card.exp_year }}</td>
                     <td>{{ card.id }}</td>
-                    <form action="#" method="post">
-                        {% csrf_token %}
-                        <td align="center"><button type="submit" disabled><i style="color:green" class="glyphicon glyphicon-edit"></i></button></td>
-                    </form>
+                    {% if card.id != default_source %}
+                        <form action="{% url 'set_default_card' card_id=card.id %}" method="post">
+                            {% csrf_token %}
+                            <td align="center"><button type="submit"><i style="color:green" class="glyphicon glyphicon-pushpin"></i></button></td>
+                        </form>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
                     <form action="{% url 'delete_card' card_id=card.id %}" method="post">
                         {% csrf_token %}
                         <td align="center"><button type="submit"><i style="color:red" class="glyphicon glyphicon-remove-circle"></i></button></td>

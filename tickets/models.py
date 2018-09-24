@@ -29,6 +29,8 @@ class Ticket(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=11, choices=STATUS_CHOICES, default=CREATED)
     description = HTMLField(blank=False)
+    donation_goal = models.DecimalField(max_digits=10,default=0,decimal_places=2)
+    total_donations = models.DecimalField(max_digits=10,default=0,decimal_places=2)
 
 class Post(models.Model):
     ticket = models.ForeignKey(Ticket, related_name='posts', on_delete='models.CASCADE')

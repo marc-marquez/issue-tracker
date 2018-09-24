@@ -71,7 +71,7 @@ def logout(request):
     messages.success(request, 'You have successfully logged out')
     return redirect(reverse('index'))
 
-@login_required
+@login_required(login_url='/login/')
 def add_card(request):
     if request.method == 'POST':
         if not request.user.stripe_id:
@@ -128,10 +128,9 @@ def get_cards(request):
     return render(request,'stripe/cards.html',args)
 '''
 
-@login_required
+@login_required(login_url='/login/')
 def delete_card(request,card_id):
     if request.method == 'POST':
-        print("Made it to POST in delete_card")
         customer = stripe.Customer.retrieve(request.user.stripe_id)
         try:
             deleted_card = customer.sources.retrieve(card_id).delete()
@@ -145,5 +144,21 @@ def delete_card(request,card_id):
 
     return redirect(reverse('profile'))
 
-def edit_card(request):
-    pass
+@login_required(login_url='/login/')
+def set_default_card(request,card_id):
+    if request.method == 'POST':
+        customer = stripe.Customer.retrieve(request.user.stripe_id)
+        try:
+            #dcard = customer.sources.retrieve(card_id)
+            customer.default_source = card_id
+            customer.save()
+        except stripe.error.CardError as e:
+            message = str(e).split(":", maxsplit=1)[1]
+            messages.error(request, message)
+            return redirect(reverse('profile'))
+
+        if customer.default_source == card_id:
+            card = customer.sources.retrieve(card_id)
+            messages.success(request,card.brand + " ending in (" + card.last4 + ") has been set to default.")
+
+    return redirect(reverse('profile'))

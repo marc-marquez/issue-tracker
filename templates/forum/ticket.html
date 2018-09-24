@@ -20,6 +20,16 @@
                    <tr>
                        <td>{{ ticket.description | striptags }}</td>
                    </tr>
+                   {% if ticket.subject.name == 'Feature' %}
+                   <tr>
+                       <th>DONATION GOAL</th>
+                       <th>TOTAL DONATED</th>
+                   </tr>
+                   <tr>
+                       <td>${{ ticket.donation_goal }}</td>
+                       <td>${{ ticket.total_donations }}</td>
+                   </tr>
+                   {% endif %}
                    <tr>
                        <th>CREATED</th>
                        <th>OWNER</th>
