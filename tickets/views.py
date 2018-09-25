@@ -17,32 +17,32 @@ stripe.api_key = settings.STRIPE_SECRET
 def forum(request):
     return render(request, 'forum/forum.html', {'subjects': Subject.objects.all()})
 
-def reports(request):
-    for subject in Subject.objects.all():
-        subject = get_object_or_404(Subject, pk=subject.id)
-        options = PollOption.objects.filter(poll_id=subject.id).annotate(vote_count=Count('votes')).order_by('-vote_count')
+def report(request,subject_id):
+    #for subject in Subject.objects.all():
+    subject = get_object_or_404(Subject, pk=subject_id)
+    options = PollOption.objects.filter(poll_id=subject_id).annotate(vote_count=Count('votes')).order_by('-vote_count')
 
-        # get charge list
-        list = stripe.Charge.list()
+    # get charge list
+    list = stripe.Charge.list()
 
-        # dict to get total donations for each ticket_id
-        total_donations = {}
-        for charge in list:
-            current_id = int(charge['metadata']['ticket_id'])
+    # dict to get total donations for each ticket_id
+    total_donations = {}
+    for charge in list:
+        current_id = int(charge['metadata']['ticket_id'])
 
-            if current_id not in total_donations:
-                total_donations[current_id] = 0
+        if current_id not in total_donations:
+            total_donations[current_id] = 0
 
-            total_donations[current_id] += float(charge['amount'] / 100)
+        total_donations[current_id] += float(charge['amount'] / 100)
 
-        for option in options:
-            try:
-                option.ticket.total_donations = total_donations[option.ticket.id]
-            except:
-                option.ticket.total_donations = 0
-            option.ticket.save()
+    for option in options:
+        try:
+            option.ticket.total_donations = total_donations[option.ticket.id]
+        except:
+            option.ticket.total_donations = 0
+        option.ticket.save()
 
-    return render(request, 'forum/progress_report.html', {'subjects': Subject.objects.all(),'options': options})
+    return render(request, 'forum/progress_report.html', {'subject': subject,'options': options})
 
 def tickets(request, subject_id):
     subject = get_object_or_404(Subject, pk=subject_id)
@@ -53,7 +53,7 @@ def new_ticket(request, subject_id):
     subject = get_object_or_404(Subject, pk=subject_id)
     if request.method == "POST":
         ticket_form = TicketForm(request.POST)
-        if ticket_form.is_valid(): 
+        if ticket_form.is_valid():
             ticket = ticket_form.save(False)
             ticket.subject = subject
             ticket.status = ticket.CREATED
@@ -96,7 +96,7 @@ def new_ticket(request, subject_id):
 
     args = {
         'ticket_form': ticket_form,
-        'form_action': reverse('new_ticket', kwargs={"id": subject.id}),
+        'form_action': reverse('new_ticket', kwargs={"subject_id": subject.id}),
         'button_text': 'Add New Ticket',
         'subject': subject,
     }
@@ -130,8 +130,8 @@ def edit_ticket(request, ticket_id):
     return render(request, 'forum/ticket_form.html', args)
 
 def ticket(request, ticket_id):
-    ticket_ = get_object_or_404(Ticket, pk=ticket_id)
-    args = {'ticket': ticket_}
+    ticket = get_object_or_404(Ticket, pk=ticket_id)
+    args = {'ticket': ticket}
     args.update(csrf(request))
     return render(request, 'forum/ticket.html', args)
 
@@ -140,6 +140,7 @@ def new_post(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
 
     if request.method == "POST":
+        '''
         #Need to check if the requester is the admin to add status to be updated
         if request.user.is_staff:
             status_form = StatusForm(request.POST,prefix="statusform")
@@ -152,7 +153,7 @@ def new_post(request, ticket_id):
                 donationgoalform = donation_goal_form.save(False)
                 ticket.donation_goal = donationgoalform.donation_goal
                 ticket.save()
-
+        '''
         post_form = PostForm(request.POST,prefix="postform")
         if post_form.is_valid():
 
@@ -165,14 +166,14 @@ def new_post(request, ticket_id):
 
             return redirect(reverse('ticket', args={ticket.pk}))
     else:
-        status_form = StatusForm(instance=Ticket.objects.get(id=ticket_id),prefix="statusform")
+        #status_form = StatusForm(instance=Ticket.objects.get(id=ticket_id),prefix="statusform")
         post_form = PostForm(prefix="postform")
-        donation_goal_form = DonationGoalForm(instance=Ticket.objects.get(id=ticket_id),prefix="donationgoalform")
+        #donation_goal_form = DonationGoalForm(instance=Ticket.objects.get(id=ticket_id),prefix="donationgoalform")
 
     args = {
         'post_form': post_form,
-        'status_form': status_form,
-        'donation_goal_form': donation_goal_form,
+        #'status_form': status_form,
+        #'donation_goal_form': donation_goal_form,
         'form_action': reverse('new_post', args={ticket.id}),
         'button_text': 'Add Post'
     }

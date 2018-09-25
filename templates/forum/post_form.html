@@ -16,14 +16,14 @@
    <div class="col-md-9">
      <form method="post" action="{{ form_action }}">
        {% csrf_token %}
-       {% if post.user == user or user.is_staff %}
-           {% if post_form.instance.id == None %}
-            {{ status_form|as_bootstrap }}
-           {% endif %}
+       {#% if post.user == user or user.is_staff %#}
+           {#% if post_form.instance.id == None %#}
+            {#{ status_form|as_bootstrap }#}
+           {#% endif %#}
            {#% if donation_goal_form.instance.id == None %#}
             {#{ donation_goal_form|as_bootstrap }#}
            {#% endif %#}
-       {% endif %}
+       {#% endif %#}
        {{ post_form|as_bootstrap }}
        <div class="form-group">
          <button type="submit" class="btn btn-primary">{{button_text}}</button>

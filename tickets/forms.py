@@ -7,8 +7,17 @@ class TicketForm(forms.ModelForm):
     
     class Meta:
         model = Ticket
-        fields = ['name','description']
+        fields = ['name','description','status','donation_goal']
 
+    def __init__(self,*args,**kwargs):
+        super(TicketForm,self).__init__(*args,**kwargs)
+        #self.fields['donation_goal'].disabled = True
+        instance = getattr(self,'instance',None)
+        try:
+            if self.instance.subject.name == 'Bug':
+                self.fields['donation_goal'].disabled=True
+        except:
+            self.fields['donation_goal'].disabled = True
 
 class PostForm(forms.ModelForm):
     class Meta:

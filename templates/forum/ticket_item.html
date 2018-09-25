@@ -21,15 +21,17 @@
                     <p>{{ ticket.status }}</p>
                 </td>
                 <td class="text-center">
-                    {% if subject.name == 'Feature'%}
-                        <form action={% url 'donate' ticket.id subject.id %} method="post">
-                            {% csrf_token %}
-                            <input type="submit" class="submit" value="Donate $10">
-                        </form>
-                    {% else %}
-                        {% autoescape off %}
-                        {% user_vote_button ticket subject user %}
-                        {% endautoescape %}
+                    {% if user.is_authenticated %}
+                        {% if subject.name == 'Feature'%}
+                            <form action={% url 'donate' ticket.id subject.id %} method="post">
+                                {% csrf_token %}
+                                <input type="submit" class="submit" value="Donate $10">
+                            </form>
+                        {% else %}
+                            {% autoescape off %}
+                            {% user_vote_button ticket subject user %}
+                            {% endautoescape %}
+                        {% endif %}
                     {% endif %}
                 </td>
             </tr>
