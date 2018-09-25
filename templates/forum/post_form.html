@@ -20,9 +20,9 @@
            {% if post_form.instance.id == None %}
             {{ status_form|as_bootstrap }}
            {% endif %}
-           {% if donation_goal_form.instance.id == None %}
-            {{ donation_goal_form|as_bootstrap }}
-           {% endif %}
+           {#% if donation_goal_form.instance.id == None %#}
+            {#{ donation_goal_form|as_bootstrap }#}
+           {#% endif %#}
        {% endif %}
        {{ post_form|as_bootstrap }}
        <div class="form-group">

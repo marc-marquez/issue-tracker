@@ -30,7 +30,8 @@ urlpatterns = [
     url(r'^pages/', include('django.contrib.flatpages.urls')),
     url(r'^forum/$', forum_views.forum),
     url(r'^tickets/(?P<subject_id>\d+)/$', forum_views.tickets, name='tickets'),
-    url(r'^new_ticket/(?P<subject_id>\d+)/$',  forum_views.new_ticket, name='new_ticket'),
+    url(r'^ticket/new/(?P<subject_id>\d+)/$',  forum_views.new_ticket, name='new_ticket'),
+    url(r'^ticket/edit/(?P<ticket_id>\d+)/$',  forum_views.edit_ticket, name='edit_ticket'),
     url(r'^ticket/(?P<ticket_id>\d+)/$', forum_views.ticket, name='ticket'),
     url(r'^post/new/(?P<ticket_id>\d+)/$', forum_views.new_post, name='new_post'),
     url(r'^post/edit/(?P<ticket_id>\d+)/(?P<post_id>\d+)/$',forum_views.edit_post, name='edit_post'),
@@ -41,4 +42,5 @@ urlpatterns = [
     #url(r'^profile/cards/$', accounts_views.get_cards, name='cards'),
     url(r'^profile/cards/delete/(?P<card_id>card_.*)/$', accounts_views.delete_card, name='delete_card'),
     url(r'^profile/cards/default/(?P<card_id>card_.*)/$', accounts_views.set_default_card, name='set_default_card'),
+    url(r'^reports/$', forum_views.reports, name='reports'),
 ]

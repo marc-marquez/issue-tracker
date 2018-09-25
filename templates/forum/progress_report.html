@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load ticket_extras %}
+{% load stripe_extras %}
+{% block content %}
+ <div class="row header">
+   <div class="jumbotron"><h1>Progress Report</h1></div>
+ </div>
+ <!---This is the poll chart -->
+{% for subject in subjects %}
+     <div class="col-md-12">
+           {% if subject.poll %}
+               <div class="container">
+                   <h2 align="middle">{{ subject.poll.question }} (Top 5)</h2>
+                   <div class="col-md-6">
+                       {% for option in options|slice:":5" %}
+                           <div>
+                               <div class="col-md-10">
+                                   <strong>{{ option.name }}</strong>
+                                   <span class="pull-right">{{ option|vote_percentage|floatformat:2 }}%</span>
+                               </div>
+                               <div class="col-md-10">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-info" role="progressbar"
+                                        aria-value="{{ option|vote_percentage }}" aria-valuemin="0"
+                                        aria-valuemax="100" style="width:{{ option|vote_percentage }}%;">
+                                        </div>
+                                    </div>
+                               </div>
+                           </div>
+                      {% endfor %}
+                   </div>
+                   <div class="col-md-6">
+                       {% for option in options|slice:":5" %}
+                           {% if subject.name == 'Feature' %}
+                               <div class="col-md-10">
+                                    <strong>${{ option.ticket.total_donations|floatformat:2 }}</strong>
+                                    <span class="pull-right">Donation Goal: ${{ option.ticket.donation_goal|floatformat:2 }}</span>
+                               </div>
+                               <div class="col-md-10">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-info" role="progressbar"
+                                        aria-value="{{ option|donation_percentage }}" aria-valuemin="0"
+                                        aria-valuemax="100" style="width:{{ option|donation_percentage }}%;">
+                                        </div>
+                                    </div>
+                               </div>
+                           {% endif %}
+                      {% endfor %}
+                   </div>
+               </div>
+           {% endif %}
+     </div>
+{% endfor %}
+ <!---This is the poll chart -->
+{% endblock %}

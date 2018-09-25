@@ -17,47 +17,52 @@ stripe.api_key = settings.STRIPE_SECRET
 def forum(request):
     return render(request, 'forum/forum.html', {'subjects': Subject.objects.all()})
 
+def reports(request):
+    for subject in Subject.objects.all():
+        subject = get_object_or_404(Subject, pk=subject.id)
+        options = PollOption.objects.filter(poll_id=subject.id).annotate(vote_count=Count('votes')).order_by('-vote_count')
+
+        # get charge list
+        list = stripe.Charge.list()
+
+        # dict to get total donations for each ticket_id
+        total_donations = {}
+        for charge in list:
+            current_id = int(charge['metadata']['ticket_id'])
+
+            if current_id not in total_donations:
+                total_donations[current_id] = 0
+
+            total_donations[current_id] += float(charge['amount'] / 100)
+
+        for option in options:
+            try:
+                option.ticket.total_donations = total_donations[option.ticket.id]
+            except:
+                option.ticket.total_donations = 0
+            option.ticket.save()
+
+    return render(request, 'forum/progress_report.html', {'subjects': Subject.objects.all(),'options': options})
+
 def tickets(request, subject_id):
     subject = get_object_or_404(Subject, pk=subject_id)
-    options = PollOption.objects.filter(poll_id=subject_id).annotate(vote_count=Count('votes')).order_by('-vote_count')
-
-    #get charge list
-    list = stripe.Charge.list()
-
-    #dict to get total donations for each ticket_id
-    total_donations = {}
-    for charge in list:
-        current_id = int(charge['metadata']['ticket_id'])
-
-        if current_id not in total_donations:
-            total_donations[current_id] = 0
-
-        total_donations[current_id] += float(charge['amount']/100)
-    #print(total_donations)
-
-    for option in options:
-        #current_ticket = option.ticket.id
-        try:
-            print(total_donations[option.ticket.id])
-            option.ticket.total_donations = total_donations[option.ticket.id]
-        except:
-            print("No donations for ticket: "+str(option.ticket.id))
-            option.ticket.total_donations = 0
-        option.ticket.save()
-
-    return render(request, 'forum/tickets.html', {'subject': subject,'options': options})
-
+    return render(request, 'forum/tickets.html', {'subject': subject})
 
 @login_required(login_url='/login/')
 def new_ticket(request, subject_id):
     subject = get_object_or_404(Subject, pk=subject_id)
     if request.method == "POST":
         ticket_form = TicketForm(request.POST)
-        if ticket_form.is_valid(): #and
-                #post_form.is_valid()):
+        if ticket_form.is_valid(): 
             ticket = ticket_form.save(False)
             ticket.subject = subject
+            ticket.status = ticket.CREATED
             ticket.user = request.user
+
+            #temporary until donations app is working
+            ticket.donation_goal = 0
+            ticket.total_donations = 0
+
             ticket.save()
 
             #if first ticket in subject then create poll
@@ -88,13 +93,38 @@ def new_ticket(request, subject_id):
 
     else:
         ticket_form = TicketForm()
-        post_form = PostForm()
 
     args = {
         'ticket_form': ticket_form,
+        'form_action': reverse('new_ticket', kwargs={"id": subject.id}),
+        'button_text': 'Add New Ticket',
         'subject': subject,
     }
 
+    args.update(csrf(request))
+
+    return render(request, 'forum/ticket_form.html', args)
+
+@login_required(login_url='/login/')
+def edit_ticket(request, ticket_id):
+    ticket = get_object_or_404(Ticket, pk=ticket_id)
+    #post = get_object_or_404(Post, pk=post_id)
+
+    if request.method == "POST":
+        ticket_form = TicketForm(request.POST, instance=ticket)
+        if ticket_form.is_valid():
+            ticket_form.save()
+            messages.success(request, "You have updated your ticket!")
+
+            return redirect(reverse('ticket', args={ticket.pk}))
+    else:
+        ticket_form = TicketForm(instance=ticket)
+
+    args = {
+        'ticket_form': ticket_form,
+        'form_action': reverse('edit_ticket', kwargs={"ticket_id": ticket.id}),
+        'button_text': 'Update Ticket'
+    }
     args.update(csrf(request))
 
     return render(request, 'forum/ticket_form.html', args)
