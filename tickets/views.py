@@ -135,9 +135,9 @@ def new_post(request, ticket_id):
 
             return redirect(reverse('ticket', args={ticket.pk}))
     else:
-        status_form = StatusForm(prefix="statusform")
+        status_form = StatusForm(instance=Ticket.objects.get(id=ticket_id),prefix="statusform")
         post_form = PostForm(prefix="postform")
-        donation_goal_form = DonationGoalForm(prefix="donationgoalform")
+        donation_goal_form = DonationGoalForm(instance=Ticket.objects.get(id=ticket_id),prefix="donationgoalform")
 
     args = {
         'post_form': post_form,

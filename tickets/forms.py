@@ -23,7 +23,6 @@ class StatusForm(forms.ModelForm):
         fields = ['status']
 
 class DonationGoalForm(forms.ModelForm):
-    #goal = forms.CharField(label='Donation Goal')
 
     class Meta:
         model = Ticket
