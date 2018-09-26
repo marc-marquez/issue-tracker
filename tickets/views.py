@@ -218,7 +218,7 @@ def delete_post(request, ticket_id, post_id):
 
 
 @login_required(login_url='/login/')
-def ticket_vote(request, ticket_id, subject_id):
+def ticket_vote(request, ticket_id, subject_id,*votes):
     subject = Subject.objects.get(id=subject_id)
 
     #Check to see if voted on poll option is on bugs
@@ -232,9 +232,16 @@ def ticket_vote(request, ticket_id, subject_id):
 
     option = PollOption.objects.get(ticket_id=ticket_id)
 
-    option.votes.create(poll=subject.poll, user=request.user)
+    if votes:
+        print("Process " + str(votes[0]) + " votes")
+        count = 0
+        while count < votes[0]:
+            option.votes.create(poll=subject.poll, user=request.user)
+            count+=1
+    else:
+        option.votes.create(poll=subject.poll, user=request.user)
 
-    messages.success(request, "We've registered your vote!")
+    messages.success(request, "We've registered your vote(s)!")
 
     return redirect(reverse('tickets', args={subject_id}))
 
@@ -274,3 +281,57 @@ def ticket_donate(request,ticket_id,subject_id):
             messages.error(request,"Could not process donation.")
 
     return redirect(reverse('tickets', args={subject_id}))
+
+@login_required(login_url='/login/')
+def custom_donate(request,subject_id,ticket_id):
+    ticket = get_object_or_404(Ticket, pk=ticket_id)
+    subject = get_object_or_404(Subject, pk=subject_id)
+    COST_PER_VOTE = 10
+    if request.method == 'POST':
+        print("Process Donation...")
+
+        amount = int(request.POST['amount'])
+        votes = int(amount/COST_PER_VOTE)
+        stripe_formatted_amount = amount*100
+        str_amount = str(amount)
+        print("Donation Amount: $" + str_amount)
+
+        try:
+            customer = stripe.Customer.retrieve(request.user.stripe_id)
+        except stripe.error.StripeError as e:
+            messages.error(request, "No credit card on file. Please add a credit card.")
+            #redirect to profile page to add a card
+            return redirect(reverse('profile'))
+
+        try:
+            #retrive list of cards for customer
+            cards = stripe.Customer.retrieve(customer.id).sources.list(object='card')
+            charge = stripe.Charge.create(
+                amount=stripe_formatted_amount,
+                currency="usd",
+                source=cards.data[0].id,
+                customer=customer.id,
+                description="Donation for the "+ticket.name+" "+subject.name,
+                metadata={'ticket_id':ticket.id}
+            )
+        except stripe.error.StripeError as e:
+            messages.error(request, e)
+            return redirect(reverse('tickets', args={subject_id}))
+
+        if(charge.status=='succeeded'):
+            messages.success(request,"Thanks for the $" + str_amount + " donation!")
+            #args = {votes}
+            #After successfull charge, add vote to ticket
+            ticket_vote(request, ticket_id, subject_id,votes)
+        else:
+            messages.error(request,"Could not process donation.")
+        return redirect(reverse('tickets', args={subject_id}))
+    else:
+        #return render(request, 'forum/donation_form.html',args={"ticket":ticket})
+        pass
+
+    args = {
+        'ticket':ticket,
+        'subject':subject,
+    }
+    return render(request, 'forum/donation_form.html', args)

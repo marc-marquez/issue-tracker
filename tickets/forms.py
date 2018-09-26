@@ -13,6 +13,13 @@ class TicketForm(forms.ModelForm):
         super(TicketForm,self).__init__(*args,**kwargs)
         #self.fields['donation_goal'].disabled = True
         instance = getattr(self,'instance',None)
+
+        #if a brand new ticket, then disable status and donation goal
+        if(instance.id is None):
+            self.fields['status'].disabled = True
+            #self.fields['donation_goal'].disabled = True
+
+        #if this instance is a bug, then disable donation goal
         try:
             if self.instance.subject.name == 'Bug':
                 self.fields['donation_goal'].disabled=True

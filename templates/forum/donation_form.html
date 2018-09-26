@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load bootstrap_tags %}
+{% load staticfiles %}
+{% block head_js %}
+<script src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
+<script type="text/javascript">
+ tinyMCE.init({
+   mode: "textareas",
+   theme: "modern",
+   plugins: "paste"
+});
+</script>
+{% endblock %}
+{% block content %}
+ <section>
+   <div class="col-md-9">
+     <h1> Thanks for willing to donate to our app!</h1>
+     <p><strong>Name: </strong>{{ ticket.name }}</p>
+     <p><strong>Description: </strong>{{ ticket.description | striptags }}</p>
+     <form method="post" action="{% url 'custom_donate' ticket.id subject.id %}">
+       {% csrf_token %}
+       <div class="form-group">
+           <label for="amount">Donation Amount: </label>
+           <input type="number" id="amount" name="amount" required="" placeholder=10 min=10 step=10 oninvalid="this.setCustomValidity('Please enter numbers only')" oninput="this.setCustomValidity('')"></input>
+           <p>For every $10 that you donate, one vote will be cast for this feature.</p>
+
+       </div>
+       <div class="form-group">
+            <button type="submit" class="btn btn-primary">Donate</button>
+       </div>
+     </form>
+   </div>
+ </section>
+{% endblock %}

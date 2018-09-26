@@ -43,4 +43,5 @@ urlpatterns = [
     url(r'^profile/cards/delete/(?P<card_id>card_.*)/$', accounts_views.delete_card, name='delete_card'),
     url(r'^profile/cards/default/(?P<card_id>card_.*)/$', accounts_views.set_default_card, name='set_default_card'),
     url(r'^report/(?P<subject_id>\d+)/$', forum_views.report, name='report'),
+    url(r'^ticket/customdonate/(?P<ticket_id>\d+)/(?P<subject_id>\d+)/$', forum_views.custom_donate, name='custom_donate'),
 ]
