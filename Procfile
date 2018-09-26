@@ -1,0 +1,1 @@
+web: gunicorn IssueTracker.wsgi:application
