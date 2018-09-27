@@ -1,2 +1,2 @@
 -r base.txt
-mysql-python==1.2.5
+mysqlclient==1.13.13
