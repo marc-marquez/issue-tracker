@@ -10,7 +10,6 @@ from polls.models import PollOption, Poll
 from django.conf import settings
 import stripe
 from django.db.models import Count
-from decimal import Decimal
 
 stripe.api_key = settings.STRIPE_SECRET
 
@@ -28,12 +27,13 @@ def report(request,subject_id):
     # dict to get total donations for each ticket_id
     total_donations = {}
     for charge in list:
-        current_id = int(charge['metadata']['ticket_id'])
-
-        if current_id not in total_donations:
-            total_donations[current_id] = 0
-
-        total_donations[current_id] += float(charge['amount'] / 100)
+        try:
+            current_id = int(charge['metadata']['ticket_id'])
+            if current_id not in total_donations:
+                total_donations[current_id] = 0
+            total_donations[current_id] += float(charge['amount'] / 100)
+        except:
+            print("No ticket_id found in charge.")
 
     for option in options:
         try:

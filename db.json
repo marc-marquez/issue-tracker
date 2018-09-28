@@ -3083,6 +3083,28 @@
     }
 },
 {
+    "model": "polls.vote",
+    "pk": 247,
+    "fields": {
+        "poll": 2,
+        "option": 4,
+        "user": [
+            "user2@domain.com"
+        ]
+    }
+},
+{
+    "model": "polls.vote",
+    "pk": 248,
+    "fields": {
+        "poll": 1,
+        "option": 9,
+        "user": [
+            "user2@domain.com"
+        ]
+    }
+},
+{
     "model": "tickets.post",
     "pk": 1,
     "fields": {
@@ -3527,7 +3549,7 @@
         "status": "IN PROGRESS",
         "description": "<p>Adding a description to F1</p>",
         "donation_goal": "1500.00",
-        "total_donations": "1000.00"
+        "total_donations": "1010.00"
     }
 },
 {
@@ -3559,7 +3581,7 @@
         "status": "ASSIGNED",
         "description": "<p>Description for F3</p>",
         "donation_goal": "500.00",
-        "total_donations": "150.00"
+        "total_donations": "100.00"
     }
 },
 {
@@ -3575,7 +3597,7 @@
         "status": "CREATED",
         "description": "<p>Description for F4</p>",
         "donation_goal": "700.00",
-        "total_donations": "50.00"
+        "total_donations": "0.00"
     }
 },
 {
@@ -3703,7 +3725,7 @@
         "status": "CREATED",
         "description": "<p>Would be awesome to have this feature!</p>",
         "donation_goal": "500.00",
-        "total_donations": "600.00"
+        "total_donations": "500.00"
     }
 },
 {
