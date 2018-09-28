@@ -11,12 +11,13 @@ DEBUG = True
 #    }
 #}
 
-#CLEARDB_DATABASE_URL = os.environ.get('CLEARDB_DATABASE_URL')
-#print(CLEARDB_DATABASE_URL)
+CLEARDB_DATABASE_URL = os.environ.get('CLEARDB_DATABASE_URL')
+
+parsed_url = dj_database_url.parse(CLEARDB_DATABASE_URL)
 
 # Load the ClearDB connection details from the environment variable
 DATABASES = {
-    'default': dj_database_url.config(os.environ.get('CLEARDB_DATABASE_URL'))
+    'default': parsed_url
 }
 
 # Stripe environment variables
