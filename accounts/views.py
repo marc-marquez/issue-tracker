@@ -55,6 +55,16 @@ def login(request):
             if user is not None:
                 auth.login(request, user)
                 messages.success(request, "You have successfully logged in.")
+                #try to recover stripe id from stripe database
+                try:
+                    existing_stripe_customer = stripe.Customer.list(email=request.user.email, limit=1)
+                    customer = stripe.Customer.retrieve(existing_stripe_customer.data[0]['id'])
+                    user = User.objects.get(id=request.user.id)
+                    user.stripe_id = customer.id
+                    user.save()
+                except:
+                    print("No existing Stripe customer found.")
+
                 return redirect(reverse('profile'))
             else:
                 form.add_error(None, "Your email or password was not recognized")
@@ -77,10 +87,17 @@ def add_card(request):
         if not request.user.stripe_id:
             #Check to see if customer exists in database, if not, create Stripe.customer and save token to stripe_id
             try:
-                customer = stripe.Customer.create(
-                    description="Customer for " + str(request.user.username),
-                    source=request.POST.get('stripeToken')
-                )
+                #try to find customer in stripe database first!
+                existing_stripe_customer = stripe.Customer.list(email=request.user.email,limit=1)
+
+                if existing_stripe_customer:
+                    customer = stripe.Customer.retrieve(existing_stripe_customer.data[0]['id'])
+                else:
+                    customer = stripe.Customer.create(
+                        description="Customer for " + str(request.user.username),
+                        email=request.user.email,
+                        source=request.POST.get('stripeToken')
+                    )
             except stripe.error.CardError as e:
                 message = str(e).split(":",maxsplit=1)[1]
                 messages.error(request,message)
