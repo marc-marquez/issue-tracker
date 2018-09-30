@@ -39,7 +39,7 @@ def user_vote_button(ticket, subject, user):
     if user.is_authenticated:
         link = """
         <div class="btn-vote">
-        <a href="%s" class="btn btn-default btn-sm">Add my vote!</a>
+        <a href="%s" class="btn btn-success">Add my vote!</a>
         </div>""" % reverse('cast_vote', kwargs={'ticket_id': ticket.id, 'subject_id': subject.id})
         return link
     return ""
@@ -53,3 +53,15 @@ def vote_percentage(ticket):
 
    total_votes = ticket.poll.votes.count()
    return (100 / total_votes) * count
+
+@register.filter
+def get_button_color(status):
+    colors = {'CREATED':'grey',
+              'ASSIGNED':'blue',
+              'IN PROGRESS': 'orange',
+              'BLOCKED':'red',
+              'COMPLETED': 'green',
+              'CLOSED':'black',
+              }
+
+    return colors[status]

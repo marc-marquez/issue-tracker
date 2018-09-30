@@ -26,7 +26,9 @@
        {#% endif %#}
        {{ post_form|as_bootstrap }}
        <div class="form-group">
-         <button type="submit" class="btn btn-primary">{{button_text}}</button>
+         <button type="submit" class="btn btn-success">{{button_text}}</button>
+         <button type="reset" class="btn btn-info">Reset</button>
+         <!--a href="{#% url 'ticket' ticket.id %#}"><button class="btn btn-default">Back to Ticket</button></a-->
        </div>
      </form>
    </div>

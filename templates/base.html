@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Unicorn Attactor</title>
+    <title>Issue Tracker</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -18,57 +18,64 @@
     {% block head_js %}{% endblock head_js %}
 </head>
 <body>
-    <div class="container">
-        <div class="masthead">
-            <ul class="nav nav-pills pull-right">
-                <li><a href="/">Home</a></li>
-                <li><a href="/pages/about">About</a></li>
-                <li><a href="/pages/faq">FAQ</a></li>
-                <li class="dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">Tickets<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{% url 'tickets' subject_id=1 %}">Bugs</a></li>
-                        <li><a href="{% url 'tickets' subject_id=2 %}">Features</a></li>
-                    </ul>
-                </li>
-                <li><a href="/">Contact</a></li>
-                <li class="dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">Reports<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{% url 'report' subject_id=1 %}">Bugs Report</a></li>
-                        <li><a href="{% url 'report' subject_id=2 %}">Features Report</a></li>
-                    </ul>
-                </li>
-                {% if user.is_authenticated %}
-                    <li><a href="{% url 'profile' %}">Profile</a></li>
-                    <li><a href="{% url 'logout' %}">Log Out</a></li>
-                {% else %}
-                    <li><a href="{% url 'register' %}">Register</a></li>
-                    <li><a href="{% url 'login' %}">Log In</a></li>
-                {% endif %}
-            </ul>
-            <h1><span class="fui-settings-16 muted">Unicorn Attractor</span></h1>
-        </div>
-        <hr>
-        {% if messages %}
-            <div class="alert alert-success">
-                <div class="messages">
-                    {% for message in messages %}
-                        {{ message }}
-                    {% endfor %}
-                </div>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="masthead">
+                <ul class="nav nav-pills pull-right">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/pages/about">About</a></li>
+                    <li><a href="/pages/faq">FAQ</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">Tickets<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'tickets' subject_id=1 %}">Bugs</a></li>
+                            <li><a href="{% url 'tickets' subject_id=2 %}">Features</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/">Contact</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">Reports<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'report' subject_id=1 %}">Bugs Report</a></li>
+                            <li><a href="{% url 'report' subject_id=2 %}">Features Report</a></li>
+                        </ul>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="glyphicon glyphicon-user"></i>  {{ user.username }}<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{% url 'profile' %}">Profile</a></li>
+                                <li><a href="{% url 'logout' %}">Log Out</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li><a href="{% url 'register' %}">Register</a></li>
+                        <li><a href="{% url 'login' %}">Log In</a></li>
+                    {% endif %}
+                </ul>
+                <h1><span class="fui-settings-16 muted">Issue Tracker</span></h1>
             </div>
-        {% endif %}
-
-
-        <div class="container">
-           {% block content %}
-           {% endblock %}
         </div>
-        <hr>
-        <div class="footer">
-            <p>Made By Bootcampers and Django </p>
+    </nav>
+    <div style="margin-bottom: 90px"></div>
+    {% if messages %}
+        <div class="alert alert-success">
+            <div class="messages">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
         </div>
+    {% endif %}
+
+    <div class="container">
+       {% block content %}
+       {% endblock %}
     </div>
+    <hr>
+    <div class="footer">
+        <p>Made By Marc Marquez</p>
+    </div>
+
 </body>
 </html>

@@ -1,21 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
+    <div class="row header">
+        <div class="jumbotron"><h1>Profile</h1></div>
+    </div>
     <h2>Account Details</h2>
     <p>You are logged in as {{ user.email }} </p>
-    <p>Your stripe id: {{ user.stripe_id }} </p>
+    <p>You last logged in on {{ user.last_login }}</p>
+    <!--p>Your stripe id: {#{ user.stripe_id }#} </p-->
     <hr>
     <h2>Credit Card Details</h2>
     <a href="{% url 'add_card' %}">Add a credit card</a>
-    <hr>
-    <div class="col-md-10">
+    <br>
+    <br>
+    <div class="col-md-12">
         {% if cards %}
-            <table width="100%">
+            <table class="table table-condensed" width="100%">
                 <tr>
                     <th class="text-center">Default</th>
                     <th>Type</th>
                     <th>Last 4</th>
                     <th>Expiration Date</th>
-                    <th>Card Token Id</th>
+                    <!--th>Card Token Id</th-->
                     <th class="text-center">Set Default</th>
                     <th class="text-center">Delete</th>
                 </tr>
@@ -29,18 +34,18 @@
                     <td>{{ card.brand }}</td>
                     <td>{{ card.last4 }}</td>
                     <td>{{ card.exp_month }}/{{ card.exp_year }}</td>
-                    <td>{{ card.id }}</td>
+                    <!--td>{#{ card.id }#}</td-->
                     {% if card.id != default_source %}
                         <form action="{% url 'set_default_card' card_id=card.id %}" method="post">
                             {% csrf_token %}
-                            <td align="center"><button type="submit"><i style="color:green" class="glyphicon glyphicon-pushpin"></i></button></td>
+                            <td align="center"><button style="border:0" type="submit"><i style="color:green" class="glyphicon glyphicon-pushpin"></i></button></td>
                         </form>
                     {% else %}
                         <td></td>
                     {% endif %}
                     <form action="{% url 'delete_card' card_id=card.id %}" method="post">
                         {% csrf_token %}
-                        <td align="center"><button type="submit"><i style="color:red" class="glyphicon glyphicon-remove-circle"></i></button></td>
+                        <td align="center"><button style="border:0" type="submit"><i style="color:red" class="glyphicon glyphicon-remove-circle"></i></button></td>
                     </form>
                 </tr>
             {% endfor %}

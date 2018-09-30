@@ -16,7 +16,7 @@
                        {% for option in options %}
                            <div>
                                <div class="col-md-10">
-                                   <strong>{{ option.name }}</strong>
+                                   <a href="{% url 'ticket' option.ticket_id %}"><strong>{{ option.name }}</strong></a>
                                    <span class="pull-right">{{ option|vote_percentage|floatformat:2 }}%</span>
                                </div>
                                <div class="col-md-10">

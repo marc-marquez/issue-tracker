@@ -1,45 +1,35 @@
 {% load ticket_extras %}
 {% load bootstrap_tags %}
 <section class="ticket">
-    <!--header>
-        <table width="100%"-->
-
-            <tr style="border: 1px solid black">
-                <td>
-                    <a href="{% url 'ticket' ticket.id %}"><p>{{ ticket.name }}</p></a>
-                </td>
-                <td>
-                    <p>{{ ticket.description | striptags | truncatechars:100 }}</p>
-                </td>
-                <td>
-                    <p>{{ ticket.posts.last.created_at }}</p>
-                </td>
-                <td>
-                    <p>{{ ticket.user }}</p>
-                </td>
-                <td>
-                    <p>{{ ticket.status }}</p>
-                </td>
-                <td class="text-center">
-                    {% if user.is_authenticated %}
-                        {% if subject.name == 'Feature'%}
-                            <!--
-                            <form action={#% url 'donate' ticket.id subject.id %#} method="post">
-                                {#% csrf_token %#}
-                                <input type="submit" class="submit" value="Donate $10">
-                            </form>
-                            -->
-                            <a href="{% url 'custom_donate' ticket.id subject.id%}"><button>Donate</button></a>
-                        {% else %}
-                            {% autoescape off %}
-                            {% user_vote_button ticket subject user %}
-                            {% endautoescape %}
-                        {% endif %}
-                    {% endif %}
-                </td>
-            </tr>
-        <!--/table>
-
-    </header-->
-
+    <tr>
+        <!--td>
+            <a href="{#% url 'ticket' ticket.id %#}"><p>{#{ ticket.id }#}</p></a>
+        </td-->
+        <td>
+            <a href="{% url 'ticket' ticket.id %}"><p>{{ ticket.name }}</p></a>
+        </td>
+        <td>
+            <p>{{ ticket.description | striptags | truncatechars:50 }}</p>
+        </td>
+        <td>
+            <p>{{ ticket.posts.last.created_at }}</p>
+        </td>
+        <td>
+            <p>{{ ticket.user }}</p>
+        </td>
+        <td class="text-center">
+            <button id="statusButton" class="btn btn-default" style="background-color:{{ ticket.status|get_button_color }};color:white" disabled>{{ ticket.status }}</button>
+        </td>
+        <td class="text-center">
+            {% if user.is_authenticated %}
+                {% if subject.name == 'Feature'%}
+                    <a href="{% url 'custom_donate' ticket.id subject.id%}"><button class="btn btn-success">Donate</button></a>
+                {% else %}
+                    {% autoescape off %}
+                    {% user_vote_button ticket subject user %}
+                    {% endautoescape %}
+                {% endif %}
+            {% endif %}
+        </td>
+    </tr>
 </section>

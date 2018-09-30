@@ -65,7 +65,7 @@ def login(request):
                 except:
                     print("No existing Stripe customer found.")
 
-                return redirect(reverse('profile'))
+                return redirect(reverse('index'))
             else:
                 form.add_error(None, "Your email or password was not recognized")
 
