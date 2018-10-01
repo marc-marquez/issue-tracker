@@ -3,7 +3,7 @@
 {% load ticket_extras %}
 
 <section class="col-md-12">
-    <table style="border: 1px solid black" width="100%">
+    <table class="table" style="border: 1px solid black" width="100%">
         <tr style="border: 1px solid black;background-color:lightgrey">
             <th style="border: 1px solid black" class="text-center">{{ post.user.username }}</th>
             <th style="border: 1px solid black" class="text-center">{{ post.user.posts.count }} Post(s)</th>
@@ -13,8 +13,8 @@
             </th>
             <!--th style="border: 1px solid black">{#{ ticket.status }#}</th-->
             {% if post.user == user or user.is_staff %}
-               <th style="border: 1px solid black" class="text-center"><a href="{% url 'edit_post' ticket.id post.id %}"><i class="glyphicon glyphicon-edit"></i></a></th>
-               <th style="border: 1px solid black" class="text-center"><a href="{% url 'delete_post' ticket.id post.id %}"><i class="glyphicon glyphicon-trash"></i></a></th>
+               <th style="border: 1px solid black" class="text-center"><a href="{% url 'edit_post' ticket.id post.id %}" data-toggle="tooltip" title="Edit Post"><i class="glyphicon glyphicon-edit"></i></a></th>
+               <th style="border: 1px solid black" class="text-center"><a href="{% url 'delete_post' ticket.id post.id %}" data-toggle="tooltip" title="Delete Post"><i class="glyphicon glyphicon-trash"></i></a></th>
             {% endif %}
         </tr>
         <tr style="border: 1px solid black">

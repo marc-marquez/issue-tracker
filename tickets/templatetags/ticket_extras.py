@@ -55,12 +55,15 @@ def vote_percentage(ticket):
    return (100 / total_votes) * count
 
 @register.filter
-def get_button_color(status):
-    colors = {'CREATED':'grey',
+def get_label_color(status):
+    colors = {'NEW':'grey',
               'ASSIGNED':'blue',
-              'IN PROGRESS': 'orange',
-              'BLOCKED':'red',
-              'COMPLETED': 'green',
+              'OPEN': 'orange',
+              'FIXED': 'purple',
+              'RETEST':'cyan',
+              'REOPENED':'orange',
+              'VERIFIED': 'green',
+              'BLOCKED': 'red',
               'CLOSED':'black',
               }
 

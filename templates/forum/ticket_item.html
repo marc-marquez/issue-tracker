@@ -1,5 +1,6 @@
 {% load ticket_extras %}
 {% load bootstrap_tags %}
+
 <section class="ticket">
     <tr>
         <!--td>
@@ -17,8 +18,8 @@
         <td>
             <p>{{ ticket.user }}</p>
         </td>
-        <td class="text-center">
-            <button id="statusButton" class="btn btn-default" style="background-color:{{ ticket.status|get_button_color }};color:white" disabled>{{ ticket.status }}</button>
+        <td class="text-center" style="vertical-align:middle">
+            <span id="statusButton" class="label label-default" style="background-color:{{ ticket.status|get_label_color }};color:white;font-size: medium">{{ ticket.status }}</span>
         </td>
         <td class="text-center">
             {% if user.is_authenticated %}

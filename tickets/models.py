@@ -11,25 +11,31 @@ class Subject(models.Model):
         return self.name
 
 class Ticket(models.Model):
-    CREATED = 'CREATED'
+    NEW = 'NEW'
     ASSIGNED = 'ASSIGNED'
-    IN_PROGESS = 'IN PROGRESS'
-    COMPLETED = 'COMPLETED'
+    OPEN = 'OPEN'
+    FIXED = 'FIXED'
+    RETEST = 'RETEST'
+    REOPENED = 'REOPENED'
+    VERIFIED = 'VERIFIED'
     BLOCKED = 'BLOCKED'
     CLOSED = 'CLOSED'
     STATUS_CHOICES = (
-        (CREATED, 'Created'),
+        (NEW, 'New'),
         (ASSIGNED, 'Assigned'),
-        (IN_PROGESS, 'In Progress'),
+        (OPEN, 'Open'),
+        (FIXED, 'Fixed'),
+        (RETEST, 'Retest'),
+        (REOPENED, 'Reopened'),
+        (VERIFIED, 'Verified'),
         (BLOCKED, 'Blocked'),
-        (COMPLETED, 'Completed'),
         (CLOSED, 'Closed'),
     )
     name = models.CharField(max_length=255)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='tickets',on_delete='models.CASCADE')
     subject = models.ForeignKey(Subject, related_name='tickets',on_delete='models.CASCADE')
     created_at = models.DateTimeField(default=timezone.now)
-    status = models.CharField(max_length=11, choices=STATUS_CHOICES, default=CREATED)
+    status = models.CharField(max_length=11, choices=STATUS_CHOICES, default=NEW)
     description = HTMLField(blank=False)
     donation_goal = models.DecimalField(max_digits=10,decimal_places=2,default=0)
     total_donations = models.DecimalField(max_digits=10,decimal_places=2)
@@ -39,4 +45,3 @@ class Post(models.Model):
     comment = HTMLField(blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts',on_delete='models.CASCADE')
     created_at = models.DateTimeField(default=timezone.now)
-    #status = models.CharField(max_length=11, choices=STATUS_CHOICES, default=CREATED)
