@@ -3,11 +3,17 @@
 
 <section class="ticket">
     <tr>
-        <!--td>
-            <a href="{#% url 'ticket' ticket.id %#}"><p>{#{ ticket.id }#}</p></a>
-        </td-->
         <td>
-            <a href="{% url 'ticket' ticket.id %}"><p>{{ ticket.name }}</p></a>
+            <a href="{% url 'ticket' ticket.id %}">
+             {% if subject.name == 'Bug' %}
+                <p>BUG_{{ ticket.bug.id }}</p>
+             {% elif subject.name == 'Feature' %}
+                 <p>FEATURE_{{ ticket.feature.id }}</p>
+             {% endif %}
+            </a>
+        </td>
+        <td>
+            <p>{{ ticket.name }}</p>
         </td>
         <td>
             <p>{{ ticket.description | striptags | truncatechars:50 }}</p>
@@ -18,7 +24,8 @@
         <td>
             <p>{{ ticket.user }}</p>
         </td>
-        <td class="text-center" style="vertical-align:middle">
+        <!--td class="text-center" style="vertical-align:middle"-->
+        <td class="text-center">
             <span id="statusButton" class="label label-default" style="background-color:{{ ticket.status|get_label_color }};color:white;font-size: medium">{{ ticket.status }}</span>
         </td>
         <td class="text-center">

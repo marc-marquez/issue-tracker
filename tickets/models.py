@@ -38,10 +38,18 @@ class Ticket(models.Model):
     status = models.CharField(max_length=11, choices=STATUS_CHOICES, default=NEW)
     description = HTMLField(blank=False)
     donation_goal = models.DecimalField(max_digits=10,decimal_places=2,default=0)
-    total_donations = models.DecimalField(max_digits=10,decimal_places=2)
+    total_donations = models.DecimalField(max_digits=10,decimal_places=2,default=0)
 
 class Post(models.Model):
     ticket = models.ForeignKey(Ticket, related_name='posts', on_delete='models.CASCADE')
     comment = HTMLField(blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts',on_delete='models.CASCADE')
     created_at = models.DateTimeField(default=timezone.now)
+
+class Bug(models.Model):
+    ticket = models.OneToOneField(Ticket, on_delete='models.CASCADE')
+
+class Feature(models.Model):
+    ticket = models.OneToOneField(Ticket, on_delete='models.CASCADE')
+    donation_goal = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    total_donations = models.DecimalField(max_digits=10, decimal_places=2, default=0)

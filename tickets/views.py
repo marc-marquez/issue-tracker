@@ -4,8 +4,8 @@ from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.template.context_processors import csrf
-from .forms import TicketForm, PostForm, StatusForm, DonationGoalForm
-from tickets.models import Subject, Post, Ticket
+from .forms import TicketForm, PostForm
+from tickets.models import Subject, Post, Ticket, Bug, Feature
 from polls.models import PollOption, Poll
 from django.conf import settings
 import stripe
@@ -56,14 +56,18 @@ def new_ticket(request, subject_id):
         if ticket_form.is_valid():
             ticket = ticket_form.save(False)
             ticket.subject = subject
-            ticket.status = ticket.CREATED
+            ticket.status = ticket.NEW
             ticket.user = request.user
-
-            #temporary until donations app is working
-            ticket.donation_goal = 0
-            ticket.total_donations = 0
-
             ticket.save()
+
+            if subject.name == 'Bug':
+                bug = Bug(ticket_id=ticket.id)
+                bug.save()
+            elif subject.name == 'Feature':
+                feature = Feature(ticket_id=ticket.id)
+                feature.save()
+            else:
+                print("Unknown subject -- " + subject.name)
 
             #if first ticket in subject then create poll
             try:

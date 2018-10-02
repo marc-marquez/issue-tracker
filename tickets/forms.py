@@ -31,17 +31,17 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ['comment']
 
-class StatusForm(forms.ModelForm):
-    status = forms.ChoiceField(label='Status',choices=Ticket.STATUS_CHOICES)
+#class StatusForm(forms.ModelForm):
+#    status = forms.ChoiceField(label='Status',choices=Ticket.STATUS_CHOICES)
+#
+#    class Meta:
+#        model = Ticket
+#        fields = ['status']
 
-    class Meta:
-        model = Ticket
-        fields = ['status']
-
-class DonationGoalForm(forms.ModelForm):
-
-    class Meta:
-        model = Ticket
-        fields = ['donation_goal']
+#class DonationGoalForm(forms.ModelForm):
+#
+#    class Meta:
+#        model = Ticket
+#        fields = ['donation_goal']
 
 
