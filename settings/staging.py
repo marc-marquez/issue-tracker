@@ -4,11 +4,11 @@ import dj_database_url
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-JAWSDB_DATABASE_URL = os.environ.get('JAWSDB_URL')
+DATABASE_URL = os.environ.get('DATABASE_URL')
 
 # Load the ClearDB connection details from the environment variable
 DATABASES = {
-    'default': dj_database_url.config(JAWSDB_DATABASE_URL)
+    'default': dj_database_url.config(DATABASE_URL)
 }
 
 # Stripe environment variables
