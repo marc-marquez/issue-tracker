@@ -27,8 +27,17 @@
 <body>
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
-            <div class="masthead">
-                <ul class="nav nav-pills pull-right">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Issue Tracker</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
                     <li><a href="/">Home</a></li>
                     <li><a href="/pages/about">About</a></li>
                     <li><a href="/pages/faq">FAQ</a></li>
@@ -60,7 +69,7 @@
                         <li><a href="{% url 'login' %}">Log In</a></li>
                     {% endif %}
                 </ul>
-                <h1><span class="fui-settings-16 muted">Issue Tracker</span></h1>
+                <!--h1><span class="fui-settings-16 muted">Issue Tracker</span></h1-->
             </div>
         </div>
     </nav>
