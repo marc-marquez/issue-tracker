@@ -5,7 +5,6 @@ import dj_database_url
 DEBUG = False
 
 JAWSDB_URL = os.environ.get('JAWSDB_URL')
-print(JAWSDB_URL)
 
 # Load the ClearDB connection details from the environment variable
 DATABASES = {
