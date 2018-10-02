@@ -3,8 +3,8 @@ import os
 import sys
 
 if __name__ == '__main__':
-    #os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'IssueTracker.settings')
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings.staging')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'IssueTracker.settings')
+    #os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings.staging')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
