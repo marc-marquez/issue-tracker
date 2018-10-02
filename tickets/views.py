@@ -70,13 +70,10 @@ def new_ticket(request, subject_id):
                 supplement_form = FeatureForm(request.POST, prefix="supplementform")
                 if supplement_form.is_valid():
                     supplementform = supplement_form.save(False)
-                    ticket.feature.donation_goal = supplementform.donation_goal
-                    ticket.feature.total_donations = 0
-                    supplementform.save()
-                #feature = Feature(ticket_id=ticket.id)
-                #feature.donation_goal = supplement_form.donation_goal
-                #feature.total_donations = 0
-                #feature.save()
+                    feature = Feature(ticket_id=ticket.id)
+                    feature.donation_goal = supplementform.donation_goal
+                    feature.total_donations = 0
+                    feature.save()
             else:
                 print("Unknown subject -- " + subject.name)
 
