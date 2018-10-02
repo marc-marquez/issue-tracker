@@ -111,6 +111,8 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"), # static directory at the project level
 )
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 AUTH_USER_MODEL = 'accounts.User'
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',

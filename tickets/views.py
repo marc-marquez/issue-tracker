@@ -175,20 +175,7 @@ def new_post(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
 
     if request.method == "POST":
-        '''
-        #Need to check if the requester is the admin to add status to be updated
-        if request.user.is_staff:
-            status_form = StatusForm(request.POST,prefix="statusform")
-            if status_form.is_valid():
-                statusform = status_form.save(False)
-                ticket.status = statusform.status
-                ticket.save()
-            donation_goal_form = DonationGoalForm(request.POST,prefix="donationgoalform")
-            if donation_goal_form.is_valid():
-                donationgoalform = donation_goal_form.save(False)
-                ticket.donation_goal = donationgoalform.donation_goal
-                ticket.save()
-        '''
+
         post_form = PostForm(request.POST,prefix="postform")
         if post_form.is_valid():
 
@@ -201,14 +188,11 @@ def new_post(request, ticket_id):
 
             return redirect(reverse('ticket', args={ticket.pk}))
     else:
-        #status_form = StatusForm(instance=Ticket.objects.get(id=ticket_id),prefix="statusform")
         post_form = PostForm(prefix="postform")
-        #donation_goal_form = DonationGoalForm(instance=Ticket.objects.get(id=ticket_id),prefix="donationgoalform")
+
 
     args = {
         'post_form': post_form,
-        #'status_form': status_form,
-        #'donation_goal_form': donation_goal_form,
         'form_action': reverse('new_post', args={ticket.id}),
         'button_text': 'Add Post'
     }
