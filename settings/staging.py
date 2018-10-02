@@ -9,7 +9,7 @@ print(JAWSDB_URL)
 
 # Load the ClearDB connection details from the environment variable
 DATABASES = {
-    'default': dj_database_url.config(JAWSDB_URL)
+    'default': dj_database_url.config(default=JAWSDB_URL)
 }
 
 # Stripe environment variables
