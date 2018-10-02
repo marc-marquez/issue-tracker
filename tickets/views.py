@@ -4,7 +4,7 @@ from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.template.context_processors import csrf
-from .forms import TicketForm, PostForm
+from .forms import TicketForm, PostForm, FeatureForm, BugForm
 from tickets.models import Subject, Post, Ticket, Bug, Feature
 from polls.models import PollOption, Poll
 from django.conf import settings
@@ -35,12 +35,13 @@ def report(request,subject_id):
         except:
             print("No ticket_id found in charge.")
 
-    for option in options:
-        try:
-            option.ticket.total_donations = total_donations[option.ticket.id]
-        except:
-            option.ticket.total_donations = 0
-        option.ticket.save()
+    if subject.name == 'Feature':
+        for option in options:
+            try:
+                option.ticket.feature.total_donations = total_donations[option.ticket.id]
+            except:
+                option.ticket.feature.total_donations = 0
+            option.ticket.feature.save()
 
     return render(request, 'forum/progress_report.html', {'subject': subject,'options': options})
 
@@ -53,6 +54,8 @@ def new_ticket(request, subject_id):
     subject = get_object_or_404(Subject, pk=subject_id)
     if request.method == "POST":
         ticket_form = TicketForm(request.POST)
+        #if subject.name == 'Feature':
+        #    supplement_form = FeatureForm(request.POST,prefix="supplementform")
         if ticket_form.is_valid():
             ticket = ticket_form.save(False)
             ticket.subject = subject
@@ -64,8 +67,16 @@ def new_ticket(request, subject_id):
                 bug = Bug(ticket_id=ticket.id)
                 bug.save()
             elif subject.name == 'Feature':
-                feature = Feature(ticket_id=ticket.id)
-                feature.save()
+                supplement_form = FeatureForm(request.POST, prefix="supplementform")
+                if supplement_form.is_valid():
+                    supplementform = supplement_form.save(False)
+                    ticket.feature.donation_goal = supplementform.donation_goal
+                    ticket.feature.total_donations = 0
+                    supplementform.save()
+                #feature = Feature(ticket_id=ticket.id)
+                #feature.donation_goal = supplement_form.donation_goal
+                #feature.total_donations = 0
+                #feature.save()
             else:
                 print("Unknown subject -- " + subject.name)
 
@@ -97,9 +108,16 @@ def new_ticket(request, subject_id):
 
     else:
         ticket_form = TicketForm()
+        if subject.name == 'Feature':
+            supplement_form = FeatureForm(prefix="supplementform")
+        elif subject.name == 'Bug':
+            supplement_form = BugForm(prefix="supplementform")
+        else:
+            pass
 
     args = {
         'ticket_form': ticket_form,
+        'supplement_form': supplement_form,
         'form_action': reverse('new_ticket', kwargs={"subject_id": subject.id}),
         'button_text': 'Add New Ticket',
         'subject': subject,
@@ -118,14 +136,30 @@ def edit_ticket(request, ticket_id):
         ticket_form = TicketForm(request.POST, instance=ticket)
         if ticket_form.is_valid():
             ticket_form.save()
+
+            if ticket.subject.name == 'Feature':
+                feature = get_object_or_404(Feature, pk=ticket.feature.id)
+                supplement_form = FeatureForm(request.POST, instance=feature)
+            else:
+                bug = get_object_or_404(Feature, pk=ticket.bug.id)
+                supplement_form = BugForm(request.POST, instance=bug)
+
+            supplement_form.save()
             messages.success(request, "You have updated your ticket!")
 
             return redirect(reverse('ticket', args={ticket.pk}))
     else:
         ticket_form = TicketForm(instance=ticket)
+        if ticket.subject.name == 'Feature':
+            feature = get_object_or_404(Feature,pk=ticket.feature.id)
+            supplement_form = FeatureForm(instance=feature)
+        else:
+            bug = get_object_or_404(Bug, pk=ticket.bug.id)
+            supplement_form = BugForm(instance=bug)
 
     args = {
         'ticket_form': ticket_form,
+        'supplement_form': supplement_form,
         'form_action': reverse('edit_ticket', kwargs={"ticket_id": ticket.id}),
         'button_text': 'Update Ticket'
     }

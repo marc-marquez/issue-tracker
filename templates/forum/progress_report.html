@@ -34,8 +34,8 @@
                        {% for option in options %}
                            {% if subject.name == 'Feature' %}
                                <div class="col-md-10">
-                                    <strong>${{ option.ticket.total_donations|floatformat:2 }}</strong>
-                                    <span class="pull-right">Donation Goal: ${{ option.ticket.donation_goal|floatformat:2 }}</span>
+                                    <strong>${{ option.ticket.feature.total_donations|floatformat:2 }}</strong>
+                                    <span class="pull-right">Donation Goal: ${{ option.ticket.feature.donation_goal|floatformat:2 }}</span>
                                </div>
                                <div class="col-md-10">
                                     <div class="progress">

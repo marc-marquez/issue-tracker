@@ -13,7 +13,7 @@ def get_ticket_donation_value(option):
 
     try:
         #total_donations = list[ticket.id]
-        total_donations = option.ticket.total_donations
+        total_donations = option.ticket.feature.total_donations
     except:
         total_donations = 0
 
@@ -39,8 +39,8 @@ def get_donations_list():
 @register.filter
 def donation_percentage(option):
 
-    if option.ticket.donation_goal == 0:
+    if option.ticket.feature.donation_goal == 0:
         return 0
 
-    return (float(option.ticket.total_donations)/float(option.ticket.donation_goal)) * 100
+    return (float(option.ticket.feature.total_donations)/float(option.ticket.feature.donation_goal)) * 100
 
