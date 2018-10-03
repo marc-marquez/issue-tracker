@@ -20,10 +20,11 @@
             <thead>
                 <!--th>Id</th-->
                 <th data-sortable="true" data-field="id">Id</th>
-                <th data-sortable="true" data-field="name">Name</th>
+                <th data-sortable="true" data-field="title">Title</th>
                 <th>Description</th>
+                <th data-sortable="true" data-field="reporter">Reported By</th>
+                <th data-sortable="true" data-field="lastposter">Last Post By</th>
                 <th data-sortable="true" data-field="updated">Last Updated</th>
-                <th data-sortable="true" data-field="owner">Owner</th>
                 <th class="text-center" data-sortable="true" data-field="status">Status</th>
                 {% if subject.name == 'Feature'%}
                     <th class="text-center">Donate</th>

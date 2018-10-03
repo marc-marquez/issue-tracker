@@ -12,11 +12,11 @@
     <a href="{% url 'add_card' %}">Add a credit card</a>
     <br>
     <br>
-    <div class="col-md-12">
+    <div class="col-md-6">
         {% if cards %}
             <table class="table table-condensed" width="100%">
                 <tr>
-                    <th class="text-center">Default</th>
+                    <!--th class="text-center">Default</th-->
                     <th>Type</th>
                     <th>Last 4</th>
                     <th>Expiration Date</th>
@@ -26,11 +26,6 @@
                 </tr>
             {% for card in cards %}
                 <tr>
-                    {% if card.id == default_source %}
-                        <td align="center"><i style="color:green" class="glyphicon glyphicon-check"></i></td>
-                    {% else %}
-                        <td></td>
-                    {% endif %}
                     <td>{{ card.brand }}</td>
                     <td>{{ card.last4 }}</td>
                     <td>{{ card.exp_month }}/{{ card.exp_year }}</td>
@@ -38,14 +33,14 @@
                     {% if card.id != default_source %}
                         <form action="{% url 'set_default_card' card_id=card.id %}" method="post">
                             {% csrf_token %}
-                            <td align="center"><button style="border:0" type="submit"><i style="color:green" class="glyphicon glyphicon-pushpin"></i></button></td>
+                            <td align="center"><button style="border:0" type="submit"><i style="color:black" class="glyphicon glyphicon-star-empty btn-lg"></i></button></td>
                         </form>
                     {% else %}
-                        <td></td>
+                        <td align="center"><i style="color:black" class="glyphicon glyphicon-star btn-lg"></i></td>
                     {% endif %}
                     <form action="{% url 'delete_card' card_id=card.id %}" method="post">
                         {% csrf_token %}
-                        <td align="center"><button style="border:0" type="submit"><i style="color:red" class="glyphicon glyphicon-remove-circle"></i></button></td>
+                        <td align="center"><button style="border:0" type="submit"><i style="color:red" class="glyphicon glyphicon-trash btn-lg"></i></button></td>
                     </form>
                 </tr>
             {% endfor %}

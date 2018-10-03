@@ -4,25 +4,25 @@
 {% block head_js %}
 <script src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
 <script type="text/javascript">
- tinyMCE.init({
-   mode: "textareas",
-   theme: "modern",
-   plugins: "paste",
-});
+    tinyMCE.init({
+        mode: "textareas",
+        theme: "modern",
+        plugins: "paste",
+    });
 </script>
 {% endblock %}
 {% block content %}
- <section>
-   <div class="col-md-9">
-     <form method="post" action="{{ form_action }}">
-       {% csrf_token %}
-       {{ post_form|as_bootstrap }}
-       <div class="form-group">
-         <button type="submit" class="btn btn-success">{{button_text}}</button>
-         <button type="reset" class="btn btn-info">Reset</button>
-         <!--a href="{#% url 'ticket' ticket.id %#}"><button class="btn btn-default">Back to Ticket</button></a-->
-       </div>
-     </form>
-   </div>
- </section>
+<section id="postform">
+    <div class="col-md-8 col-md-offset-2">
+        <form method="post" action="{{ form_action }}">
+            <legend>Post Details</legend>
+            {% csrf_token %}
+            {{ post_form|as_bootstrap }}
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">{{button_text}}</button>
+                <button type="reset" class="btn btn-info">Reset</button>
+            </div>
+        </form>
+    </div>
+</section>
 {% endblock %}
