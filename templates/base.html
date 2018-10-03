@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static "css/font-awesome-4.7.0/css/font-awesome.css" %}">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.css">
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
@@ -19,9 +20,18 @@
             $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
+    <script type="text/javascript">
+        //Function to hide loader when page is done loading
+        function showPage(){
+            document.getElementById("loader").style.display = "none";
+            document.getElementById("outer").style.display = "block";
+            document.getElementById("outer").style.opacity = 1;
+        }
+    </script>
     {% block head_js %}{% endblock head_js %}
 </head>
-<body>
+<body onload="showPage()">
+    <div id="loader"></div>
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -80,7 +90,7 @@
         </div>
     {% endif %}
 
-    <div class="container-fluid">
+    <div id="outer" class="container-fluid">
        {% block content %}
        {% endblock %}
     </div>

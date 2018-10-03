@@ -1,0 +1,10 @@
+#loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 300px;
+    height: 225px;
+    transform: translate(-50%,-50%);
+    background: url('/static/img/squares.gif') no-repeat center center;
+}
