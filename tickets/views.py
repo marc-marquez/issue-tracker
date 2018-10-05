@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
 from django.contrib import messages, auth
@@ -10,6 +11,9 @@ from polls.models import PollOption, Poll
 from django.conf import settings
 import stripe
 from django.db.models import Count
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from tickets.serializers import TicketSerializer
 
 stripe.api_key = settings.STRIPE_SECRET
 
@@ -127,7 +131,6 @@ def new_ticket(request, subject_id):
 @login_required(login_url='/login/')
 def edit_ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
-    #post = get_object_or_404(Post, pk=post_id)
 
     if request.method == "POST":
         ticket_form = TicketForm(request.POST, instance=ticket)
@@ -139,6 +142,7 @@ def edit_ticket(request, ticket_id):
                 supplement_form = FeatureForm(request.POST, instance=feature)
             else:
                 bug = get_object_or_404(Feature, pk=ticket.bug.id)
+                print("Ticket id (BUG): " + str(ticket.bug.id))
                 supplement_form = BugForm(request.POST, instance=bug)
 
             supplement_form.save()
@@ -354,3 +358,11 @@ def custom_donate(request,subject_id,ticket_id):
         'subject':subject,
     }
     return render(request, 'forum/donation_form.html', args)
+
+class TicketView(APIView):
+
+    def get(self,request):
+        ticket_items = Ticket.objects.all()
+        serializer = TicketSerializer(ticket_items,many=True)
+        serialized_data = serializer.data
+        return Response(serialized_data)

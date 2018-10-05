@@ -2,30 +2,33 @@
 {% load ticket_extras %}
 {% load stripe_extras %}
 {% block content %}
-<div class="row header">
-    <div class="jumbotron"><h1>{{ subject.name }} Tracker</h1></div>
-</div>
-
-<div class="row">
-    <div class="col-md-2">
+<div class="row header jumbotron">
+    <div><h1 style="display: inline-block">{{ subject.name }} Tracker</h1>&nbsp &nbsp<i style="display: inline-block;" class="glyphicon glyphicon-tag"></i></div>
     {% if user.is_authenticated %}
         <a href="{% url 'new_ticket' subject.id %}" class="btn btn-primary">New {{ subject.name }} Ticket</a>
     {% endif %}
-    </div>
 </div>
-<br>
+
+<!--div class="row">
+    <div class="col-md-2">
+    {#% if user.is_authenticated %#}
+        <a href="{#% url 'new_ticket' subject.id %#}" class="btn btn-primary">New {#{ subject.name }#} Ticket</a>
+    {#% endif %#}
+    </div>
+</div-->
+<!--br-->
 <div class="row">
     <!--div class="col-md-12"-->
-        <table class="table table-responsive table-hover" data-toggle="table" data-pagination="true" data-search="true">
+        <table class="table table-responsive table-hover table-no-bordered" data-toggle="table" data-pagination="true" data-search="true">
             <thead>
                 <!--th>Id</th-->
-                <th data-sortable="true" data-field="id">Id</th>
+                <th>Id</th>
                 <th data-sortable="true" data-field="title">Title</th>
                 <th>Description</th>
                 <th data-sortable="true" data-field="reporter">Reported By</th>
-                <th data-sortable="true" data-field="lastposter">Last Post By</th>
+                <th data-sortable="true" data-field="lastpostby">Last Post By</th>
                 <th data-sortable="true" data-field="updated">Last Updated</th>
-                <th class="text-center" data-sortable="true" data-field="status">Status</th>
+                <th class= "text-center" data-sortable="true" data-field="status">Status</th>
                 {% if subject.name == 'Feature'%}
                     <th class="text-center">Donate</th>
                 {% else %}

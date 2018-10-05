@@ -59,6 +59,7 @@
                 {% endif %}
                 {% if user.is_authenticated %}
                     <a href="{% url 'new_post' ticket.id %}" class="btn btn-primary">Add post</a>
+                    <!--a href="{#% url 'cast_vote' ticket.id ticket.subject.id %#}" class="btn btn-success">Add my vote!</a-->
                 {% endif %}
             </span>
         </div>

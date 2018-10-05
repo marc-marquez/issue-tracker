@@ -1,24 +1,19 @@
 {% load ticket_extras %}
 {% load bootstrap_tags %}
-<script type="text/css">
-    td {
-        vertical-align: inherit;
-    }
-</script>
 
-<section class="ticket">
+<section class="ticketItem">
     <tr>
         <td>
-            <a href="{% url 'ticket' ticket.id %}">
              {% if subject.name == 'Bug' %}
                 <p>#{{ ticket.bug.id }}</p>
              {% elif subject.name == 'Feature' %}
                  <p>#{{ ticket.feature.id }}</p>
              {% endif %}
-            </a>
         </td>
         <td>
+            <a href="{% url 'ticket' ticket.id %}">
             <p>{{ ticket.name }}</p>
+            </a>
         </td>
         <td>
             <p>{{ ticket.description | striptags | truncatechars:50 }}</p>
@@ -32,8 +27,8 @@
         <td>
             <p>{{ ticket.posts.last.created_at }}</p>
         </td>
-        <td class="text-center">
-            <span id="statusButton" class="label label-default" style="background-color:{{ ticket.status|get_label_color }};color:white;font-size: medium">{{ ticket.status }}</span>
+        <td>
+            <div id="statusLabel" class="label label-default" style="background-color:{{ ticket.status|get_label_color }};color:white;font-size: medium">{{ ticket.status }}</div>
         </td>
         <td class="text-center">
             {% if user.is_authenticated %}

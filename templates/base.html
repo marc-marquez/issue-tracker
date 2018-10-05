@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Issue Tracker</title>
+    <title>Issue Tracker (DEV)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -32,7 +32,7 @@
 </head>
 <body onload="showPage()">
     <div id="loader"></div>
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
@@ -41,23 +41,23 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Issue Tracker</a>
+                <a class="navbar-brand" href="#">My Startup Co.</a>
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/" data-toggle="tooltip" data-placement="bottom" title="Home"><i class="glyphicon glyphicon-home"></i></a></li>
-                    <li><a href="/pages/about/" data-toggle="tooltip" data-placement="bottom" title="About Us"><i class="glyphicon glyphicon-globe"></i></a></li>
-                    <li><a href="/pages/faq/" data-toggle="tooltip" data-placement="bottom" title="FAQ"><i class="glyphicon glyphicon-question-sign"></i></a></li>
+                    <li><a href="/" data-toggle="tooltip" data-placement="bottom" title="Home"><i class="glyphicon glyphicon-home hidden-xs"></i><p class="visible-xs">Home</p></a></li>
+                    <li><a href="/pages/about/" data-toggle="tooltip" data-placement="bottom" title="About Us"><i class="glyphicon glyphicon-globe hidden-xs"></i><p class="visible-xs">About Us</p></a></li>
+                    <li><a href="/pages/faq/" data-toggle="tooltip" data-placement="bottom" title="FAQ"><i class="glyphicon glyphicon-question-sign hidden-xs"></i><p class="visible-xs">FAQ</p></a></li>
                     <li class="dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="glyphicon glyphicon-tag" data-toggle="tooltip" data-placement="bottom" title="Bugs/Features"></i><span class="caret"></span></a>
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="glyphicon glyphicon-tag hidden-xs" data-toggle="tooltip" data-placement="bottom" title="Bugs/Features"></i><p class="visible-xs">Tickets &#x25BC</p><span class="caret hidden-xs"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="{% url 'tickets' subject_id=1 %}">Bugs</a></li>
                             <li><a href="{% url 'tickets' subject_id=2 %}">Features</a></li>
                         </ul>
                     </li>
-                    <li><a href="/pages/contact/" data-toggle="tooltip" data-placement="bottom" title="Contact Us!"><i class="glyphicon glyphicon-envelope"></i></a></li>
+                    <li><a href="/pages/contact/" data-toggle="tooltip" data-placement="bottom" title="Contact Us!"><i class="glyphicon glyphicon-envelope hidden-xs"></i><span class="visible-xs">Contact Us</span></a></li>
                     <li class="dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="glyphicon glyphicon-stats" data-toggle="tooltip" data-placement="bottom" title="Reports"></i><span class="caret"></span></a>
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="glyphicon glyphicon-stats hidden-xs" data-toggle="tooltip" data-placement="bottom" title="Reports"></i><p class="visible-xs">Reports &#x25BC</p><span class="caret hidden-xs"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="{% url 'report' subject_id=1 %}">Bugs Report</a></li>
                             <li><a href="{% url 'report' subject_id=2 %}">Features Report</a></li>
@@ -79,9 +79,8 @@
             </div>
         </div>
     </nav>
-    <div style="margin-bottom: 90px"></div>
     {% if messages %}
-        <div class="alert alert-success">
+        <div class="alert alert-success" style="margin-top: 60px">
             <div class="messages">
                 {% for message in messages %}
                     {{ message }}
@@ -90,7 +89,7 @@
         </div>
     {% endif %}
 
-    <div id="outer" class="container-fluid">
+    <div id="outer" class="container-fluid" style="margin-top: 60px">
        {% block content %}
        {% endblock %}
     </div>

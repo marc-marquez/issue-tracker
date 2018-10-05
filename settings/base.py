@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'tinymce',
     'emoticons',
     'stripe',
+    'rest_framework',
     'dotenv',
     'main',
     'tickets',

@@ -2,8 +2,8 @@
 {% load ticket_extras %}
 {% load stripe_extras %}
 {% block content %}
- <div class="row header">
-   <div class="jumbotron"><h1>Progress Report</h1></div>
+ <div class="row header jumbotron">
+   <div><h1 style="display: inline-block">{{ subject.name }} Report</h1>&nbsp &nbsp<i style="display: inline-block;" class="glyphicon glyphicon-stats"></i></div>
  </div>
  <!---This is the poll chart -->
 {#% for subject in subjects %#}
