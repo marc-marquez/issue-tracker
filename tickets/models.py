@@ -31,7 +31,7 @@ class Ticket(models.Model):
         (BLOCKED, 'Blocked'),
         (CLOSED, 'Closed'),
     )
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255,unique=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='tickets',on_delete='models.CASCADE')
     subject = models.ForeignKey(Subject, related_name='tickets',on_delete='models.CASCADE')
     created_at = models.DateTimeField(default=timezone.now)

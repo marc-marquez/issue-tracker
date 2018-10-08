@@ -14,3 +14,27 @@
 
     }
 }
+
+.chart-wrapper {
+    border: 1px solid darkgrey;
+}
+
+.chart-wrapper .chart-title {
+    background-color: #5bc0de;
+    color: white;
+}
+
+.dc-chart g.row text {
+   fill: black;
+   font-size: 12px;
+}
+
+#position-chart path {
+   stroke: white;
+   stroke-width: 4;
+}
+
+#complete-chart path {
+   stroke: white;
+   stroke-width: 4;
+}

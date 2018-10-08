@@ -33,17 +33,29 @@
                     {% endif %}
                 </tbody>
             </table>
+        </div>
+        <div class="col-md-6">
             <table class="table">
                 <tbody>
                     <tr>
                         <th>CREATED</th>
                         <th>OWNER</th>
-                        <th>LAST POST BY</th>
-                        <th>STATUS</th>
                     </tr>
                     <tr>
                         <td>{{ ticket.created_at }}</td>
                         <td>{{ ticket.user.username }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>LAST POST BY</th>
+                        <th>STATUS</th>
+                    </tr>
+                    <tr>
                         <td>{{ ticket.posts.last.user.username }}</td>
                         <td>{{ ticket.status }}</td>
                     </tr>

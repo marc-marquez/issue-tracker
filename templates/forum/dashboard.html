@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{#% load ticket_extras %#}
+{#% load stripe_extras %#}
+{% block content %}
+ <div class="row header jumbotron">
+   <div><h1 style="display: inline-block">Dashboard</h1>&nbsp &nbsp<i style="display: inline-block;" class="glyphicon glyphicon-stats"></i></div>
+ </div>
+ <div class="row">
+    <!-- Total Votes Row Chart -->
+    <div class="col-md-4 col-sm-12">
+        <div class="chart-wrapper">
+            <div class="chart-title">
+                Total Votes
+            </div>
+            <div class="chart-stage">
+                <div id="votesChart"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Total Votes Row Chart -->
+    <!-- Ticket Type Row Chart -->
+    <div class="col-md-4 col-sm-12">
+        <div class="chart-wrapper">
+            <div class="chart-title">
+                Ticket Type
+            </div>
+            <div class="chart-stage">
+                <div id="ticketTypeChart"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Ticket Type Row Chart -->
+    <!-- Ticket Status Row Chart -->
+    <div class="col-md-4 col-sm-12">
+        <div class="chart-wrapper">
+            <div class="chart-title">
+                Ticket Status
+            </div>
+            <div class="chart-stage">
+                <div id="statusChart"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Ticket Status Row Chart -->
+ </div>
+{% endblock %}

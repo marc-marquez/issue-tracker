@@ -20,6 +20,9 @@ stripe.api_key = settings.STRIPE_SECRET
 def forum(request):
     return render(request, 'forum/forum.html', {'subjects': Subject.objects.all()})
 
+def dashboard(request):
+    return render(request, 'forum/dashboard.html')
+
 def report(request,subject_id):
     #for subject in Subject.objects.all():
     subject = get_object_or_404(Subject, pk=subject_id)
@@ -106,7 +109,9 @@ def new_ticket(request, subject_id):
             messages.success(request, "You have created a new ticket!")
 
             return redirect(reverse('ticket', args=[ticket.pk]))
-
+        else:
+            messages.error(request,ticket_form.errors)
+            return redirect(reverse('new_ticket',args={subject_id}))
     else:
         ticket_form = TicketForm()
         if subject.name == 'Feature':

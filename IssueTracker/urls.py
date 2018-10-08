@@ -46,4 +46,5 @@ urlpatterns = [
     url(r'^ticket/customdonate/(?P<ticket_id>\d+)/(?P<subject_id>\d+)/$', forum_views.custom_donate, name='custom_donate'),
     url(r'^ticket_serial/', include('tickets.urls')),
     url(r'^polls/', include('polls.urls')),
+    url(r'^report/dashboard/$', forum_views.dashboard, name='dashboard'),
 ]
