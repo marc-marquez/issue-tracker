@@ -3,7 +3,7 @@
 
 <section class="ticketItem">
     <tr>
-        <td>
+        <td class="hidden-xs">
              {% if subject.name == 'Bug' %}
                 <p>#{{ ticket.bug.id }}</p>
              {% elif subject.name == 'Feature' %}
@@ -15,13 +15,13 @@
             <p>{{ ticket.name }}</p>
             </a>
         </td>
-        <td>
+        <td class="hidden-xs">
             <p>{{ ticket.description | striptags | truncatechars:50 }}</p>
         </td>
-        <td>
+        <td class="hidden-xs">
             <p>{{ ticket.user }}</p>
         </td>
-        <td>
+        <td class="hidden-xs">
             <p>{{ ticket.posts.last.user }}</p>
         </td>
         <td>

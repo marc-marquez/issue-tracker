@@ -39,7 +39,7 @@ def user_vote_button(ticket, subject, user):
     if user.is_authenticated:
         link = """
         <div class="btn-vote">
-        <a href="%s" class="btn btn-success">Add my vote!</a>
+        <a href="%s" class="btn btn-success"><i class="glyphicon glyphicon-thumbs-up"></i></a>
         </div>""" % reverse('cast_vote', kwargs={'ticket_id': ticket.id, 'subject_id': subject.id})
         return link
     return ""

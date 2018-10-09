@@ -22,11 +22,11 @@
         <table class="table table-responsive table-hover table-no-bordered" data-toggle="table" data-pagination="true" data-search="true">
             <thead>
                 <!--th>Id</th-->
-                <th>Id</th>
+                <th class="hidden-xs">Id</th>
                 <th data-sortable="true" data-field="title">Title</th>
-                <th>Description</th>
-                <th data-sortable="true" data-field="reporter">Reported By</th>
-                <th data-sortable="true" data-field="lastpostby">Last Post By</th>
+                <th class="hidden-xs">Description</th>
+                <th class="hidden-xs" data-sortable="true" data-field="reporter">Reported By</th>
+                <th class="hidden-xs" data-sortable="true" data-field="lastpostby">Last Post By</th>
                 <th data-sortable="true" data-field="updated">Last Updated</th>
                 <th class= "text-center" data-sortable="true" data-field="status">Status</th>
                 {% if subject.name == 'Feature'%}
