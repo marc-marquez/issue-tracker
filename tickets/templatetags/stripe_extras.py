@@ -37,10 +37,10 @@ def get_donations_list():
     return total_donations
 
 @register.filter
-def donation_percentage(option):
+def donation_percentage(ticket):
 
-    if option.ticket.feature.donation_goal == 0:
+    if ticket.feature.donation_goal == 0:
         return 0
 
-    return (float(option.ticket.feature.total_donations)/float(option.ticket.feature.donation_goal)) * 100
+    return (float(ticket.feature.total_donations)/float(ticket.feature.donation_goal)) * 100
 

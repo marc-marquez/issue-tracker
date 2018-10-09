@@ -81,8 +81,8 @@
                             </ul>
                         </li>
                     {% else %}
-                        <li><a href="{% url 'register' %}" data-toggle="tooltip" data-placement="bottom" title="Register"><i class="glyphicon glyphicon-pencil"></i></a></li>
-                        <li><a href="{% url 'login' %}" data-toggle="tooltip" data-placement="bottom" title="Login"><i class="glyphicon glyphicon-log-in"></i></a></li>
+                        <li><a href="{% url 'register' %}" data-toggle="tooltip" data-placement="bottom" title="Register"><i class="glyphicon glyphicon-pencil hidden-xs"></i><p class="visible-xs">Register</p></a></li>
+                        <li><a href="{% url 'login' %}" data-toggle="tooltip" data-placement="bottom" title="Login"><i class="glyphicon glyphicon-log-in hidden-xs"></i><p class="visible-xs">Log In</p></a></li>
                     {% endif %}
                 </ul>
             </div>

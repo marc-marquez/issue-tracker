@@ -33,7 +33,7 @@
         <td class="text-center">
             {% if user.is_authenticated %}
                 {% if subject.name == 'Feature'%}
-                    <a href="{% url 'custom_donate' ticket.id subject.id%}"><button class="btn btn-success">Donate</button></a>
+                    <a href="{% url 'custom_donate' ticket.id subject.id%}"><button class="btn btn-success"><i class="glyphicon glyphicon-gift"></i></button></a>
                 {% else %}
                     {% autoescape off %}
                     {% user_vote_button ticket subject user %}

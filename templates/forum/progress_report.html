@@ -34,14 +34,14 @@
                        {% for option in options %}
                            {% if subject.name == 'Feature' %}
                                <div class="col-md-10">
-                                    <strong>${{ option.ticket.feature.total_donations|floatformat:2 }}</strong>
+                                    <strong>Donated: ${{ option.ticket.feature.total_donations|floatformat:2 }}</strong>
                                     <span class="pull-right">Donation Goal: ${{ option.ticket.feature.donation_goal|floatformat:2 }}</span>
                                </div>
                                <div class="col-md-10">
                                     <div class="progress">
                                         <div class="progress-bar progress-bar-info" role="progressbar"
-                                        aria-value="{{ option|donation_percentage }}" aria-valuemin="0"
-                                        aria-valuemax="100" style="width:{{ option|donation_percentage }}%;">
+                                        aria-value="{{ option.ticket|donation_percentage }}" aria-valuemin="0"
+                                        aria-valuemax="100" style="width:{{ option.ticket|donation_percentage }}%;">
                                         </div>
                                     </div>
                                </div>
