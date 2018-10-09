@@ -7,50 +7,52 @@
  </div>
  <!---This is the poll chart -->
 {#% for subject in subjects %#}
+ <div class="row">
      <div class="col-md-12">
-           {% if subject.poll %}
-               <div class="container">
-                   <h2 align="middle">{{ subject.poll.question }}</h2>
-                   <div class="col-md-6">
-                       {#% for option in options|slice:":5" %#}
-                       {% for option in options %}
-                           <div>
-                               <div class="col-md-10">
-                                   <a href="{% url 'ticket' option.ticket_id %}"><strong>{{ option.ticket.name }}</strong></a>
-                                   <span class="pull-right">{{ option|vote_percentage|floatformat:2 }}%</span>
-                               </div>
-                               <div class="col-md-10">
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-info" role="progressbar"
-                                        aria-value="{{ option|vote_percentage }}" aria-valuemin="0"
-                                        aria-valuemax="100" style="width:{{ option|vote_percentage }}%;">
-                                        </div>
-                                    </div>
-                               </div>
+        {% if subject.poll %}
+           <div class="container">
+               <h2 align="left">{{ subject.poll.question }}</h2>
+               <div class="col-md-6">
+                   {#% for option in options|slice:":5" %#}
+                   {% for option in options %}
+                       <div>
+                           <div class="col-md-10">
+                               <a href="{% url 'ticket' option.ticket_id %}"><strong>{{ option.ticket.name }}</strong></a>
+                               <span class="pull-right">{{ option|vote_percentage|floatformat:2 }}%</span>
                            </div>
-                      {% endfor %}
-                   </div>
-                   <div class="col-md-6">
-                       {% for option in options %}
-                           {% if subject.name == 'Feature' %}
-                               <div class="col-md-10">
-                                    <strong>Donated: ${{ option.ticket.feature.total_donations|floatformat:2 }}</strong>
-                                    <span class="pull-right">Donation Goal: ${{ option.ticket.feature.donation_goal|floatformat:2 }}</span>
-                               </div>
-                               <div class="col-md-10">
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-info" role="progressbar"
-                                        aria-value="{{ option.ticket|donation_percentage }}" aria-valuemin="0"
-                                        aria-valuemax="100" style="width:{{ option.ticket|donation_percentage }}%;">
-                                        </div>
+                           <div class="col-md-10">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-info" role="progressbar"
+                                    aria-value="{{ option|vote_percentage }}" aria-valuemin="0"
+                                    aria-valuemax="100" style="width:{{ option|vote_percentage }}%;">
                                     </div>
-                               </div>
-                           {% endif %}
-                      {% endfor %}
-                   </div>
+                                </div>
+                           </div>
+                       </div>
+                  {% endfor %}
                </div>
-           {% endif %}
+               <div class="col-md-6">
+                   {% for option in options %}
+                       {% if subject.name == 'Feature' %}
+                           <div class="col-md-10">
+                                <strong>Donated: ${{ option.ticket.feature.total_donations|floatformat:2 }}</strong>
+                                <span class="pull-right">Donation Goal: ${{ option.ticket.feature.donation_goal|floatformat:2 }}</span>
+                           </div>
+                           <div class="col-md-10">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-info" role="progressbar"
+                                    aria-value="{{ option.ticket|donation_percentage }}" aria-valuemin="0"
+                                    aria-valuemax="100" style="width:{{ option.ticket|donation_percentage }}%;">
+                                    </div>
+                                </div>
+                           </div>
+                       {% endif %}
+                  {% endfor %}
+               </div>
+           </div>
+        {% endif %}
      </div>
+ </div>
 {#% endfor %#}
  <!---This is the poll chart -->
 {% endblock %}

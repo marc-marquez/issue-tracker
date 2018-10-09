@@ -20,8 +20,8 @@
 }
 
 .chart-wrapper .chart-title {
-    background-color: #5bc0de;
-    color: white;
+    background-color: darkslategray;
+    color: white !important;
 }
 
 .dc-chart g.row text {

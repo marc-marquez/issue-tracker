@@ -20,39 +20,6 @@
                     </tr>
                 </tbody>
             </table>
-            <table class="table">
-                <tbody>
-                    {% if ticket.subject.name == 'Feature' %}
-                        <tr>
-                            <th>DONATIONS</th>
-                        </tr>
-                        <tr>
-                            <td>
-                        <!--tr>
-                            <th>DONATION GOAL</th>
-                            <th>TOTAL DONATED</th>
-                        </tr>
-                        <tr>
-                            <td>${#{ ticket.feature.donation_goal }#}</td>
-                            <td>${#{ ticket.feature.total_donations }#}</td>
-                        </tr-->
-                                <div class="col-md-12">
-                                        <strong>Donated: ${{ ticket.feature.total_donations|floatformat:2 }}</strong>
-                                        <span class="pull-right">Donation Goal: ${{ ticket.feature.donation_goal|floatformat:2 }}</span>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-info" role="progressbar"
-                                        aria-value="{{ ticket|donation_percentage }}" aria-valuemin="0"
-                                        aria-valuemax="100" style="width:{{ ticket|donation_percentage }}%;">
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endif %}
-                </tbody>
-            </table>
         </div>
         <div class="col-md-6">
             <table class="table">
@@ -83,6 +50,33 @@
                 </tbody>
             </table>
         </div>
+        {% if ticket.subject.name == 'Feature' %}
+        <div class="col-md-12">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>DONATIONS</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <!--div class="col-md-12"-->
+                                    <strong>Donated: ${{ ticket.feature.total_donations|floatformat:2 }}</strong>
+                                    <span class="pull-right">Goal: ${{ ticket.feature.donation_goal|floatformat:2 }}</span>
+                            <!--/div-->
+                            <!--div class="col-md-12"-->
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-info" role="progressbar"
+                                    aria-value="{{ ticket|donation_percentage }}" aria-valuemin="0"
+                                    aria-valuemax="100" style="width:{{ ticket|donation_percentage }}%;">
+                                    </div>
+                                </div>
+                            <!--/div-->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
     </div>
     <div class="row">
         <div class="col-md-12">

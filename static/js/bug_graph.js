@@ -215,7 +215,9 @@ function makeOptionGraphs(error,optiondata){
         .height(300)
         .dimension(ticketTypeDim)
         .group(ticketTypeGroup)
-        .elasticX(true);
+        //.useViewBoxResizing(true)
+        .elasticX(true)
+        .xAxis().ticks(4);
 
     ticketChart
         .ordinalColors(colorScheme)
@@ -223,7 +225,9 @@ function makeOptionGraphs(error,optiondata){
         .height(300)
         .dimension(ticketDim)
         .group(ticketGroup)
-        .elasticX(true);
+        //.useViewBoxResizing(true)
+        .elasticX(true)
+        .xAxis().ticks(4);
 
     votesChart
         .ordinalColors(colorScheme)
@@ -231,7 +235,9 @@ function makeOptionGraphs(error,optiondata){
         .height(300)
         .dimension(ticketDim)
         .group(ticketVotesGroup)
-        .elasticX(true);
+        //.useViewBoxResizing(true)
+        .elasticX(true)
+        .xAxis().ticks(4);
 
     statusChart
         .ordinalColors(colorScheme)
@@ -239,7 +245,9 @@ function makeOptionGraphs(error,optiondata){
         .height(300)
         .dimension(statusDim)
         .group(statusGroup)
-        .elasticX(true);
+        //.useViewBoxResizing(true)
+        .elasticX(true)
+        .xAxis().ticks(4);
 
     dc.renderAll();
 }
