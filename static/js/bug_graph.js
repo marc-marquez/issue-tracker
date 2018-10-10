@@ -6,9 +6,18 @@
     .defer(d3.json,"/polls/votes/?format=json")
     .await(makeVoteGraphs);*/
 
+/*queue()
+    .defer(d3.json,"/rest/polls/option/custom/?format=json")
+    .await(makeOptionGraphs);*/
+
 queue()
-    .defer(d3.json,"/polls/options/?format=json")
-    .await(makeOptionGraphs);
+    .defer(d3.json,"/rest/work/log/custom/?format=json")
+    .await(makeWorkGraphs);
+
+
+/*queue()
+    .defer(d3.json,"/rest/tickets/ticket/custom/?format=json")
+    .await(makeWorkGraphs);*/
 
 /*function makeTicketGraphs(error,ticketdata){
     if (error){
@@ -17,42 +26,11 @@ queue()
     }
 
     var ndx = crossfilter(ticketdata);
+    console.log(ticketdata);
 
-    var statusDim = ndx.dimension(function(d){
-        return d.status;
-    });
-
-    var userDim = ndx.dimension(function(d){
-        return d.user;
-    });
-
-    var statusGroup = statusDim.group();
-    var userGroup = userDim.group();
-
-    var colorScheme = ["#013369","#D50A0A","#008000","#FFA500","#FFFF00"];
-
-    statusChart = dc.rowChart("#statusChart");
-    userChart = dc.rowChart("#userChart");
-
-    statusChart
-        .ordinalColors(colorScheme)
-        .width(300)
-        .height(300)
-        .dimension(statusDim)
-        .group(statusGroup)
-        .elasticX(true)
-        .xAxis().ticks(4);
-
-    userChart
-        .ordinalColors(colorScheme)
-        .width(300)
-        .height(300)
-        .dimension(userDim)
-        .group(userGroup)
-        .elasticX(true)
-        .xAxis().ticks(4);
-
-    dc.renderAll();
+    var ticketDim = ndx.dimension(function (d) {
+        return d.options.vote_count;
+    })
 }*/
 
 /*function makeVoteGraphs(error,votedata){
@@ -158,7 +136,7 @@ queue()
     dc.renderAll();
 }*/
 
-function makeOptionGraphs(error,optiondata){
+/*function makeOptionGraphs(error,optiondata){
     const BUG = 1;
     const FEATURE = 2;
 
@@ -202,7 +180,8 @@ function makeOptionGraphs(error,optiondata){
     var statusGroup = statusDim.group();
 
 
-    var colorScheme = ["#013369","#D50A0A","#008000","#FFA500","#FFFF00"];
+    //var colorScheme = ["#013369","#D50A0A","#008000","#FFA500","#FFFF00"];
+    var colorScheme = ["#79CED7", "#66AFB2", "#C96A23", "#D3D1C5", "#F5821F"];
 
     ticketTypeChart = dc.rowChart("#ticketTypeChart");
     ticketChart = dc.rowChart("#ticketChart");
@@ -246,6 +225,169 @@ function makeOptionGraphs(error,optiondata){
         .dimension(statusDim)
         .group(statusGroup)
         //.useViewBoxResizing(true)
+        .elasticX(true)
+        .xAxis().ticks(4);
+
+    dc.renderAll();
+}*/
+
+function makeWorkGraphs(error,workdata) {
+
+    if (error) {
+        console.error("makeGraphs in bug_graph error on receiving dataset:", error.statusText);
+        throw error;
+    }
+
+    var ndx = crossfilter(workdata);
+
+    console.log(workdata);
+
+    var dateFormat = d3.time.format("%Y-%m-%d").parse;
+
+    var dateDim = ndx.dimension(function(d){
+        return d3.time.day(dateFormat(d.date));
+    });
+
+    var weekDim = ndx.dimension(function(d){
+        return d3.time.week(dateFormat(d.date));
+    });
+
+    var monthDim = ndx.dimension(function(d){
+        return d3.time.month(dateFormat(d.date));
+    });
+
+    var ticketStatusDim = ndx.dimension(function(d){
+       return d.ticket_status;
+    });
+
+    var ticketTypeDim = ndx.dimension(function(d){
+       return d.ticket_type;
+    });
+
+    var ticketDim = ndx.dimension(function(d){
+       return d.ticket_name;
+    });
+
+    var dateGroup = dateDim.group();
+
+    var ticketHoursGroup = ticketDim.group().reduceSum(function(d){
+        return d.hours;
+    });
+
+    var bugsPerMonthGroup = monthDim.group().reduceSum(function(d){
+        return d.ticket_type=="Bug";
+    });
+
+    var bugsPerDayGroup = dateDim.group().reduceSum(function(d){
+        return d.ticket_type=="Bug";
+    });
+
+    var featuresPerMonthGroup = monthDim.group().reduceSum(function(d){
+        return d.ticket_type=="Feature";
+    });
+
+    var featuresPerDayGroup = dateDim.group().reduceSum(function(d){
+        return d.ticket_type=="Feature";
+    });
+
+    var bugsPerWeekGroup = weekDim.group().reduceSum(function(d){
+        return d.ticket_type=="Bug";
+    });
+
+    var featuresPerWeekGroup = weekDim.group().reduceSum(function(d){
+        return d.ticket_type=="Feature";
+    });
+
+    var ticketStatusGroup = ticketStatusDim.group();
+    var ticketTypeGroup = ticketTypeDim.group();
+
+    monthChart = dc.barChart("#monthChart");
+    dayChart = dc.barChart("#dayChart");
+    weekChart = dc.barChart("#weekChart");
+    statusChart = dc.rowChart("#statusChart");
+    ticketTypeChart = dc.rowChart("#ticketTypeChart");
+    ticketHoursChart = dc.rowChart("#ticketHoursChart");
+
+    var minDate = new Date(dateDim.bottom(1)[0]["date"]);
+    var maxDate = new Date();
+
+
+    //var colorScheme = ["#013369","#D50A0A","#008000","#FFA500","#FFFF00"];
+    var colorScheme = ["#79CED7", "#C96A23","#66AFB2", "#D3D1C5", "#F5821F"];
+
+    monthChart
+        .ordinalColors(colorScheme)
+        .height(300)
+        .width(1000)
+        .dimension(monthDim)
+        .x(d3.time.scale().domain([minDate, maxDate]))
+        .xUnits(d3.time.months)
+        .xAxisPadding(500)
+        .group(bugsPerMonthGroup,"Bug")
+        .stack(featuresPerMonthGroup,"Feature")
+        .elasticX(false)
+        .centerBar(true)
+        .brushOn(true)
+        .elasticY(true);
+
+    monthChart
+        .legend(dc.legend());
+
+    dayChart
+        .ordinalColors(colorScheme)
+        .height(100)
+        .width(1000)
+        .dimension(dateDim)
+        .x(d3.time.scale().domain([minDate, maxDate]))
+        .xUnits(d3.time.days)
+        .xAxisPadding(40)
+        .group(bugsPerDayGroup,"Bug")
+        .stack(featuresPerDayGroup,"Feature")
+        .elasticX(true)
+        .centerBar(true)
+        .brushOn(false)
+        .elasticY(true);
+
+    weekChart
+        .ordinalColors(colorScheme)
+        .height(100)
+        .width(1000)
+        .dimension(dateDim)
+        .x(d3.time.scale().domain([minDate, maxDate]))
+        .xUnits(d3.time.weeks)
+        .xAxisPadding(40)
+        .group(bugsPerWeekGroup,"Bug")
+        .stack(featuresPerWeekGroup,"Feature")
+        .elasticX(true)
+        .centerBar(true)
+        .brushOn(false)
+        .elasticY(true);
+
+
+    statusChart
+        .ordinalColors(colorScheme)
+        .width(300)
+        .height(300)
+        .dimension(ticketStatusDim)
+        .group(ticketStatusGroup)
+        .elasticX(true)
+        .xAxis().ticks(4);
+
+    ticketTypeChart
+        .ordinalColors(colorScheme)
+        .width(300)
+        .height(300)
+        .dimension(ticketTypeDim)
+        .group(ticketTypeGroup)
+        .elasticX(true)
+        .xAxis().ticks(4);
+
+    ticketHoursChart
+        .ordinalColors(colorScheme)
+        .width(300)
+        .height(300)
+        .dimension(ticketDim)
+        .group(ticketHoursGroup)
         .elasticX(true)
         .xAxis().ticks(4);
 

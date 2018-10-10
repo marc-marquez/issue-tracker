@@ -3,24 +3,24 @@
 {% load stripe_extras %}
 {% block content %}
  <div class="row header jumbotron">
-   <div><h1 style="display: inline-block">{{ subject.name }} Report</h1>&nbsp &nbsp<i style="display: inline-block;" class="glyphicon glyphicon-stats"></i></div>
+   <div><h1 style="display: inline-block">{{ subject.name }} Voting Results</h1>&nbsp &nbsp<i style="display: inline-block;" class="glyphicon glyphicon-stats"></i></div>
  </div>
  <!---This is the poll chart -->
 {#% for subject in subjects %#}
  <div class="row">
      <div class="col-md-12">
         {% if subject.poll %}
-           <div class="container">
-               <h2 align="left">{{ subject.poll.question }}</h2>
+           <div class="container-fluid">
+               <!--h2 align="left">{#{ subject.name }#} Voting Results</h2-->
                <div class="col-md-6">
                    {#% for option in options|slice:":5" %#}
                    {% for option in options %}
                        <div>
-                           <div class="col-md-10">
+                           <div class="col-md-12">
                                <a href="{% url 'ticket' option.ticket_id %}"><strong>{{ option.ticket.name }}</strong></a>
                                <span class="pull-right">{{ option|vote_percentage|floatformat:2 }}%</span>
                            </div>
-                           <div class="col-md-10">
+                           <div class="col-md-12">
                                 <div class="progress">
                                     <div class="progress-bar progress-bar-info" role="progressbar"
                                     aria-value="{{ option|vote_percentage }}" aria-valuemin="0"
@@ -34,11 +34,11 @@
                <div class="col-md-6">
                    {% for option in options %}
                        {% if subject.name == 'Feature' %}
-                           <div class="col-md-10">
+                           <div class="col-md-12">
                                 <strong>Donated: ${{ option.ticket.feature.total_donations|floatformat:2 }}</strong>
-                                <span class="pull-right">Donation Goal: ${{ option.ticket.feature.donation_goal|floatformat:2 }}</span>
+                                <span class="pull-right">Goal: ${{ option.ticket.feature.donation_goal|floatformat:2 }}</span>
                            </div>
-                           <div class="col-md-10">
+                           <div class="col-md-12">
                                 <div class="progress">
                                     <div class="progress-bar progress-bar-info" role="progressbar"
                                     aria-value="{{ option.ticket|donation_percentage }}" aria-valuemin="0"

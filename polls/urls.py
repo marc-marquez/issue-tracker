@@ -1,8 +1,11 @@
 from django.conf.urls import url
-from .views import PollOptionView, VoteView, OptionView
+from .views import PollView, VoteView, PollOptionView, VoteCustomView, PollOptionCustomView, PollOptionVotesCustomView
 
 urlpatterns = [
-    url(r'^polloptions/$', PollOptionView.as_view()),
-    url(r'^votes/$', VoteView.as_view()),
-    url(r'^options/$', OptionView.as_view()),
+    url(r'^poll/$', PollView.as_view()),
+    url(r'^vote/custom/$', VoteCustomView.as_view()),
+    url(r'^vote/$', VoteView.as_view()),
+    url(r'^option/custom/$', PollOptionCustomView.as_view()),
+    url(r'^option/$', PollOptionView.as_view()),
+    url(r'^option/v_custom/$', PollOptionVotesCustomView.as_view()),
 ]

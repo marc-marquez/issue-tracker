@@ -38,6 +38,9 @@ class Ticket(models.Model):
     status = models.CharField(max_length=11, choices=STATUS_CHOICES, default=NEW)
     description = HTMLField(blank=False)
 
+    def __unicode__(self):
+        return self.name
+
 class Post(models.Model):
     ticket = models.ForeignKey(Ticket, related_name='posts', on_delete='models.CASCADE')
     comment = HTMLField(blank=True)

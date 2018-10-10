@@ -13,7 +13,7 @@ import stripe
 from django.db.models import Count
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from tickets.serializers import TicketSerializer
+from tickets.serializers import TicketSerializer, TicketCustomSerializer
 
 stripe.api_key = settings.STRIPE_SECRET
 
@@ -23,7 +23,7 @@ def forum(request):
 def dashboard(request):
     return render(request, 'forum/dashboard.html')
 
-def report(request,subject_id):
+def voting_results(request,subject_id):
     #for subject in Subject.objects.all():
     subject = get_object_or_404(Subject, pk=subject_id)
     options = PollOption.objects.filter(poll_id=subject_id).annotate(vote_count=Count('votes')).order_by('-vote_count')
@@ -50,7 +50,7 @@ def report(request,subject_id):
                 option.ticket.feature.total_donations = 0
             option.ticket.feature.save()
 
-    return render(request, 'forum/progress_report.html', {'subject': subject,'options': options})
+    return render(request, 'forum/voting_results.html', {'subject': subject, 'options': options})
 
 def tickets(request, subject_id):
     subject = get_object_or_404(Subject, pk=subject_id)
@@ -369,5 +369,13 @@ class TicketView(APIView):
     def get(self,request):
         ticket_items = Ticket.objects.all()
         serializer = TicketSerializer(ticket_items,many=True)
+        serialized_data = serializer.data
+        return Response(serialized_data)
+
+class TicketCustomView(APIView):
+
+    def get(self,request):
+        ticket_items = Ticket.objects.all()
+        serializer = TicketCustomSerializer(ticket_items,many=True)
         serialized_data = serializer.data
         return Response(serialized_data)

@@ -67,9 +67,9 @@
                     <li class="dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="glyphicon glyphicon-stats hidden-xs" data-toggle="tooltip" data-placement="bottom" title="Reports"></i><p class="visible-xs">Reports &#x25BC</p><span class="caret hidden-xs"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{% url 'report' subject_id=1 %}">Bugs Report</a></li>
-                            <li><a href="{% url 'report' subject_id=2 %}">Features Report</a></li>
-                            <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                            <li><a href="{% url 'voting_results' subject_id=1 %}">Bugs Voting Results</a></li>
+                            <li><a href="{% url 'voting_results' subject_id=2 %}">Features Voting Results</a></li>
+                            <li><a href="{% url 'dashboard' %}">Work Dashboard</a></li>
                         </ul>
                     </li>
                     {% if user.is_authenticated %}
