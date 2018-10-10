@@ -325,7 +325,7 @@ function makeWorkGraphs(error,workdata) {
         .xAxisPadding(500)
         .group(bugsPerMonthGroup,"Bug")
         .stack(featuresPerMonthGroup,"Feature")
-        .elasticX(false)
+        .elasticX(true)
         .centerBar(true)
         .brushOn(true)
         .elasticY(true);
