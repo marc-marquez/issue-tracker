@@ -34,13 +34,27 @@ def register(request):
 
 @login_required(login_url='/login/')
 def profile(request):
+    #print("Inside profile...")
     try:
         customer = stripe.Customer.retrieve(request.user.stripe_id)
+    except:
+        #print("Couldn't find customer...")
+        #messages.error(request,"No customer on file.")
+        #If no customer found on Stripe, create it.
+        customer = stripe.Customer.create(
+            description="Customer for " + str(request.user.username),
+            email=request.user.email,
+            source=request.POST.get('stripeToken')
+        )
+        return redirect(reverse('profile'))
+
+    try:
         cards = stripe.Customer.retrieve(customer.id).sources.list(object='card')
         default_source = customer.default_source
     except:
-        messages.error(request,"No customer on file.")
-        return redirect(reverse('profile'))
+        #print("Couldn't find cards...")
+        #messages.error(request,"No cards found.")
+        cards = None
 
     args = {'cards':cards,'default_source':default_source}
     return render(request, 'profile.html',args)

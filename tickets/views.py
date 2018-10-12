@@ -316,28 +316,34 @@ def custom_donate(request,subject_id,ticket_id):
     subject = get_object_or_404(Subject, pk=subject_id)
     COST_PER_VOTE = 10
     if request.method == 'POST':
-        print("Process Donation...")
+        #print("Process Donation...")
 
         amount = int(request.POST['amount'])
         votes = int(amount/COST_PER_VOTE)
         stripe_formatted_amount = amount*100
         str_amount = str(amount)
-        print("Donation Amount: $" + str_amount)
+        #print("Donation Amount: $" + str_amount)
 
+        # Look for card. If not, redirect to profile page to add a card
         try:
             customer = stripe.Customer.retrieve(request.user.stripe_id)
+            default_source = customer.default_source
         except stripe.error.StripeError as e:
-            messages.error(request, "No credit card on file. Please add a credit card.")
-            #redirect to profile page to add a card
+            messages.error(request, "No customer registered with Stripe. Please add a credit card.")
+            return redirect(reverse('profile'))
+
+        if default_source is None:
+            messages.error(request, "No credit card registered with Stripe. Please add a credit card.")
             return redirect(reverse('profile'))
 
         try:
             #retrive list of cards for customer
-            cards = stripe.Customer.retrieve(customer.id).sources.list(object='card')
+            #cards = stripe.Customer.retrieve(customer.id).sources.list(object='card')
             charge = stripe.Charge.create(
                 amount=stripe_formatted_amount,
                 currency="usd",
-                source=cards.data[0].id,
+                #source=cards.data[0].id,
+                source=default_source.id,
                 customer=customer.id,
                 description="Donation for the "+ticket.name+" "+subject.name,
                 metadata={'ticket_id':ticket.id}
