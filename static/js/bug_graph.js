@@ -240,7 +240,7 @@ function makeWorkGraphs(error,workdata) {
 
     var ndx = crossfilter(workdata);
 
-    console.log(workdata);
+    //console.log(workdata);
 
     var dateFormat = d3.time.format("%Y-%m-%d").parse;
 
@@ -319,6 +319,7 @@ function makeWorkGraphs(error,workdata) {
         .ordinalColors(colorScheme)
         .height(300)
         .width(1000)
+        //.useViewBoxResizing(true)
         .dimension(monthDim)
         .x(d3.time.scale().domain([minDate, maxDate]))
         .xUnits(d3.time.months)
@@ -331,7 +332,8 @@ function makeWorkGraphs(error,workdata) {
         .elasticY(true);
 
     monthChart
-        .legend(dc.legend());
+        .legend(dc.legend())
+        .yAxis().ticks(4);
 
     dayChart
         .ordinalColors(colorScheme)
@@ -348,6 +350,8 @@ function makeWorkGraphs(error,workdata) {
         .brushOn(false)
         .elasticY(true);
 
+    dayChart.yAxis().ticks(2);
+
     weekChart
         .ordinalColors(colorScheme)
         .height(100)
@@ -363,6 +367,8 @@ function makeWorkGraphs(error,workdata) {
         .brushOn(false)
         .elasticY(true);
 
+    weekChart.yAxis().ticks(2);
+
 
     statusChart
         .ordinalColors(colorScheme)
@@ -376,7 +382,7 @@ function makeWorkGraphs(error,workdata) {
     ticketTypeChart
         .ordinalColors(colorScheme)
         .width(300)
-        .height(300)
+        .height(250)
         .dimension(ticketTypeDim)
         .group(ticketTypeGroup)
         .elasticX(true)

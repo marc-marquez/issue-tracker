@@ -34,12 +34,12 @@ def user_vote_button(ticket, subject, user):
             if(ticket.subject.name == 'Bug'):
                 # Check to see if already voted on this option
                 if(ticket.id == vote.option_id):
-                    return """<i style="color:green" class="glyphicon glyphicon-ok"></i>"""
+                    return """<i style="color:green" class="fas fa-check"></i>"""
 
     if user.is_authenticated:
         link = """
         <div class="btn-vote">
-        <a href="%s" class="btn btn-success"><i class="glyphicon glyphicon-thumbs-up"></i></a>
+        <a href="%s" class="btn btn-success"><i class="fas fa-thumbs-up"></i></a>
         </div>""" % reverse('cast_vote', kwargs={'ticket_id': ticket.id, 'subject_id': subject.id})
         return link
     return ""

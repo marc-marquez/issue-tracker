@@ -38,3 +38,19 @@
    stroke: white;
    stroke-width: 4;
 }
+
+.carousel-inner .carousel-item {
+    transition: -webkit-transform 2s ease;
+    transition: transform 2s ease;
+    transition: transform 2s ease, -webkit-transform 2s ease;
+}
+
+red {
+    color: red
+}
+
+@media (min-width: 768px) {
+    .jumbotron h1 {
+        font-size: 65px;
+    }
+}

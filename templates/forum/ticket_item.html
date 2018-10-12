@@ -3,7 +3,7 @@
 
 <section class="ticketItem">
     <tr>
-        <td class="hidden-xs">
+        <td class="d-none d-sm-table-cell">
              {% if subject.name == 'Bug' %}
                 <p>#{{ ticket.bug.id }}</p>
              {% elif subject.name == 'Feature' %}
@@ -15,17 +15,18 @@
             <p>{{ ticket.name }}</p>
             </a>
         </td>
-        <td class="hidden-xs">
+        <td class="d-none d-sm-table-cell">
             <p>{{ ticket.description | striptags | truncatechars:50 }}</p>
         </td>
-        <td class="hidden-xs">
+        <td class="d-none d-sm-table-cell">
             <p>{{ ticket.user }}</p>
         </td>
-        <td class="hidden-xs">
+        <td class="d-none d-sm-table-cell">
             <p>{{ ticket.posts.last.user }}</p>
         </td>
         <td>
-            <p>{{ ticket.posts.last.created_at }}</p>
+            <p class="d-none d-sm-table-cell">{{ ticket.posts.last.created_at }}</p>
+            <p class="d-block d-sm-none">{{ ticket.posts.last.created_at|date:"D d M Y" }}</p>
         </td>
         <td>
             <div id="statusLabel" class="label label-default" style="background-color:{{ ticket.status|get_label_color }};color:white;font-size: medium">{{ ticket.status }}</div>
@@ -33,7 +34,7 @@
         <td class="text-center">
             {% if user.is_authenticated and ticket.status != 'CLOSED'%}
                 {% if subject.name == 'Feature'%}
-                    <a href="{% url 'custom_donate' ticket.id subject.id%}"><button class="btn btn-success"><i class="glyphicon glyphicon-gift"></i></button></a>
+                    <a href="{% url 'custom_donate' ticket.id subject.id%}"><button class="btn btn-success"><i class="fas fa-gift"></i></button></a>
                 {% else %}
                     {% autoescape off %}
                     {% user_vote_button ticket subject user %}

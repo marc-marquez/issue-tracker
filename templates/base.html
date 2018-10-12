@@ -3,19 +3,29 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Issue Tracker (DEV)</title>
+    <title>Quo Vadimus</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
+    <!--
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static "css/font-awesome-4.7.0/css/font-awesome.css" %}">
+    -->
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <!--link rel="stylesheet" href="{#% static "css/font-awesome-4.7.0/css/font-awesome.css" %#}"-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.css">
     <link rel="stylesheet" href="{% static "css/dc.css" %}">
     <link rel="stylesheet" href="{% static "css/style.css" %}">
     <link rel="stylesheet" href="{% static "css/keen-dashboards.css" %}">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:200,400,700" rel="stylesheet">
+    <!--
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
+    -->
+
+
     <script src="{% static "js/crossfilter.js" %}"></script>
     <script src="{% static "js/d3.js" %}"></script>
     <script src="{% static "js/dc.js" %}"></script>
@@ -23,73 +33,77 @@
     <script src="{% static "js/bug_graph.js" %}"></script>
     <script src="{% static "js/keen.min.js" %}"></script>
     <script src="https://js.stripe.com/v3/"></script>
-    <script>
+    <script src="{% static "js/base.js" %}"></script>
+    <script src="{% static "js/base_jquery.js" %}"></script>
+    <!--script>
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();
         });
-    </script>
-    <script type="text/javascript">
+    </script-->
+    <!--script type="text/javascript">
         //Function to hide loader when page is done loading
         function showPage(){
             document.getElementById("loader").style.display = "none";
             document.getElementById("outer").style.display = "block";
             document.getElementById("outer").style.opacity = 1;
         }
-    </script>
+    </script-->
     {% block head_js %}{% endblock head_js %}
 </head>
-<body onload="showPage()">
+<body onload="showPage()" style="font-family: 'Raleway', sans-serif;">
     <div id="loader"></div>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <a class="navbar-brand text-center" href="#"><img src="{% static 'img/bird_yellow.png' %}" height="32px" width="32px">&nbsp;Quo Vadimus</a>
+        <!--div class="container-fluid"-->
+            <!--div class="navbar-header"-->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+                    <!--span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span-->
+                    <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand" href="#">My Startup Co.</a>
-            </div>
-            <div class="collapse navbar-collapse" id="navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/" data-toggle="tooltip" data-placement="bottom" title="Home"><i class="glyphicon glyphicon-home hidden-xs"></i><p class="visible-xs">Home</p></a></li>
-                    <li><a href="/pages/about/" data-toggle="tooltip" data-placement="bottom" title="About Us"><i class="glyphicon glyphicon-globe hidden-xs"></i><p class="visible-xs">About Us</p></a></li>
-                    <li><a href="/pages/faq/" data-toggle="tooltip" data-placement="bottom" title="FAQ"><i class="glyphicon glyphicon-question-sign hidden-xs"></i><p class="visible-xs">FAQ</p></a></li>
-                    <li class="dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="glyphicon glyphicon-tag hidden-xs" data-toggle="tooltip" data-placement="bottom" title="Bugs/Features"></i><p class="visible-xs">Tickets &#x25BC</p><span class="caret hidden-xs"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{% url 'tickets' subject_id=1 %}">Bugs</a></li>
-                            <li><a href="{% url 'tickets' subject_id=2 %}">Features</a></li>
-                        </ul>
+
+            <!--/div-->
+            <div id="navbar-collapse-1" class="collapse navbar-collapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="/" data-toggle="tooltip" data-placement="bottom" title="Home"><i class="fas fa-home fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">Home</p></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/pages/about/" data-toggle="tooltip" data-placement="bottom" title="About Us"><i class="fas fa-globe fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">About Us</p></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/pages/faq/" data-toggle="tooltip" data-placement="bottom" title="FAQ"><i class="fas fa-question-circle fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">FAQ</p></a></li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="fas fa-ticket-alt fa-lg d-none d-sm-block" data-toggle="tooltip" data-placement="bottom" title="Bugs/Features"></i><p class="d-block d-sm-none">Tickets</p></a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'tickets' subject_id=1 %}">Bugs</a>
+                            <a class="dropdown-item" href="{% url 'tickets' subject_id=2 %}">Features</a>
+                        </div>
                     </li>
-                    <li><a href="/pages/contact/" data-toggle="tooltip" data-placement="bottom" title="Contact Us!"><i class="glyphicon glyphicon-envelope hidden-xs"></i><span class="visible-xs">Contact Us</span></a></li>
-                    <li class="dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="glyphicon glyphicon-stats hidden-xs" data-toggle="tooltip" data-placement="bottom" title="Reports"></i><p class="visible-xs">Reports &#x25BC</p><span class="caret hidden-xs"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{% url 'voting_results' subject_id=1 %}">Bugs Voting Results</a></li>
-                            <li><a href="{% url 'voting_results' subject_id=2 %}">Features Voting Results</a></li>
-                            <li><a href="{% url 'dashboard' %}">Work Dashboard</a></li>
-                        </ul>
+                    <li class="nav-item"><a class="nav-link" href="/pages/contact/" data-toggle="tooltip" data-placement="bottom" title="Contact Us!"><i class="fas fa-envelope fa-lg d-none d-sm-block"></i><span class="d-block d-sm-none">Contact Us</span></a></li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="fas fa-chart-bar fa-lg d-none d-sm-block" data-toggle="tooltip" data-placement="bottom" title="Reports"></i><p class="d-block d-sm-none">Reports</p></a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'voting_results' subject_id=1 %}">Bugs Voting Results</a>
+                            <a class="dropdown-item" href="{% url 'voting_results' subject_id=2 %}">Features Voting Results</a>
+                            <a class="dropdown-item" href="{% url 'dashboard' %}">Work Dashboard</a>
+                        </div>
                     </li>
                     {% if user.is_authenticated %}
                         <li class="dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="glyphicon glyphicon-user"></i>  {{ user.username }}<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{% url 'profile' %}">Profile</a></li>
-                                <li><a href="{% url 'logout' %}">Log Out</a></li>
-                            </ul>
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="fas fa-user fa-lg d-none d-sm-block"></i>{{ user.username }}</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                                <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
+                            </div>
                         </li>
                     {% else %}
-                        <li><a href="{% url 'register' %}" data-toggle="tooltip" data-placement="bottom" title="Register"><i class="glyphicon glyphicon-pencil hidden-xs"></i><p class="visible-xs">Register</p></a></li>
-                        <li><a href="{% url 'login' %}" data-toggle="tooltip" data-placement="bottom" title="Login"><i class="glyphicon glyphicon-log-in hidden-xs"></i><p class="visible-xs">Log In</p></a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'register' %}" data-toggle="tooltip" data-placement="bottom" title="Register"><i class="fas fa-pen fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">Register</p></a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}" data-toggle="tooltip" data-placement="bottom" title="Login"><i class="fas fa-sign-in-alt fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">Log In</p></a></li>
                     {% endif %}
                 </ul>
             </div>
-        </div>
+        <!--/div-->
     </nav>
     {% if messages %}
-        <div class="alert alert-success" style="margin-top: 60px">
+        <div class="alert alert-success" style="margin-top: 10px">
             <div class="messages">
                 {% for message in messages %}
                     {{ message }}
@@ -98,7 +112,7 @@
         </div>
     {% endif %}
 
-    <div id="outer" class="container-fluid" style="margin-top: 60px">
+    <div id="outer" style="margin-top: 1px;">
        {% block content %}
        {% endblock %}
     </div>
@@ -108,4 +122,9 @@
     </div>
 
 </body>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
 </html>

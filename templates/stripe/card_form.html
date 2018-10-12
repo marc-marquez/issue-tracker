@@ -4,28 +4,24 @@
 {% block head_js %}
 {% endblock %}
 {% block content %}
-<section id="addcardform">
-    <div class="row header">
-        <div class="jumbotron"><h1>Add Credit Card</h1></div>
-    </div>
-    <div class="col-md-6">
-        <form action={% url 'add_card'%} method="post" id="card-form">
-            {% csrf_token %}
-            <div class="form-row">
-                <label for="card-element">
-                Credit or debit card
-                </label>
-                <div id="card-element" style="background-color: lightcyan">
-                <!-- a Stripe Element will be inserted here. -->
-                </div>
+<div class="col-md-6 offset-md-3" style="margin-top: 20px">
 
-                <!-- Used to display form errors -->
-                <div id="card-errors" role="alert"></div>
+    <form action={% url 'add_card'%} method="post" id="card-form">
+        {% csrf_token %}
+        <legend>Add Credit Card</legend>
+        <div class="form-row">
+            <label for="card-element">
+            Credit or debit card
+            </label>
+            <div id="card-element" class="form-control" style="background-color: lightcyan">
+            <!-- a Stripe Element will be inserted here. -->
             </div>
-            <br>
-            <input type="submit" class="submit btn btn-primary" value="Add Card">
-        </form>
-    </div>
-</section>
+            <!-- Used to display form errors -->
+            <div id="card-errors" role="alert"></div>
+        </div>
+        <br>
+        <input type="submit" class="submit btn btn-primary" value="Add Card">
+    </form>
+</div>
 <script src="/static/js/stripe/stripe_token.js"></script>
 {% endblock %}

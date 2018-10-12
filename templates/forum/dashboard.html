@@ -2,8 +2,8 @@
 {#% load ticket_extras %#}
 {#% load stripe_extras %#}
 {% block content %}
- <div class="row header jumbotron">
-   <div><h1 style="display: inline-block">Dashboard</h1>&nbsp &nbsp<i style="display: inline-block;" class="glyphicon glyphicon-stats"></i></div>
+ <div class="jumbotron">
+   <div><h1 style="display: inline-block">Dashboard</h1>&nbsp &nbsp<i style="display: inline-block;" class="fas fa-chart-bar"></i></div>
  </div>
  <div class="row">
     <!-- Month Bar Chart -->
@@ -48,18 +48,6 @@
     <!-- Day Bar Chart -->
  </div>
  <div class="row">
-    <!-- Total Votes Row Chart -->
-    <div class="col-md-4 col-sm-12">
-        <div class="chart-wrapper">
-            <div class="chart-title">
-                Total Votes
-            </div>
-            <div class="chart-stage">
-                <div id="votesChart"></div>
-            </div>
-        </div>
-    </div>
-    <!-- Total Votes Row Chart -->
     <!-- Ticket Type Row Chart -->
     <div class="col-md-4 col-sm-12">
         <div class="chart-wrapper">
@@ -96,5 +84,19 @@
         </div>
     </div>
     <!-- Ticket Hours Row Chart -->
+ </div>
+ <div class="row">
+    <!-- Total Votes Row Chart -->
+    <div class="col-md-4 col-sm-12">
+        <div class="chart-wrapper">
+            <div class="chart-title">
+                Total Votes
+            </div>
+            <div class="chart-stage">
+                <div id="votesChart"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Total Votes Row Chart -->
  </div>
 {% endblock %}

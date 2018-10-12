@@ -3,28 +3,32 @@
 {% load ticket_extras %}
 
 <section class="col-md-12">
-    <table class="table" style="border: 1px solid black" width="100%">
-        <tr style="border: 1px solid black;background-color:lightgrey">
-            <th style="border: 1px solid black" class="text-center">{{ post.user.username }}</th>
-            <th style="border: 1px solid black" class="text-center hidden-xs">{{ post.user.posts.count }} Post(s)</th>
-            <th style="border: 1px solid black" class="text-center">
-                <time datetime="{{ post.created_at }}">Posted: {{ post.created_at|started_time }}
-                </time>
-            </th>
-            <!--th style="border: 1px solid black">{#{ ticket.status }#}</th-->
-            {% if post.user == user or user.is_staff %}
-               <th style="border: 1px solid black" class="text-center"><a href="{% url 'edit_post' ticket.id post.id %}" data-toggle="tooltip" title="Edit Post"><i class="glyphicon glyphicon-edit"></i></a></th>
-               <th style="border: 1px solid black" class="text-center"><a href="{% url 'delete_post' ticket.id post.id %}" data-toggle="tooltip" title="Delete Post"><i class="glyphicon glyphicon-trash"></i></a></th>
-            {% else %}
-                <th style="border: 1px solid black" class="text-center"><i class="glyphicon glyphicon-edit" disabled></i></th>
-                <th style="border: 1px solid black" class="text-center"><i class="glyphicon glyphicon-trash" disabled></i></th>
-            {% endif %}
-        </tr>
-        <tr style="border: 1px solid black">
-            {% autoescape off %}
-                <td colspan="6" style="border: 1px solid black">{{ post.comment | emoticons| striptags }}</td>
-            {% endautoescape %}
-        </tr>
+    <table class="table table-sm" width="100%">
+        <thead class="thead-light">
+            <tr>
+                <th class="text-center">{{ post.user.username }}</th>
+                <th class="text-center d-none d-sm-table-cell">{{ post.user.posts.count }} Post(s)</th>
+                <th class="text-center">
+                    <time datetime="{{ post.created_at }}">Posted: {{ post.created_at|started_time }}
+                    </time>
+                </th>
+                <!--th style="border: 1px solid black">{#{ ticket.status }#}</th-->
+                {% if post.user == user or user.is_staff %}
+                   <th class="text-center"><a href="{% url 'edit_post' ticket.id post.id %}" data-toggle="tooltip" title="Edit Post"><i class="fas fa-edit"></i></a></th>
+                   <th class="text-center"><a href="{% url 'delete_post' ticket.id post.id %}" data-toggle="tooltip" title="Delete Post"><i style="color: red" class="fas fa-trash"></i></a></th>
+                {% else %}
+                    <th class="text-center"><i class="fas fa-edit" disabled></i></th>
+                    <th class="text-center"><i class="fas fa-trash" disabled></i></th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {% autoescape off %}
+                    <td colspan="6" style="background-color: lightcyan">{{ post.comment | emoticons| striptags }}</td>
+                {% endautoescape %}
+            </tr>
+        </tbody>
     </table>
     <br>
 </section>
