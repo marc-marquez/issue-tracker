@@ -4,53 +4,56 @@
     <div><h1 style="display: inline-block">Profile</h1>&nbsp &nbsp<i style="display: inline-block;" class="fas fa-user"></i></div>
 </div>
 <div class="container">
-    <h2>Account Details</h2>
-    <p>You are logged in as {{ user.email }} </p>
-    <p>You last logged in on {{ user.last_login }}</p>
-    <!--p>Your stripe id: {#{ user.stripe_id }#} </p-->
-    <hr>
-    <h2>Credit Card Details</h2>
-    <a href="{% url 'add_card' %}">Add a credit card</a>
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Account Details</h2>
+            <p>You are logged in as {{ user.email }} </p>
+            <p>You last logged in on {{ user.last_login }}</p>
+            <!--p>Your stripe id: {#{ user.stripe_id }#} </p-->
+            <hr>
+            <h2>Credit Card Details</h2>
+            <a href="{% url 'add_card' %}">Add a credit card</a>
+        </div>
+    </div>
     <br>
     <br>
-    <div class="col-md-12">
-        {% if cards %}
-            <table class="table table-condensed" width="100%">
-                <thead class="thead-light">
-                    <tr>
-                        <!--th class="text-center">Default</th-->
-                        <th>Type</th>
-                        <th>Last 4</th>
-                        <th>Expiration Date</th>
-                        <!--th>Card Token Id</th-->
-                        <th class="text-center">Set Default</th>
-                        <th class="text-center">Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for card in cards %}
+    <div class="row">
+        <div class="col-md-12">
+            {% if cards %}
+                <table class="table table-condensed" width="100%">
+                    <thead class="thead-light">
                         <tr>
-                            <td>{{ card.brand }}</td>
-                            <td>{{ card.last4 }}</td>
-                            <td>{{ card.exp_month }}/{{ card.exp_year }}</td>
-                            <!--td>{#{ card.id }#}</td-->
-                            {% if card.id != default_source %}
-                                <form action="{% url 'set_default_card' card_id=card.id %}" method="post">
-                                    {% csrf_token %}
-                                    <td align="center"><button style="border:0" type="submit"><i style="color:black" class="far fa-star"></i></button></td>
-                                </form>
-                            {% else %}
-                                <td align="center"><i style="color:black" class="fas fa-star"></i></td>
-                            {% endif %}
-                            <form action="{% url 'delete_card' card_id=card.id %}" method="post">
-                                {% csrf_token %}
-                                <td align="center"><button style="border:0" type="submit"><i style="color:red" class="fas fa-trash"></i></button></td>
-                            </form>
+                            <th>Type</th>
+                            <th>Last 4</th>
+                            <th>Expiration Date</th>
+                            <th class="text-center">Set Default</th>
+                            <th class="text-center">Delete</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% endif %}
+                    </thead>
+                    <tbody>
+                        {% for card in cards %}
+                            <tr>
+                                <td>{{ card.brand }}</td>
+                                <td>{{ card.last4 }}</td>
+                                <td>{{ card.exp_month }}/{{ card.exp_year }}</td>
+                                {% if card.id != default_source %}
+                                    <form action="{% url 'set_default_card' card_id=card.id %}" method="post">
+                                        {% csrf_token %}
+                                        <td align="center"><button style="border:0" type="submit"><i style="color:black" class="far fa-star"></i></button></td>
+                                    </form>
+                                {% else %}
+                                    <td align="center"><i style="color:black" class="fas fa-star"></i></td>
+                                {% endif %}
+                                <form action="{% url 'delete_card' card_id=card.id %}" method="post">
+                                    {% csrf_token %}
+                                    <td align="center"><button style="border:0" type="submit"><i style="color:red" class="fas fa-trash"></i></button></td>
+                                </form>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
     </div>
 </div>
 {% endblock %}
