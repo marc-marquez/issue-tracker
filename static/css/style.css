@@ -48,6 +48,10 @@ red {
     color: red
 }
 
+underline {
+    text-decoration: underline red;
+}
+
 @media (min-width: 768px) {
     .jumbotron h1 {
         font-size: 65px;
@@ -67,4 +71,12 @@ red {
 .nav-link{
     display: inline-flex;
     align-items: baseline;
+}
+
+.jumbotron {
+    margin-top: 5px;
+}
+
+legend {
+    margin-top: 5px;
 }

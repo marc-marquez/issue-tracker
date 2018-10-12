@@ -4,11 +4,12 @@
 <section class="ticketItem">
     <tr>
         <td class="d-none d-sm-table-cell">
-             {% if subject.name == 'Bug' %}
-                <p>#{{ ticket.bug.id }}</p>
-             {% elif subject.name == 'Feature' %}
-                 <p>#{{ ticket.feature.id }}</p>
-             {% endif %}
+             {#% if subject.name == 'Bug' %#}
+                <!--p>#{#{ ticket.bug.id }#}</p-->
+             {#% elif subject.name == 'Feature' %#}
+                 <!--p>#{#{ ticket.feature.id }#}</p-->
+             {#% endif %#}
+            <p>#{{ ticket.id }}</p>
         </td>
         <td>
             <a href="{% url 'ticket' ticket.id %}">

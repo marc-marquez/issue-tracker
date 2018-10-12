@@ -53,7 +53,7 @@
 <body onload="showPage()" style="font-family: 'Raleway', sans-serif;">
     <div id="loader"></div>
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
-        <a class="navbar-brand text-center" href="#"><img src="{% static 'img/bird_yellow.png' %}" height="32px" width="32px">&nbsp;Quo Vadimus</a>
+        <a class="navbar-brand text-center" href="/"><img src="{% static 'img/bird_yellow.png' %}" height="32px" width="32px">&nbsp;Quo Vadimus</a>
         <!--div class="container-fluid"-->
             <!--div class="navbar-header"-->
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
@@ -90,8 +90,10 @@
                         <li class="dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="fas fa-user fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">{{ user.username }}</p></a>
                             <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item d-none d-sm-block" style="background-color: yellow">{{ user.username }}</a>
                                 <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
                                 <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
+                                <div class="dropdown-divider"></div>
                             </div>
                         </li>
                     {% else %}
