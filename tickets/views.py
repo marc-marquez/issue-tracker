@@ -246,24 +246,23 @@ def delete_post(request, ticket_id, post_id):
 
 
 @login_required(login_url='/login/')
-def ticket_vote(request, ticket_id, subject_id,*votes):
+def ticket_vote(request, ticket_id, subject_id,*donate_votes):
     subject = Subject.objects.get(id=subject_id)
 
     #Check to see if voted on poll option is on bugs
-    option = subject.poll.votes.filter(user=request.user)
-
+    votes = subject.poll.votes.filter(user=request.user)
     if(subject.name == 'Bug'):
-        for x in option:
-            if (x.option_id==int(ticket_id)):
+        for vote in votes:
+            if (vote.option.ticket.id==ticket_id):
                 messages.error(request, "You already voted on this! ... You’re not trying to cheat are you?")
                 return redirect(reverse('tickets', args={subject_id}))
 
     option = PollOption.objects.get(ticket_id=ticket_id)
 
-    if votes:
-        print("Process " + str(votes[0]) + " votes")
+    if donate_votes:
+        print("Process " + str(donate_votes[0]) + " votes")
         count = 0
-        while count < votes[0]:
+        while count < donate_votes[0]:
             option.votes.create(poll=subject.poll, user=request.user)
             count+=1
     else:

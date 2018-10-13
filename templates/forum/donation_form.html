@@ -21,7 +21,7 @@
         {% csrf_token %}
         <div class="form-group">
             <label for="amount">Donation Amount: </label>
-            <input type="number" id="amount" name="amount" required="" placeholder=10 min=10 step=10 oninvalid="this.setCustomValidity('Please enter numbers only')" oninput="this.setCustomValidity('')"></input>
+            <input type="number" id="amount" name="amount" required="" min=10 step=10 oninvalid="this.setCustomValidity('Please enter amounts in intervals of $10')" oninput="this.setCustomValidity('')"></input>
             <br>
             <p style="font-weight: 700">For every $10 that you donate, one vote will be cast for this feature.</p>
         </div>
