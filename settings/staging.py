@@ -15,5 +15,5 @@ DATABASES = {
 STRIPE_PUBLISHABLE = os.environ.get('STRIPE_PUBLISHABLE')
 STRIPE_SECRET = os.environ.get('STRIPE_SECRET')
 
-SITE_URL = 'https://mm-issue-tracker.herokuapp.com/'
-ALLOWED_HOSTS.append('mm-issue-tracker.herokuapp.com')
+SITE_URL = 'https://quo-vadimus.herokuapp.com/'
+ALLOWED_HOSTS.append('quo-vadimus.herokuapp.com')
