@@ -26,8 +26,9 @@
             <p>{{ ticket.posts.last.user }}</p>
         </td>
         <td>
-            <p class="d-none d-sm-table-cell">{{ ticket.posts.last.created_at }}</p>
-            <p class="d-block d-sm-none">{{ ticket.posts.last.created_at|date:"D d M Y" }}</p>
+            <!--p class="d-none d-sm-table-cell">{#{ ticket.posts.last.created_at }#}</p-->
+            <!--p class="d-block d-sm-none">{#{ ticket.posts.last.created_at|date:"m/d/Y" }#}</p-->
+            <p>{{ ticket.posts.last.created_at|date:"m/d/Y" }}</p>
         </td>
         <td>
             <div id="statusLabel" class="label label-default" style="background-color:{{ ticket.status|get_label_color }};color:white;font-size: medium">{{ ticket.status }}</div>

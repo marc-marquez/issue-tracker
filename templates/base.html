@@ -68,8 +68,8 @@
             <div id="navbar-collapse-1" class="collapse navbar-collapse">
                 <ul class="navbar-nav ml-auto align-items-center">
                     <li class="nav-item"><a class="nav-link" href="/" data-toggle="tooltip" data-placement="bottom" title="Home"><i class="fas fa-home fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">Home</p></a></li>
-                    <li class="nav-item"><a class="nav-link" href="/pages/about/" data-toggle="tooltip" data-placement="bottom" title="About Us"><i class="fas fa-globe fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">About Us</p></a></li>
-                    <li class="nav-item"><a class="nav-link" href="/pages/faq/" data-toggle="tooltip" data-placement="bottom" title="FAQ"><i class="fas fa-question-circle fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">FAQ</p></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}" data-toggle="tooltip" data-placement="bottom" title="About Us"><i class="fas fa-globe fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">About Us</p></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'faq' %}" data-toggle="tooltip" data-placement="bottom" title="FAQ"><i class="fas fa-question-circle fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">FAQ</p></a></li>
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="fas fa-ticket-alt fa-lg d-none d-sm-block" data-toggle="tooltip" data-placement="bottom" title="Bugs/Features"></i><p class="d-block d-sm-none">Tickets</p></a>
                         <div class="dropdown-menu dropdown-menu-right">

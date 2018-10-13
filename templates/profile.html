@@ -11,13 +11,12 @@
             <p>You last logged in on {{ user.last_login }}</p>
             <!--p>Your stripe id: {#{ user.stripe_id }#} </p-->
             <hr>
-            <h2>Credit Card Details</h2>
+            <h2 style="display: inline-block">Credit Card Details</h2>&nbsp;&nbsp;<span style="display: inline-block"><button style="vertical-align: bottom" class="btn btn-success" onclick="showAddCard()">Add a Credit Card</button></span>
             <!--a href="{#% url 'add_card' %#}">Add a credit card</a-->
-            <button class="btn btn-success" onclick="showAddCard()">Add a Credit Card</button>
-            <br>
-            <br>
-            <div id="addCardDiv" style="display: none;background-color: whitesmoke" class="align-items-center">
-                <div class="col-md-6" style="padding-left: 2px;display: inline-block">
+        </div>
+        <div class="col-md-6">
+            <div id="addCardDiv" style="display: none;margin-top: 20px" class="align-items-center">
+                <div>
                     <form action={% url 'add_card'%} method="post" id="card-form">
                         {% csrf_token %}
                         <div class="form-row">
@@ -30,16 +29,13 @@
                             <!-- Used to display form errors -->
                             <div id="card-errors" role="alert"></div>
                         </div>
-                        <div style="display: inline-block">
-                            <button type="submit" class="submit btn btn-info">Add Card</button>
-                        </div>
+                        <button type="submit" class="submit btn btn-info" style="margin-top: 10px">Add Card</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <br>
-    <br>
+    <hr>
     <div class="row">
         <div class="col-md-12">
             {% if cards %}

@@ -9,6 +9,9 @@
         transform: translate(-50%,-50%);
         background: url('/static/img/fire.gif') no-repeat center center;
     }
+    .featurette h1,h2,h3,h4 {
+        text-align: center;
+    }
 }
 
 @media (max-width: 575px) {
@@ -79,4 +82,15 @@ underline {
 
 legend {
     margin-top: 5px;
+}
+
+.card-img-top {
+    margin-top: 10px;
+}
+
+.card-sub-title {
+    font-weight: 200;
+}
+.card-title {
+    font-weight: 400;
 }

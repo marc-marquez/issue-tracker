@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="jumbotron">
+        <h1>FAQ</h1>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2><underline>Destiny</underline></h2>
+                <h4>Q: How can I help Destiny become a better product?</h4>
+                <p>A: We love getting kudos, but getting a pat on the back only goes so far. Tell us what's wrong
+                    and we'll get to work. Log bugs <a href="{% url 'tickets' subject_id=1 %}">here</a> or tell us
+                    how we can make the app better by adding a feature request
+                    <a href="{% url 'tickets' subject_id=2 %}">here</a>.</p>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-12">
+                <h2><underline>Feature Requests</underline></h2>
+                <h4>Q: How do feature requests get implemented?</h4>
+                <p>A: Feature requests are worked on based on the results of the "<a href="{% url 'voting_results' subject_id=2 %}">Features Voting Poll</a>". Users, like you,
+                can donate towards specific features to get implemented. Once the donation goal is achieved,
+                then our engineers will get to work on that feature.</p>
+                <h4>Q: How do I donate towards a feature?</h4>
+                <p>A: Go to the Features ticket page <a href="{% url 'tickets' subject_id=2 %}">here</a> and click on the <button class="btn btn-success disabled"><i class="fas fa-gift"></i></button> in the
+                    "Donate" column. From there, you'be be guided through a donations form. </p>
+                <p>Note: You'll need to have a credit card on file before donating towards a feature. You can add one in your profile, <a href="{% url 'profile' %}">here</a></p>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-12">
+                <h2><underline>Bugs</underline></h2>
+                <h4>Q: What's the difference between voting for bugs and voting for feature requests?</h4>
+                <p>A: The main difference between voting for bugs and voting for features is that donations are not
+                    needed to get bugs fixed. Users have already donated towards the feature. We've implemented it. Now,
+                    there's a bug in the feature. Users shouldn't have to pay double to fix our mistakes. Voting for a bug let's us
+                    know which bugs to work on ASAP.
+                </p>
+                <h4>Q: Wait, but all bugs should be fixed ASAP. Why aren't you working on all of them?</h4>
+                <p>A: We agree! We want to fix all our bugs as quickly as possible. Our engineering team is always
+                    finding more efficient processes and solutions to keep our customers happy.
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

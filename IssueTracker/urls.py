@@ -23,6 +23,8 @@ from tickets import views as forum_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', main_views.get_index, name='index'),
+    url(r'^faq/$', main_views.get_faq, name='faq'),
+    url(r'^about/$', main_views.get_about, name='about'),
     url(r'^register/$', accounts_views.register, name='register'),
     url(r'^profile/$', accounts_views.profile, name='profile'),
     url(r'^login/$', accounts_views.login, name='login'),
