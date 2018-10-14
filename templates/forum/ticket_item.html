@@ -4,11 +4,6 @@
 <section class="ticketItem">
     <tr>
         <td class="d-none d-sm-table-cell">
-             {#% if subject.name == 'Bug' %#}
-                <!--p>#{#{ ticket.bug.id }#}</p-->
-             {#% elif subject.name == 'Feature' %#}
-                 <!--p>#{#{ ticket.feature.id }#}</p-->
-             {#% endif %#}
             <p>#{{ ticket.id }}</p>
         </td>
         <td>
@@ -26,8 +21,6 @@
             <p>{{ ticket.posts.last.user }}</p>
         </td>
         <td>
-            <!--p class="d-none d-sm-table-cell">{#{ ticket.posts.last.created_at }#}</p-->
-            <!--p class="d-block d-sm-none">{#{ ticket.posts.last.created_at|date:"m/d/Y" }#}</p-->
             <p>{{ ticket.posts.last.created_at|date:"m/d/Y" }}</p>
         </td>
         <td>

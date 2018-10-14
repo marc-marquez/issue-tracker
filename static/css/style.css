@@ -94,3 +94,7 @@ legend {
 .card-title {
     font-weight: 400;
 }
+
+.progress-bar-donation {
+    background-color: green;
+}

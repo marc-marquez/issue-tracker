@@ -1,6 +1,10 @@
 {% extends "base.html" %}
+{% load static %}
 {#% load ticket_extras %#}
 {#% load stripe_extras %#}
+{% block head_js %}
+    <script src="{% static 'js/bug_graph.js' %}"></script>
+{% endblock head_js %}
 {% block content %}
  <div class="jumbotron">
    <div><h1 style="display: inline-block">Dashboard</h1>&nbsp &nbsp<i style="display: inline-block;" class="fas fa-chart-bar"></i></div>

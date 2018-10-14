@@ -260,7 +260,6 @@ def ticket_vote(request, ticket_id, subject_id,*donate_votes):
     option = PollOption.objects.get(ticket_id=ticket_id)
 
     if donate_votes:
-        print("Process " + str(donate_votes[0]) + " votes")
         count = 0
         while count < donate_votes[0]:
             option.votes.create(poll=subject.poll, user=request.user)
@@ -351,6 +350,7 @@ def custom_donate(request,subject_id,ticket_id):
 
         if(charge.status=='succeeded'):
             messages.success(request,"Thanks for the $" + str_amount + " donation!")
+            #update donation table
             ticket_vote(request, ticket_id, subject_id,votes)
         else:
             messages.error(request,"Could not process donation.")
