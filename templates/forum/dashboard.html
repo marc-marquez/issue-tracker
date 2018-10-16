@@ -1,13 +1,16 @@
 {% extends "base.html" %}
 {% load static %}
-{#% load ticket_extras %#}
-{#% load stripe_extras %#}
 {% block head_js %}
+    <script src="{% static 'js/crossfilter.js' %}"></script>
+    <script src="{% static 'js/d3.js' %}"></script>
+    <script src="{% static 'js/dc.js' %}"></script>
+    <script src="{% static 'js/queue.js' %}"></script>
+    <script src="{% static "js/keen.min.js" %}"></script>
     <script src="{% static 'js/bug_graph.js' %}"></script>
 {% endblock head_js %}
 {% block content %}
  <div class="jumbotron">
-   <div><h1 style="display: inline-block">Dashboard</h1>&nbsp &nbsp<i style="display: inline-block;" class="fas fa-chart-bar"></i></div>
+    <h1 style="display: inline-block">Dashboard</h1>&nbsp &nbsp<i style="display: inline-block;" class="fas fa-chart-bar"></i>
  </div>
  <div class="row">
     <!-- Month Bar Chart -->
@@ -17,27 +20,27 @@
                 Tickets Worked on by Month
             </div>
             <div class="chart-stage">
-                <div id="monthChart"></div>
+                <div id="monthChart" style="width: 100%"></div>
             </div>
         </div>
     </div>
     <!-- Month Bar Chart -->
  </div>
+ <!-- Week Bar Chart -->
  <div class="row">
-    <!-- Week Bar Chart -->
-    <div class="col-md-12">
+    <!--div class="col-md-12">
         <div class="chart-wrapper">
             <div class="chart-title">
                 Tickets Worked on by Week
             </div>
             <div class="chart-stage">
-                <div id="weekChart"></div>
+                <div id="weekChart" style="width: 100%"></div>
             </div>
         </div>
     </div>
-    <!-- Week Bar Chart -->
- </div>
- <div class="row">
+ <!--/div-->
+ <!-- Week Bar Chart -->
+ <!--div class="row"-->
     <!-- Day Bar Chart -->
     <div class="col-md-12">
         <div class="chart-wrapper">
@@ -45,7 +48,7 @@
                 Tickets Worked on by Day
             </div>
             <div class="chart-stage">
-                <div id="dayChart"></div>
+                <div id="dayChart" style="width: 100%"></div>
             </div>
         </div>
     </div>
@@ -59,7 +62,7 @@
                 Ticket Type
             </div>
             <div class="chart-stage">
-                <div id="ticketTypeChart"></div>
+                <div id="ticketTypeChart" style="width: 100%"></div>
             </div>
         </div>
     </div>
@@ -71,7 +74,7 @@
                 Ticket Status
             </div>
             <div class="chart-stage">
-                <div id="statusChart"></div>
+                <div id="statusChart" style="width: 100%"></div>
             </div>
         </div>
     </div>
@@ -83,24 +86,10 @@
                 Ticket Hours Logged
             </div>
             <div class="chart-stage">
-                <div id="ticketHoursChart"></div>
+                <div id="ticketHoursChart" style="width: 100%"></div>
             </div>
         </div>
     </div>
     <!-- Ticket Hours Row Chart -->
- </div>
- <div class="row">
-    <!-- Total Votes Row Chart -->
-    <div class="col-md-4 col-sm-12">
-        <div class="chart-wrapper">
-            <div class="chart-title">
-                Total Votes
-            </div>
-            <div class="chart-stage">
-                <div id="votesChart"></div>
-            </div>
-        </div>
-    </div>
-    <!-- Total Votes Row Chart -->
  </div>
 {% endblock %}

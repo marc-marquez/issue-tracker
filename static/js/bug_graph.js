@@ -10,14 +10,10 @@
     .defer(d3.json,"/rest/polls/option/custom/?format=json")
     .await(makeOptionGraphs);*/
 
+
 queue()
     .defer(d3.json,"/rest/work/log/custom/?format=json")
     .await(makeWorkGraphs);
-
-
-/*queue()
-    .defer(d3.json,"/rest/tickets/ticket/custom/?format=json")
-    .await(makeWorkGraphs);*/
 
 /*function makeTicketGraphs(error,ticketdata){
     if (error){
@@ -242,18 +238,31 @@ function makeWorkGraphs(error,workdata) {
 
     //console.log(workdata);
 
+    //var dateFormatSpecifier = "%Y-%m-%d";
     var dateFormat = d3.time.format("%Y-%m-%d").parse;
+    /*var dateFormatParser = d3.timeParse(dateFormatSpecifier);*/
+
+    /*workdata.for(function (d) {
+        d.dd = dateFormat(d.date);
+        d.month = d3.timeMonth(d.dd);
+        d.day = d3.timeDay(d.dd);
+        d.year = d3.timeYear(d.dd);
+        d.week = d3.timeWeek(d.dd);
+    });*/
 
     var dateDim = ndx.dimension(function(d){
         return d3.time.day(dateFormat(d.date));
+        //return d.day;
     });
 
     var weekDim = ndx.dimension(function(d){
         return d3.time.week(dateFormat(d.date));
+        //return d.week;
     });
 
     var monthDim = ndx.dimension(function(d){
         return d3.time.month(dateFormat(d.date));
+        //return d.month;
     });
 
     var ticketStatusDim = ndx.dimension(function(d){
@@ -303,13 +312,16 @@ function makeWorkGraphs(error,workdata) {
 
     monthChart = dc.barChart("#monthChart");
     dayChart = dc.barChart("#dayChart");
-    weekChart = dc.barChart("#weekChart");
+    //weekChart = dc.barChart("#weekChart");
     statusChart = dc.rowChart("#statusChart");
     ticketTypeChart = dc.rowChart("#ticketTypeChart");
     ticketHoursChart = dc.rowChart("#ticketHoursChart");
 
     var minDate = new Date(dateDim.bottom(1)[0]["date"]);
     var maxDate = new Date();
+
+    //var minWeekDate = new Date(2018,10,01);
+    //var maxWeekDate = new Date(2018,10,31);
 
 
     //var colorScheme = ["#013369","#D50A0A","#008000","#FFA500","#FFFF00"];
@@ -318,48 +330,68 @@ function makeWorkGraphs(error,workdata) {
     monthChart
         .ordinalColors(colorScheme)
         .height(300)
-        .width(1000)
-        //.useViewBoxResizing(true)
         .dimension(monthDim)
+        .margins({top: 50, right: 20, bottom: 30, left: 20})
+        .useViewBoxResizing(true)
         .x(d3.time.scale().domain([minDate, maxDate]))
         .xUnits(d3.time.months)
-        .xAxisPadding(500)
+        .xAxisPadding(40)
+        .yAxisLabel("Tickets")
         .group(bugsPerMonthGroup,"Bug")
         .stack(featuresPerMonthGroup,"Feature")
-        .elasticX(true)
-        .centerBar(true)
-        .brushOn(true)
-        .elasticY(true);
-
-    monthChart
-        .legend(dc.legend())
-        .yAxis().ticks(4);
-
-    dayChart
-        .ordinalColors(colorScheme)
-        .height(100)
-        .width(1000)
-        .dimension(dateDim)
-        .x(d3.time.scale().domain([minDate, maxDate]))
-        .xUnits(d3.time.days)
-        .xAxisPadding(40)
-        .group(bugsPerDayGroup,"Bug")
-        .stack(featuresPerDayGroup,"Feature")
         .elasticX(true)
         .centerBar(true)
         .brushOn(false)
         .elasticY(true);
 
-    dayChart.yAxis().ticks(2);
+    monthChart
+        .legend(dc.legend()
+            .legendText(function (d) {return d.name;})
+            .x(20)
+            .y(5)
+            .horizontal(true)
+            .itemHeight(20)
+        )
+        .yAxis().ticks(4);
 
-    weekChart
+    dayChart
         .ordinalColors(colorScheme)
         .height(100)
-        .width(1000)
+        //.width(1000)
         .dimension(dateDim)
+        .margins({top: 5, right: 10, bottom: 20, left: 20})
+        .useViewBoxResizing(true)
+        .x(d3.time.scale().domain([minDate, maxDate]))
+        .xUnits(d3.time.days)
+        //.xUnits(d3.timeDays)
+        .xAxisPadding(40)
+        .yAxisLabel("Tickets")
+        .group(bugsPerDayGroup,"Bug")
+        .stack(featuresPerDayGroup,"Feature")
+        .elasticX(true)
+        .centerBar(true)
+        .brushOn(true)
+        .elasticY(true);
+
+    dayChart
+        .yAxis().ticks(2);
+
+    dayChart.xAxis()
+        .ticks(d3.time.days,30)
+        .tickFormat(d3.time.format('%m-%d-%y'));
+
+    /*weekChart
+        .ordinalColors(colorScheme)
+        .height(100)
+        //.width(1000)
+        .dimension(weekDim)
+        //.margins({top: 50, right: 20, bottom: 30, left: 20})
+        .useViewBoxResizing(true)
         .x(d3.time.scale().domain([minDate, maxDate]))
         .xUnits(d3.time.weeks)
+        //.xUnits(d3.timeWeeks)
         .xAxisPadding(40)
+        .yAxisLabel("Tickets")
         .group(bugsPerWeekGroup,"Bug")
         .stack(featuresPerWeekGroup,"Feature")
         .elasticX(true)
@@ -369,33 +401,44 @@ function makeWorkGraphs(error,workdata) {
 
     weekChart.yAxis().ticks(2);
 
+    weekChart.xAxis()
+        .ticks(d3.time.weeks,4)
+        .tickFormat(d3.time.format('%m-%d-%y'));*/
+
 
     statusChart
         .ordinalColors(colorScheme)
-        .width(300)
+        //.width(300)
         .height(300)
         .dimension(ticketStatusDim)
         .group(ticketStatusGroup)
+        .useViewBoxResizing(true)
         .elasticX(true)
+        //.xAxisLabel("Number of Tickets")
         .xAxis().ticks(4);
 
     ticketTypeChart
         .ordinalColors(colorScheme)
-        .width(300)
-        .height(250)
+        //.width(300)
+        .height(300)
         .dimension(ticketTypeDim)
         .group(ticketTypeGroup)
+        .useViewBoxResizing(true)
         .elasticX(true)
+        //.xAxisLabel("Number of Tickets")
         .xAxis().ticks(4);
 
     ticketHoursChart
         .ordinalColors(colorScheme)
-        .width(300)
+        //.width(300)
         .height(300)
         .dimension(ticketDim)
         .group(ticketHoursGroup)
+        .useViewBoxResizing(true)
         .elasticX(true)
+        //.xAxisLabel("Hours")
         .xAxis().ticks(4);
+
 
     dc.renderAll();
 }

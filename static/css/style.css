@@ -9,8 +9,13 @@
         transform: translate(-50%,-50%);
         background: url('/static/img/fire.gif') no-repeat center center;
     }
+
     .featurette h1,h2,h3,h4 {
         text-align: center;
+    }
+
+    .jumbotron h1 {
+        font-size: 35px;
     }
 }
 
@@ -56,9 +61,7 @@ underline {
 }
 
 @media (min-width: 768px) {
-    .jumbotron h1 {
-        font-size: 65px;
-    }
+
     #loader {
         position: absolute;
         left: 50%;
@@ -69,6 +72,10 @@ underline {
         transform: translate(-50%,-50%);
         background: url('/static/img/fire_lg.gif') no-repeat center center;
     }
+
+    .jumbotron h1 {
+        font-size: 65px;
+    }
 }
 
 .nav-link{
@@ -78,6 +85,14 @@ underline {
 
 .jumbotron {
     margin-top: 5px;
+}
+
+.jumbotron h1 {
+    /*font-size: 65px;*/
+    display: inline-block;
+}
+.jumbotron i {
+    display: inline-block;
 }
 
 legend {

@@ -7,27 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <!--
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    -->
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <!--link rel="stylesheet" href="{#% static "css/font-awesome-4.7.0/css/font-awesome.css" %#}"-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.css">
     <link rel="stylesheet" href="{% static "css/dc.css" %}">
     <link rel="stylesheet" href="{% static "css/style.css" %}">
     <link rel="stylesheet" href="{% static "css/keen-dashboards.css" %}">
-    <link href="https://fonts.googleapis.com/css?family=Raleway:200,400,700" rel="stylesheet">
-    <!--
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    -->
-    <script src="{% static "js/crossfilter.js" %}"></script>
-    <script src="{% static "js/d3.js" %}"></script>
-    <script src="{% static "js/dc.js" %}"></script>
-    <script src="{% static "js/queue.js" %}"></script>
-    <!--script src="{#% static "js/bug_graph.js" %#}"></script-->
-    <script src="{% static "js/keen.min.js" %}"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:200,400,700">
+
     <script src="https://js.stripe.com/v3/"></script>
     <script src="{% static "js/base.js" %}"></script>
     <script src="{% static "js/base_jquery.js" %}"></script>
@@ -37,55 +25,46 @@
     <div id="loader"></div>
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
         <a class="navbar-brand text-center" href="/"><img src="{% static 'img/bird_yellow.png' %}" height="32px" width="32px">&nbsp;Quo Vadimus</a>
-        <!--div class="container-fluid"-->
-            <!--div class="navbar-header"-->
-                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
-                    <!--span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span-->
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-            <!--/div-->
-            <div id="navbar-collapse-1" class="collapse navbar-collapse">
-                <ul class="navbar-nav ml-auto align-items-center">
-                    <li class="nav-item"><a class="nav-link" href="/" data-toggle="tooltip" data-placement="bottom" title="Home"><i class="fas fa-home fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">Home</p></a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}" data-toggle="tooltip" data-placement="bottom" title="About Us"><i class="fas fa-globe fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">About Us</p></a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'faq' %}" data-toggle="tooltip" data-placement="bottom" title="FAQ"><i class="fas fa-question-circle fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">FAQ</p></a></li>
-                    <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="fas fa-ticket-alt fa-lg d-none d-sm-block" data-toggle="tooltip" data-placement="bottom" title="Bugs/Features"></i><p class="d-block d-sm-none">Tickets</p></a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="navbar-collapse-1" class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto align-items-center">
+                <li class="nav-item"><a class="nav-link" href="/" data-toggle="tooltip" data-placement="bottom" title="Home"><i class="fas fa-home fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">Home</p></a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'about' %}" data-toggle="tooltip" data-placement="bottom" title="About Us"><i class="fas fa-globe fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">About Us</p></a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'faq' %}" data-toggle="tooltip" data-placement="bottom" title="FAQ"><i class="fas fa-question-circle fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">FAQ</p></a></li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="fas fa-ticket-alt fa-lg d-none d-sm-block" data-toggle="tooltip" data-placement="bottom" title="Bugs/Features"></i><p class="d-block d-sm-none">Tickets</p></a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="{% url 'tickets' subject_id=1 %}">Bugs</a>
+                        <a class="dropdown-item" href="{% url 'tickets' subject_id=2 %}">Features</a>
+                    </div>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="/pages/contact/" data-toggle="tooltip" data-placement="bottom" title="Contact Us!"><i class="fas fa-envelope fa-lg d-none d-sm-block"></i><span class="d-block d-sm-none">Contact Us</span></a></li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="fas fa-chart-bar fa-lg d-none d-sm-block" data-toggle="tooltip" data-placement="bottom" title="Reports"></i><p class="d-block d-sm-none">Reports</p></a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="{% url 'voting_results' subject_id=1 %}">Bugs Voting Results</a>
+                        <a class="dropdown-item" href="{% url 'voting_results' subject_id=2 %}">Features Voting Results</a>
+                        <a class="dropdown-item" href="{% url 'dashboard' %}">Work Dashboard</a>
+                    </div>
+                </li>
+                {% if user.is_authenticated %}
+                    <li class="dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="fas fa-user fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">{{ user.username }}</p></a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="{% url 'tickets' subject_id=1 %}">Bugs</a>
-                            <a class="dropdown-item" href="{% url 'tickets' subject_id=2 %}">Features</a>
+                            <a class="dropdown-item d-none d-sm-block" style="background-color: yellow">{{ user.username }}</a>
+                            <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                            <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
+                            <div class="dropdown-divider"></div>
                         </div>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="/pages/contact/" data-toggle="tooltip" data-placement="bottom" title="Contact Us!"><i class="fas fa-envelope fa-lg d-none d-sm-block"></i><span class="d-block d-sm-none">Contact Us</span></a></li>
-                    <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="fas fa-chart-bar fa-lg d-none d-sm-block" data-toggle="tooltip" data-placement="bottom" title="Reports"></i><p class="d-block d-sm-none">Reports</p></a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="{% url 'voting_results' subject_id=1 %}">Bugs Voting Results</a>
-                            <a class="dropdown-item" href="{% url 'voting_results' subject_id=2 %}">Features Voting Results</a>
-                            <a class="dropdown-item" href="{% url 'dashboard' %}">Work Dashboard</a>
-                        </div>
-                    </li>
-                    {% if user.is_authenticated %}
-                        <li class="dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="fas fa-user fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">{{ user.username }}</p></a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item d-none d-sm-block" style="background-color: yellow">{{ user.username }}</a>
-                                <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
-                                <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
-                                <div class="dropdown-divider"></div>
-                            </div>
-                        </li>
-                    {% else %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'register' %}" data-toggle="tooltip" data-placement="bottom" title="Register"><i class="fas fa-pen fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">Register</p></a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}" data-toggle="tooltip" data-placement="bottom" title="Login"><i class="fas fa-sign-in-alt fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">Log In</p></a></li>
-                    {% endif %}
-                </ul>
-            </div>
-        <!--/div-->
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'register' %}" data-toggle="tooltip" data-placement="bottom" title="Register"><i class="fas fa-pen fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">Register</p></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}" data-toggle="tooltip" data-placement="bottom" title="Login"><i class="fas fa-sign-in-alt fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">Log In</p></a></li>
+                {% endif %}
+            </ul>
+        </div>
     </nav>
     {% if messages %}
         <div class="alert alert-success" style="margin-top: 10px">
@@ -107,9 +86,8 @@
     </div>
 
 </body>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
 </html>

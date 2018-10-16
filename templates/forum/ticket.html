@@ -45,7 +45,6 @@
                     <tr>
                         <td>{{ ticket.posts.last.user.username }}</td>
                         <td class="text-center"><div id="statusLabel" class="label label-default" style="background-color:{{ ticket.status|get_label_color }};color:white;font-size: medium">{{ ticket.status }}</div></td>
-                        <!--td>{#{ ticket.status }#}</td-->
                     </tr>
                 </tbody>
             </table>
@@ -59,18 +58,14 @@
                     </tr>
                     <tr>
                         <td>
-                            <!--div class="col-md-12"-->
-                                    <strong>Donated: ${{ ticket.feature.total_donations|floatformat:2 }}</strong>
-                                    <span class="float-right">Goal: ${{ ticket.feature.donation_goal|floatformat:2 }}</span>
-                            <!--/div-->
-                            <!--div class="col-md-12"-->
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-info" role="progressbar"
-                                    aria-value="{{ ticket|donation_percentage }}" aria-valuemin="0"
-                                    aria-valuemax="100" style="width:{{ ticket|donation_percentage }}%;">
-                                    </div>
+                            <strong>Donated: ${{ ticket.feature.total_donations|floatformat:2 }}</strong>
+                            <span class="float-right">Goal: ${{ ticket.feature.donation_goal|floatformat:2 }}</span>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-info" role="progressbar"
+                                aria-value="{{ ticket|donation_percentage }}" aria-valuemin="0"
+                                aria-valuemax="100" style="width:{{ ticket|donation_percentage }}%;">
                                 </div>
-                            <!--/div-->
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -91,7 +86,7 @@
                     {% else %}
                         <div style="display: inline-block">
                             {% autoescape off %}
-                            {% user_vote_button ticket ticket.subject ticket.user %}
+                            {% user_vote_button ticket ticket.subject user %}
                             {% endautoescape %}
                         </div>
                     {% endif %}

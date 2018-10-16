@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 {% load ticket_extras %}
 {% load stripe_extras %}
+{#% block head_js %#}
+    <!--script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script-->
+{#% endblock head_js %#}
 {% block content %}
-
 <div class="jumbotron">
-    <div><h1 style="display: inline-block">{{ subject.name }} Tracker</h1>&nbsp;&nbsp;<i style="display: inline-block" class="fas fa-ticket-alt"></i></div>
+    <h1>{{ subject.name }} Tracker</h1>&nbsp;&nbsp;<i class="fas fa-ticket-alt"></i>
 </div>
 
 <div class="container-fluid">
