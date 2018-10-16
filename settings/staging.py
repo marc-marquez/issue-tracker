@@ -2,7 +2,7 @@ from .base import *
 import dj_database_url
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 JAWSDB_URL = os.environ.get('JAWSDB_URL')
 
