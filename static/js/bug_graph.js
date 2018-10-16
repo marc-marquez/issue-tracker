@@ -1,231 +1,43 @@
-/*queue()
-    .defer(d3.json,"/ticket_serial/ticket/?format=json")
-    .await(makeTicketGraphs);*/
-
-/*queue()
-    .defer(d3.json,"/polls/votes/?format=json")
-    .await(makeVoteGraphs);*/
-
-/*queue()
-    .defer(d3.json,"/rest/polls/option/custom/?format=json")
-    .await(makeOptionGraphs);*/
-
-
 queue()
     .defer(d3.json,"/rest/work/log/custom/?format=json")
     .await(makeWorkGraphs);
 
-/*function makeTicketGraphs(error,ticketdata){
-    if (error){
-        console.error("makeGraphs in bug_graph error on receiving dataset:", error.statusText);
-        throw error;
+function zoom(svg){
+    const extent = [[margin.left, margin.top],[width-margin.right,height-margin.top]];
+
+    svg.call(d3.zoom()
+        .scaleExtent([1,8])
+        .translateExtent(extent)
+        .extent(extent)
+        .on("zoom",zoomed));
+
+    function zoomed(){
+        x.range([margin.left,width-margin.right].map(d=> d3.event.transform.applyX(d)));
+        svg.selectAll(".bars rect").attr("x",d=>x(d.date)).attr("width",x.bandwidth());
+        svg.selectAll(".x-axis").call(xAxis);
     }
+}
 
-    var ndx = crossfilter(ticketdata);
-    console.log(ticketdata);
+function zoomableBarChart(chart){
+    var width = chart.effectiveWidth() - chart.margin.left - chart.margin.right;
+    var height = chart.effectiveHeight() - chart.margin.top - chart.margin.bottom;
+    var marginOv = {top:500,right:chart.margin.right,bottom:20,left:chart.margin.left};
+    var heightOv = 500 - marginOv.top - marginOv.bottom;
 
-    var ticketDim = ndx.dimension(function (d) {
-        return d.options.vote_count;
-    })
-}*/
+    var x = d3.time.scale().range([0,width]);
+    var y = d3.scale.linear().range([height,0]);
+    var xOv = d3.time.scale().range([0,width]);
+    var yOv = d3.scale.linear().range([heightOv,0]);
 
-/*function makeVoteGraphs(error,votedata){
-    if (error){
-        console.error("makeGraphs in bug_graph error on receiving dataset:", error.statusText);
-        throw error;
-    }
+    var xAxis = d3.svg.axis().scale(x).orient("bottom");
+    var yAxis = d3.svg.axis().scale(y).orient("left");
+    var xAxisOv = d3.svg.axis().scale(xOv).orient("bottom");
 
-    var ndx = crossfilter(votedata);
-
-    //console.log(votedata);
-
-    var ticketVotesDim = ndx.dimension(function(d){
-            return d.ticket_name;
-    });
-
-    var bugVotesDim = ndx.dimension(function(d){
-        if(d.poll_id == 1){
-            return d.ticket_name;
-        }
-    });
-
-    var featureVotesDim = ndx.dimension(function(d){
-        if(d.poll_id == 2) {
-            return d.ticket_name;
-        }
-    });
-
-    var pollDim = ndx.dimension(function(d){
-        if (d.poll_id == 1) {
-            return "Bug";
-        }  else if (d.poll_id == 2) {
-            return "Feature";
-        }
-    });
-
-    var statusDim = ndx.dimension(function(d){
-        return d.status;
-    });
-
-    var ticketVotesGroup = ticketVotesDim.group();
-
-    var bugVotesGroup = bugVotesDim.group().reduceSum(function(d){return d.poll_id==1});
-    var featureVotesGroup = featureVotesDim.group().reduceSum(function(d){return d.poll_id==2});
-    var statusGroup = statusDim.group();
-    var pollGroup = pollDim.group();
+    var chartBody = chart.select("g");
 
 
-    var colorScheme = ["#013369","#D50A0A","#008000","#FFA500","#FFFF00"];
 
-
-    ticketVotesChart = dc.rowChart("#ticketVotesChart");
-    bugVotesChart = dc.rowChart("#bugVotesChart");
-    featureVotesChart = dc.rowChart("#featureVotesChart");
-    statusChart = dc.rowChart("#statusChart");
-    pollChart = dc.rowChart("#pollChart");
-
-    ticketVotesChart
-        .ordinalColors(colorScheme)
-        .width(300)
-        .height(300)
-        .dimension(ticketVotesDim)
-        .group(ticketVotesGroup)
-        .elasticX(true)
-        .xAxis().ticks(4);
-
-    bugVotesChart
-        .ordinalColors(colorScheme)
-        .width(300)
-        .height(300)
-        .dimension(bugVotesDim)
-        .group(bugVotesGroup)
-        .elasticX(true)
-        .xAxis().ticks(4);
-
-    featureVotesChart
-        .ordinalColors(colorScheme)
-        .width(300)
-        .height(300)
-        .dimension(featureVotesDim)
-        .group(featureVotesGroup)
-        .elasticX(true)
-        .xAxis().ticks(4);
-
-    pollChart
-        .ordinalColors(colorScheme)
-        .width(300)
-        .height(300)
-        .dimension(pollDim)
-        .group(pollGroup)
-        .elasticX(true)
-        .xAxis().ticks(4);
-
-    statusChart
-        .ordinalColors(colorScheme)
-        .width(300)
-        .height(300)
-        .dimension(statusDim)
-        .group(statusGroup)
-        .elasticX(true)
-        .xAxis().ticks(4);
-
-    dc.renderAll();
-}*/
-
-/*function makeOptionGraphs(error,optiondata){
-    const BUG = 1;
-    const FEATURE = 2;
-
-    if (error){
-        console.error("makeGraphs in bug_graph error on receiving dataset:", error.statusText);
-        throw error;
-    }
-
-    var ndx = crossfilter(optiondata);
-
-    var ticketTypeDim = ndx.dimension(function(d){
-        if (d.poll_id == BUG){
-            return "Bug";
-        } else if (d.poll_id == FEATURE){
-            return "Feature"
-        } else {}
-
-    });
-
-    var ticketDim = ndx.dimension(function(d){
-        return d.ticket_name;
-    });
-
-    var votesDim = ndx.dimension(function(d){
-       return d.vote_count;
-    });
-
-    var statusDim = ndx.dimension(function(d){
-        return d.ticket_status;
-    });
-
-    var ticketTypeGroup = ticketTypeDim.group();
-    var ticketGroup = ticketDim.group();
-
-    //pollDim.filter("Bug");
-    var ticketVotesGroup = ticketDim.group().reduceSum(function (d) {
-        return d.vote_count;
-    });
-
-    var votesGroup = votesDim.group();
-    var statusGroup = statusDim.group();
-
-
-    //var colorScheme = ["#013369","#D50A0A","#008000","#FFA500","#FFFF00"];
-    var colorScheme = ["#79CED7", "#66AFB2", "#C96A23", "#D3D1C5", "#F5821F"];
-
-    ticketTypeChart = dc.rowChart("#ticketTypeChart");
-    ticketChart = dc.rowChart("#ticketChart");
-    votesChart = dc.rowChart("#votesChart");
-    statusChart = dc.rowChart("#statusChart");
-
-    ticketTypeChart
-        .ordinalColors(colorScheme)
-        .width(300)
-        .height(300)
-        .dimension(ticketTypeDim)
-        .group(ticketTypeGroup)
-        //.useViewBoxResizing(true)
-        .elasticX(true)
-        .xAxis().ticks(4);
-
-    ticketChart
-        .ordinalColors(colorScheme)
-        .width(300)
-        .height(300)
-        .dimension(ticketDim)
-        .group(ticketGroup)
-        //.useViewBoxResizing(true)
-        .elasticX(true)
-        .xAxis().ticks(4);
-
-    votesChart
-        .ordinalColors(colorScheme)
-        .width(300)
-        .height(300)
-        .dimension(ticketDim)
-        .group(ticketVotesGroup)
-        //.useViewBoxResizing(true)
-        .elasticX(true)
-        .xAxis().ticks(4);
-
-    statusChart
-        .ordinalColors(colorScheme)
-        .width(300)
-        .height(300)
-        .dimension(statusDim)
-        .group(statusGroup)
-        //.useViewBoxResizing(true)
-        .elasticX(true)
-        .xAxis().ticks(4);
-
-    dc.renderAll();
-}*/
+}
 
 function makeWorkGraphs(error,workdata) {
 
@@ -242,28 +54,28 @@ function makeWorkGraphs(error,workdata) {
     var dateFormat = d3.time.format("%Y-%m-%d").parse;
     /*var dateFormatParser = d3.timeParse(dateFormatSpecifier);*/
 
-    /*workdata.for(function (d) {
+    workdata.forEach(function (d) {
         d.dd = dateFormat(d.date);
-        d.month = d3.timeMonth(d.dd);
-        d.day = d3.timeDay(d.dd);
-        d.year = d3.timeYear(d.dd);
-        d.week = d3.timeWeek(d.dd);
-    });*/
-
-    var dateDim = ndx.dimension(function(d){
-        return d3.time.day(dateFormat(d.date));
-        //return d.day;
+        //d.month = d3.time.month(d.dd);
+        d.day = d3.time.day(d.dd);
+        //d.year = d3.time.year(d.dd);
+        //d.week = d3.time.week(d.dd);
     });
 
-    var weekDim = ndx.dimension(function(d){
-        return d3.time.week(dateFormat(d.date));
-        //return d.week;
+    var dateDim = ndx.dimension(function(d){
+        //return d3.time.day(dateFormat(d.date));
+        return d.day;
+    });
+
+    /*var weekDim = ndx.dimension(function(d){
+        //return d3.time.week(dateFormat(d.date));
+        return d.week;
     });
 
     var monthDim = ndx.dimension(function(d){
-        return d3.time.month(dateFormat(d.date));
-        //return d.month;
-    });
+        //return d3.time.month(dateFormat(d.date));
+        return d.month;
+    });*/
 
     var ticketStatusDim = ndx.dimension(function(d){
        return d.ticket_status;
@@ -283,35 +95,35 @@ function makeWorkGraphs(error,workdata) {
         return d.hours;
     });
 
-    var bugsPerMonthGroup = monthDim.group().reduceSum(function(d){
+    /*var bugsPerMonthGroup = monthDim.group().reduceSum(function(d){
         return d.ticket_type=="Bug";
-    });
+    });*/
 
     var bugsPerDayGroup = dateDim.group().reduceSum(function(d){
         return d.ticket_type=="Bug";
     });
 
-    var featuresPerMonthGroup = monthDim.group().reduceSum(function(d){
+    /*var featuresPerMonthGroup = monthDim.group().reduceSum(function(d){
         return d.ticket_type=="Feature";
-    });
+    });*/
 
     var featuresPerDayGroup = dateDim.group().reduceSum(function(d){
         return d.ticket_type=="Feature";
     });
 
-    var bugsPerWeekGroup = weekDim.group().reduceSum(function(d){
+    /*var bugsPerWeekGroup = weekDim.group().reduceSum(function(d){
         return d.ticket_type=="Bug";
     });
 
     var featuresPerWeekGroup = weekDim.group().reduceSum(function(d){
         return d.ticket_type=="Feature";
-    });
+    });*/
 
     var ticketStatusGroup = ticketStatusDim.group();
     var ticketTypeGroup = ticketTypeDim.group();
 
-    monthChart = dc.barChart("#monthChart");
-    dayChart = dc.barChart("#dayChart");
+    focusChart = dc.barChart("#focusChart");
+    overviewChart = dc.barChart("#overviewChart");
     //weekChart = dc.barChart("#weekChart");
     statusChart = dc.rowChart("#statusChart");
     ticketTypeChart = dc.rowChart("#ticketTypeChart");
@@ -319,6 +131,7 @@ function makeWorkGraphs(error,workdata) {
 
     var minDate = new Date(dateDim.bottom(1)[0]["date"]);
     var maxDate = new Date();
+    console.log("min: "+minDate+",max: "+maxDate);
 
     //var minWeekDate = new Date(2018,10,01);
     //var maxWeekDate = new Date(2018,10,31);
@@ -327,24 +140,48 @@ function makeWorkGraphs(error,workdata) {
     //var colorScheme = ["#013369","#D50A0A","#008000","#FFA500","#FFFF00"];
     var colorScheme = ["#79CED7", "#C96A23","#66AFB2", "#D3D1C5", "#F5821F"];
 
-    monthChart
+    overviewChart
+        .ordinalColors(colorScheme)
+        .height(50)
+        .dimension(dateDim)
+        .margins({top: 5, right: 20, bottom: 20, left: 20})
+        .useViewBoxResizing(true)
+        .x(d3.time.scale()
+            .domain([minDate, maxDate])
+        )
+        .xUnits(d3.time.days)
+        //.yAxisLabel("Tickets")
+        .group(bugsPerDayGroup,"Bug")
+        .stack(featuresPerDayGroup,"Feature")
+        .elasticX(true)
+        .centerBar(false)
+        .brushOn(true)
+        .elasticY(true);
+
+    overviewChart
+        .yAxis().ticks(1);
+
+    focusChart
         .ordinalColors(colorScheme)
         .height(300)
-        .dimension(monthDim)
+        .dimension(dateDim)
         .margins({top: 50, right: 20, bottom: 30, left: 20})
+        .mouseZoomable(true)
+        .rangeChart(overviewChart)
+        .transitionDuration(500)
         .useViewBoxResizing(true)
-        .x(d3.time.scale().domain([minDate, maxDate]))
-        .xUnits(d3.time.months)
-        .xAxisPadding(40)
+        .x(d3.time.scale()
+            .domain([minDate, maxDate])
+        )
+        .xUnits(d3.time.days)
         .yAxisLabel("Tickets")
-        .group(bugsPerMonthGroup,"Bug")
-        .stack(featuresPerMonthGroup,"Feature")
-        .elasticX(true)
+        .group(bugsPerDayGroup,"Bug")
+        .stack(featuresPerDayGroup,"Feature")
         .centerBar(true)
         .brushOn(false)
         .elasticY(true);
 
-    monthChart
+    focusChart
         .legend(dc.legend()
             .legendText(function (d) {return d.name;})
             .x(20)
@@ -354,31 +191,11 @@ function makeWorkGraphs(error,workdata) {
         )
         .yAxis().ticks(4);
 
-    dayChart
-        .ordinalColors(colorScheme)
-        .height(100)
-        //.width(1000)
-        .dimension(dateDim)
-        .margins({top: 5, right: 10, bottom: 20, left: 20})
-        .useViewBoxResizing(true)
-        .x(d3.time.scale().domain([minDate, maxDate]))
-        .xUnits(d3.time.days)
-        //.xUnits(d3.timeDays)
-        .xAxisPadding(40)
-        .yAxisLabel("Tickets")
-        .group(bugsPerDayGroup,"Bug")
-        .stack(featuresPerDayGroup,"Feature")
-        .elasticX(true)
-        .centerBar(true)
-        .brushOn(true)
-        .elasticY(true);
 
-    dayChart
-        .yAxis().ticks(2);
 
-    dayChart.xAxis()
-        .ticks(d3.time.days,30)
-        .tickFormat(d3.time.format('%m-%d-%y'));
+    /*overviewChart.xAxis()
+        .ticks(d3.time.days,75)
+        .tickFormat(d3.time.format('%m-%d-%y'));*/
 
     /*weekChart
         .ordinalColors(colorScheme)
@@ -409,7 +226,7 @@ function makeWorkGraphs(error,workdata) {
     statusChart
         .ordinalColors(colorScheme)
         //.width(300)
-        .height(300)
+        .height(250)
         .dimension(ticketStatusDim)
         .group(ticketStatusGroup)
         .useViewBoxResizing(true)
@@ -420,7 +237,7 @@ function makeWorkGraphs(error,workdata) {
     ticketTypeChart
         .ordinalColors(colorScheme)
         //.width(300)
-        .height(300)
+        .height(250)
         .dimension(ticketTypeDim)
         .group(ticketTypeGroup)
         .useViewBoxResizing(true)
@@ -431,7 +248,7 @@ function makeWorkGraphs(error,workdata) {
     ticketHoursChart
         .ordinalColors(colorScheme)
         //.width(300)
-        .height(300)
+        .height(600)
         .dimension(ticketDim)
         .group(ticketHoursGroup)
         .useViewBoxResizing(true)
