@@ -146,7 +146,7 @@ def edit_ticket(request, ticket_id):
                 feature = get_object_or_404(Feature, pk=ticket.feature.id)
                 supplement_form = FeatureForm(request.POST, instance=feature)
             else:
-                bug = get_object_or_404(Feature, pk=ticket.bug.id)
+                bug = get_object_or_404(Bug, pk=ticket.bug.id)
                 print("Ticket id (BUG): " + str(ticket.bug.id))
                 supplement_form = BugForm(request.POST, instance=bug)
 
