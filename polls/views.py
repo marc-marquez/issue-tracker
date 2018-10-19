@@ -1,11 +1,12 @@
 from __future__ import unicode_literals
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import PollSerializer,VoteSerializer,PollOptionSerializer,VoteCustomSerializer,\
-    PollOptionCustomSerializer,PollOptionVotesSerializer
-from .models import PollOption,Vote
+#from .serializers import PollSerializer,VoteSerializer,PollOptionSerializer,VoteCustomSerializer,\
+#    PollOptionCustomSerializer,PollOptionVotesSerializer
+#from .models import PollOption,Vote
 from django.shortcuts import render
 
+'''
 class PollView(APIView):
     def get(self,request):
         polloption_items = PollOption.objects.all()
@@ -47,5 +48,6 @@ class PollOptionVotesCustomView(APIView):
         serializer = PollOptionVotesSerializer(option_items,many=True)
         serialized_data = serializer.data
         return Response(serialized_data)
+'''
 
 

@@ -1,7 +1,7 @@
 from django import forms
 from .models import Poll, PollOption
 
-
+'''
 class PollForm(forms.ModelForm):
     question = forms.CharField(label="What is your poll about?")
 
@@ -21,3 +21,4 @@ class PollSubjectForm(forms.ModelForm):
     class Meta:
         model = PollOption
         fields = ['name']
+'''

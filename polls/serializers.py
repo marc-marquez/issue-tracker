@@ -1,7 +1,8 @@
 from rest_framework import serializers
-from .models import PollOption, Vote, Poll
-from work.serializers import LogSerializer
+#from .models import PollOption, Vote, Poll
+#from work.serializers import LogSerializer
 
+'''
 class PollSerializer(serializers.ModelSerializer):
     class Meta:
         model = Poll
@@ -35,9 +36,6 @@ class PollOptionCustomSerializer(serializers.ModelSerializer):
     ticket_status = serializers.ReadOnlyField(source='ticket.status', read_only=True)
     vote_count = serializers.SerializerMethodField()
 
-    #logs = LogSerializer(many=True,read_only=True)
-    #logs = serializers.RelatedField(many=True,read_only=True)
-
     class Meta:
         model = PollOption
         fields = ('poll_id','ticket_id','ticket_name','vote_count','ticket_status')
@@ -54,3 +52,4 @@ class PollOptionVotesSerializer(serializers.ModelSerializer):
 
     def get_vote_count(self,obj):
         return obj.votes.count()
+'''

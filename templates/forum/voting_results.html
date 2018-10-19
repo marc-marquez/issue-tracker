@@ -2,22 +2,23 @@
 {% load ticket_extras %}
 {% load stripe_extras %}
 {% block content %}
- <div class="jumbotron" style="background: url('/static/img/charting.jpg') no-repeat center center;background-size: cover;">
-   <div><h1 style="display: inline-block; color: white;">{{ subject.name }} Voting Results</h1>&nbsp &nbsp<i style="display: inline-block;color: white;" class="fas fa-chart-bar"></i></div>
- </div>
+<div class="jumbotron" style="background: url('/static/img/charting.jpg') no-repeat center center;background-size: cover;">
+    <h1 style="display: inline-block; color: white;">{{ subject.name }} Voting Results</h1>&nbsp &nbsp<i style="display: inline-block;color: white;" class="fas fa-chart-bar"></i>
+</div>
  <!---This is the poll chart -->
 {#% for subject in subjects %#}
+<div class="container-fluid">
  <div class="row">
-     <div class="col-md-12">
+     <!--div class="col-md-12"-->
         {% if subject.poll %}
-           <div class="container-fluid">
-               <div class="row">
-                   <div class="col-md-6">
+           <!--div class="container-fluid"-->
+               <!--div class="row"-->
+                   <div class="col-md-8">
                        {% for option in options %}
                            {% if option.ticket.status != 'CLOSED' %}
                            <div>
                                <a href="{% url 'ticket' option.ticket_id %}">{{ option.ticket.name }}</a>
-                               <span class="float-right">{{ option|vote_percentage|floatformat:2 }}%</span>
+                               <span class="float-right">(Votes:{{ option.vote_count }}) {{ option|vote_percentage|floatformat:2 }}%</span>
                                 <div class="progress">
                                     <div class="progress-bar progress-bar-info" role="progressbar"
                                     aria-value="{{ option|vote_percentage }}" aria-valuemin="0"
@@ -56,11 +57,12 @@
                            {#% endif %#}
                       {#% endfor %#}
                    </div-->
-               </div>
-           </div>
+               <!--/div-->
+           <!--/div-->
         {% endif %}
-     </div>
+     <!--/div-->
  </div>
+</div>
 {#% endfor %#}
  <!---This is the poll chart -->
 {% endblock %}

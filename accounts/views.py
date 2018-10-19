@@ -2,7 +2,7 @@ from django.contrib import messages, auth
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.template.context_processors import csrf
-from accounts.forms import UserRegistrationForm, UserLoginForm, CreditCardForm
+from accounts.forms import UserRegistrationForm, UserLoginForm
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from .models import User
@@ -34,12 +34,9 @@ def register(request):
 
 @login_required(login_url='/login/')
 def profile(request):
-    #print("Inside profile...")
     try:
         customer = stripe.Customer.retrieve(request.user.stripe_id)
     except:
-        #print("Couldn't find customer...")
-        #messages.error(request,"No customer on file.")
         #If no customer found on Stripe, create it.
         customer = stripe.Customer.create(
             description="Customer for " + str(request.user.username),
@@ -52,8 +49,6 @@ def profile(request):
         cards = stripe.Customer.retrieve(customer.id).sources.list(object='card')
         default_source = customer.default_source
     except:
-        #print("Couldn't find cards...")
-        #messages.error(request,"No cards found.")
         cards = None
 
     args = {'cards':cards,'default_source':default_source}
@@ -180,7 +175,6 @@ def set_default_card(request,card_id):
     if request.method == 'POST':
         customer = stripe.Customer.retrieve(request.user.stripe_id)
         try:
-            #dcard = customer.sources.retrieve(card_id)
             customer.default_source = card_id
             customer.save()
         except stripe.error.CardError as e:

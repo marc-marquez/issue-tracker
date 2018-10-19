@@ -46,8 +46,8 @@ urlpatterns = [
     url(r'^profile/cards/default/(?P<card_id>card_.*)/$', accounts_views.set_default_card, name='set_default_card'),
     url(r'^report/voting/(?P<subject_id>\d+)/$', forum_views.voting_results, name='voting_results'),
     url(r'^ticket/customdonate/(?P<ticket_id>\d+)/(?P<subject_id>\d+)/$', forum_views.custom_donate, name='custom_donate'),
-    url(r'^rest/tickets/', include('tickets.urls')),
-    url(r'^rest/polls/', include('polls.urls')),
+    #url(r'^rest/tickets/', include('tickets.urls')),
+    #url(r'^rest/polls/', include('polls.urls')),
     url(r'^report/dashboard/$', forum_views.dashboard, name='dashboard'),
     url(r'^rest/work/', include('work.urls')),
 ]

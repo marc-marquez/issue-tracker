@@ -1,10 +1,9 @@
 from rest_framework import serializers
 from tickets.models import Ticket
-from polls.serializers import PollOptionVotesSerializer,PollOptionCustomSerializer,PollOptionSerializer,VoteSerializer
-from work.serializers import LogCustomTicketSerializer
-from work.models import Log
-from collections import OrderedDict
+#from polls.serializers import PollOptionVotesSerializer,PollOptionCustomSerializer,PollOptionSerializer,VoteSerializer
+#from work.serializers import LogCustomTicketSerializer
 
+'''
 class TicketSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -18,6 +17,7 @@ class TicketCustomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
         fields = ('name','subject','user','status','logs','options')
+'''
 
 '''
 class TicketCustomSerializer(serializers.ModelSerializer):

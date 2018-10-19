@@ -40,10 +40,12 @@
                 <tbody>
                     <tr>
                         <th>LAST POST BY</th>
+                        <th>VOTE RANK</th>
                         <th>STATUS</th>
                     </tr>
                     <tr>
                         <td>{{ ticket.posts.last.user.username }}</td>
+                        <td>#{{ ticket | get_vote_rank }}</td>
                         <td class="text-center"><div id="statusLabel" class="label label-default" style="background-color:{{ ticket.status|get_label_color }};color:white;font-size: medium">{{ ticket.status }}</div></td>
                     </tr>
                 </tbody>

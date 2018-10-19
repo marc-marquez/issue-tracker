@@ -11,9 +11,9 @@ from polls.models import PollOption, Poll
 from django.conf import settings
 import stripe
 from django.db.models import Count
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from tickets.serializers import TicketSerializer, TicketCustomSerializer
+#from rest_framework.response import Response
+#from rest_framework.views import APIView
+#from tickets.serializers import TicketSerializer, TicketCustomSerializer
 
 stripe.api_key = settings.STRIPE_SECRET
 
@@ -350,7 +350,7 @@ def custom_donate(request,subject_id,ticket_id):
 
         if(charge.status=='succeeded'):
             messages.success(request,"Thanks for the $" + str_amount + " donation!")
-            #update donation table
+            updateTicketDonationData(ticket)
             ticket_vote(request, ticket_id, subject_id,votes)
         else:
             messages.error(request,"Could not process donation.")
@@ -366,6 +366,31 @@ def custom_donate(request,subject_id,ticket_id):
     }
     return render(request, 'forum/donation_form.html', args)
 
+
+def updateTicketDonationData(ticket):
+    # get charge list
+    list = stripe.Charge.list()
+
+    # dict to get total donations for each ticket_id
+    total_donations = {}
+    for charge in list:
+        try:
+            current_id = int(charge['metadata']['ticket_id'])
+            if current_id not in total_donations:
+                total_donations[current_id] = 0
+            total_donations[current_id] += float(charge['amount'] / 100)
+        except:
+            print("No ticket_id found in charge.")
+
+    # Update feature with new donation total donations
+    try:
+        ticket.feature.total_donations = total_donations[key]
+    except:
+        ticket.feature.total_donations = 0
+    ticket.feature.save()
+    return
+
+'''
 class TicketView(APIView):
 
     def get(self,request):
@@ -381,3 +406,4 @@ class TicketCustomView(APIView):
         serializer = TicketCustomSerializer(ticket_items,many=True)
         serialized_data = serializer.data
         return Response(serialized_data)
+'''

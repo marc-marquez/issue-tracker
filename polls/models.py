@@ -12,7 +12,6 @@ class Poll(models.Model):
 
 
 class PollOption(models.Model):
-    #name = models.CharField(max_length=255)
     poll = models.ForeignKey(Poll, related_name='options',on_delete='models.CASCADE')
     ticket = models.OneToOneField(Ticket,related_name='options',on_delete='models.CASCADE')
 

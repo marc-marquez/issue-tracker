@@ -67,7 +67,7 @@
         </div>
     </nav>
     {% if messages %}
-        <div class="alert alert-success" style="margin-top: 10px">
+        <div class="alert alert-success container-fluid">
             <div class="messages">
                 {% for message in messages %}
                     {{ message }}
@@ -76,7 +76,7 @@
         </div>
     {% endif %}
 
-    <div id="outer" style="margin-top: 1px;">
+    <div id="outer">
        {% block content %}
        {% endblock %}
     </div>

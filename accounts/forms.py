@@ -53,7 +53,7 @@ class UserLoginForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
 
-
+'''
 class CreditCardForm(forms.ModelForm):
     MONTH_ABBREVIATIONS = [
         'Jan', 'Feb', 'Mar', 'Apr', 'May', 'June',
@@ -71,3 +71,4 @@ class CreditCardForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['stripe_id']
+'''

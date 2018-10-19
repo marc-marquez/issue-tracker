@@ -10,7 +10,7 @@
         background: url('/static/img/fire.gif') no-repeat center center;
     }
 
-    .featurette h1,h2,h3,h4 {
+    .featurette h1,h2,h3,h4,p {
         text-align: center;
     }
 
@@ -84,7 +84,32 @@ underline {
 }
 
 .jumbotron {
-    margin-top: 5px;
+    border-radius: 0;
+}
+
+.alert {
+    border-radius: 0;
+    margin: 0;
+    position: fixed;
+    z-index: 1;
+
+    animation:alert 0.5s 1;
+    -webkit-animation:alert 0.5s 1;
+    animation-fill-mode: forwards;
+
+    animation-delay:10s;
+    -webkit-animation-delay:10s; /* Safari and Chrome */
+    -webkit-animation-fill-mode: forwards;
+}
+
+@keyframes alert{
+    from {opacity :1;}
+    to {opacity :0;}
+}
+
+@-webkit-keyframes alert{
+    from {opacity :1;}
+    to {opacity :0;}
 }
 
 .jumbotron h1 {
