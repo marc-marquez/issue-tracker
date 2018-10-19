@@ -8,3 +8,6 @@ def get_faq(request):
 
 def get_about(request):
     return render(request, 'about.html')
+
+def get_contact(request):
+    return render(request, 'contact.html')

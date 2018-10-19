@@ -9,10 +9,8 @@
             <h2>Account Details</h2>
             <p>You are logged in as {{ user.email }} </p>
             <p>You last logged in on {{ user.last_login }}</p>
-            <!--p>Your stripe id: {#{ user.stripe_id }#} </p-->
             <hr>
             <h2 style="display: inline-block">Credit Card Details</h2>&nbsp;&nbsp;<span style="display: inline-block"><button style="vertical-align: bottom" class="btn btn-success" onclick="showAddCard()">Add a Credit Card</button></span>
-            <!--a href="{#% url 'add_card' %#}">Add a credit card</a-->
         </div>
         <div class="col-md-6">
             <div id="addCardDiv" style="display: none;margin-top: 20px" class="align-items-center">
@@ -20,9 +18,6 @@
                     <form action={% url 'add_card'%} method="post" id="card-form">
                         {% csrf_token %}
                         <div class="form-row">
-                            <!--label for="card-element">
-                            Credit or debit card
-                            </label-->
                             <div id="card-element" class="form-control" style="background-color: lightcyan;">
                             <!-- a Stripe Element will be inserted here. -->
                             </div>
@@ -63,15 +58,39 @@
                                 {% else %}
                                     <td align="center"><i style="color:black" class="fas fa-star"></i></td>
                                 {% endif %}
-                                <form action="{% url 'delete_card' card_id=card.id %}" method="post">
-                                    {% csrf_token %}
+                                <!--form action="{#% url 'delete_card' card_id=card.id %#}" method="post">
+                                    {#% csrf_token %#}
                                     <td align="center"><button style="border:0" type="submit"><i style="color:red" class="fas fa-trash"></i></button></td>
-                                </form>
+                                </form-->
+                                <td align="center"><a href="#confirmationModal" role="button" data-toggle="modal" data-href="{% url 'delete_card' card_id=card.id %}"><i style="color: red" class="fas fa-trash"></i></a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             {% endif %}
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this card?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form id="modalForm" action="" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Confirm</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

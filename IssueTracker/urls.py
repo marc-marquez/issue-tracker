@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^$', main_views.get_index, name='index'),
     url(r'^faq/$', main_views.get_faq, name='faq'),
     url(r'^about/$', main_views.get_about, name='about'),
+    url(r'^contact/$', main_views.get_contact, name='contact'),
     url(r'^register/$', accounts_views.register, name='register'),
     url(r'^profile/$', accounts_views.profile, name='profile'),
     url(r'^login/$', accounts_views.login, name='login'),

@@ -1,9 +1,5 @@
-/*$(document).ready(function(){
+$(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
-});*/
-
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
 });
 
 $(document).ready(function() {
@@ -12,10 +8,5 @@ $(document).ready(function() {
 
 $('#confirmationModal').on('show.bs.modal', function (e) {
   var my_href = $(e.relatedTarget).attr('data-href');
-  console.log(my_href);
+  $('#modalForm').attr('action',my_href);
 });
-
-/*$(document).on("click","#confirmationModal",function(){
-  var myURL = $(this).data('data-href');
-  console.log(myURL);
-});*/

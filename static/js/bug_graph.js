@@ -131,7 +131,7 @@ function makeWorkGraphs(error,workdata) {
 
     var minDate = new Date(dateDim.bottom(1)[0]["date"]);
     var maxDate = new Date();
-    console.log("min: "+minDate+",max: "+maxDate);
+    //console.log("min: "+minDate+",max: "+maxDate);
 
     //var minWeekDate = new Date(2018,10,01);
     //var maxWeekDate = new Date(2018,10,31);
@@ -139,6 +139,10 @@ function makeWorkGraphs(error,workdata) {
 
     //var colorScheme = ["#013369","#D50A0A","#008000","#FFA500","#FFFF00"];
     var colorScheme = ["#79CED7", "#C96A23","#66AFB2", "#D3D1C5", "#F5821F"];
+    //var colorScheme = ["#A07A19", "#AC30C0", "#EB9A72", "#BA86F5", "#EA22A8"];
+
+    /*var colorScheme = d3.scale.ordinal().domain(["Bug","Feature"])
+                                        .range(["#79CED7", "#C96A23"]);*/
 
     overviewChart
         .ordinalColors(colorScheme)
@@ -177,9 +181,11 @@ function makeWorkGraphs(error,workdata) {
         .yAxisLabel("Tickets")
         .group(bugsPerDayGroup,"Bug")
         .stack(featuresPerDayGroup,"Feature")
+
         .centerBar(true)
         .brushOn(false)
         .elasticY(true);
+
 
     focusChart
         .legend(dc.legend()
@@ -258,4 +264,5 @@ function makeWorkGraphs(error,workdata) {
 
 
     dc.renderAll();
+    //showPage();
 }

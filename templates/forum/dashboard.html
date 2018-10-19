@@ -9,20 +9,16 @@
     <script src="{% static 'js/bug_graph.js' %}"></script>
 {% endblock head_js %}
 {% block content %}
- <div class="jumbotron" style="background: url('/static/img/charting.jpg') no-repeat center center;background-size: cover;">
+ <div class="jumbotron" style="background: url('/static/img/charting.jpg') no-repeat center center;background-size: cover; margin-bottom: 13px">
     <h1 style="display: inline-block;color: white;">Dashboard</h1>&nbsp &nbsp<i style="display: inline-block;color: white;" class="fas fa-chart-bar"></i>
- </div>
- <div class="row">
-    <div style="background-color: cyan" class="col-md-12 justify-content-center">
-        <p>Note: The Ticket History table below can be pan and zoomed. Double click on the part of the timeline you would like to zoom. Use the mouse "scroll wheel" to expand or contact that timeline. You can also shift the timeline by dragging in the thinner graph.</p>
-    </div>
  </div>
  <div class="row">
     <!-- Focus Bar Chart -->
     <div class="col-md-12">
         <div class="chart-wrapper">
             <div class="chart-title">
-                Ticket History
+                Ticket History <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="Did you know that you can pan and zoom the Ticket History graph? Scroll up on the mouse wheel to zoom in on the timeline.
+        Scroll down to zoom out. Click and drag the mouse to the left or right to see the oldest and newest tickets."></i>
             </div>
             <div class="chart-stage">
                 <div id="focusChart" style="width: 100%"></div>

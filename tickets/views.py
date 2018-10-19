@@ -237,10 +237,11 @@ def edit_post(request, ticket_id, post_id):
 @login_required(login_url='/login/')
 def delete_post(request, ticket_id, post_id):
     post = get_object_or_404(Post, pk=post_id)
-    ticket_id = post.ticket.id
-    post.delete()
 
-    messages.success(request, "Your post was deleted!")
+    if request.method == "POST":
+        ticket_id = post.ticket.id
+        post.delete()
+        messages.success(request, "Your post was deleted!")
 
     return redirect(reverse('ticket', args={ticket_id}))
 
@@ -313,6 +314,7 @@ def custom_donate(request,subject_id,ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
     subject = get_object_or_404(Subject, pk=subject_id)
     COST_PER_VOTE = 10
+
     if request.method == 'POST':
         amount = int(request.POST['amount'])
         votes = int(amount/COST_PER_VOTE)
