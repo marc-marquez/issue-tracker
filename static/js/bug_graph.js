@@ -2,7 +2,7 @@ queue()
     .defer(d3.json,"/rest/work/log/custom/?format=json")
     .await(makeWorkGraphs);
 
-function zoom(svg){
+/*function zoom(svg){
     const extent = [[margin.left, margin.top],[width-margin.right,height-margin.top]];
 
     svg.call(d3.zoom()
@@ -34,10 +34,7 @@ function zoomableBarChart(chart){
     var xAxisOv = d3.svg.axis().scale(xOv).orient("bottom");
 
     var chartBody = chart.select("g");
-
-
-
-}
+}*/
 
 function makeWorkGraphs(error,workdata) {
 
@@ -137,26 +134,28 @@ function makeWorkGraphs(error,workdata) {
     //var maxWeekDate = new Date(2018,10,31);
 
 
-    //var colorScheme = ["#013369","#D50A0A","#008000","#FFA500","#FFFF00"];
-    var colorScheme = ["#79CED7", "#C96A23","#66AFB2", "#D3D1C5", "#F5821F"];
+    //var colorSchemeS = ["#013369","#D50A0A","#008000","#FFA500","#FFFF00"];
+    //var colorScheme = ["#79CED7", "#C96A23","#66AFB2", "#D3D1C5", "#F5821F"];
     //var colorScheme = ["#A07A19", "#AC30C0", "#EB9A72", "#BA86F5", "#EA22A8"];
 
     /*var colorScheme = d3.scale.ordinal().domain(["Bug","Feature"])
                                         .range(["#79CED7", "#C96A23"]);*/
 
+    var colorSchemeS = ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628'];
+    var colorSchemeBF = ["#C96A23","#79CED7"];
+
     overviewChart
-        .ordinalColors(colorScheme)
+        .ordinalColors(colorSchemeBF)
         .height(50)
         .dimension(dateDim)
+        .group(bugsPerDayGroup,"Bug")
+        .stack(featuresPerDayGroup,"Feature")
         .margins({top: 5, right: 20, bottom: 20, left: 20})
         .useViewBoxResizing(true)
         .x(d3.time.scale()
             .domain([minDate, maxDate])
         )
         .xUnits(d3.time.days)
-        //.yAxisLabel("Tickets")
-        .group(bugsPerDayGroup,"Bug")
-        .stack(featuresPerDayGroup,"Feature")
         .elasticX(true)
         .centerBar(false)
         .brushOn(true)
@@ -166,9 +165,11 @@ function makeWorkGraphs(error,workdata) {
         .yAxis().ticks(1);
 
     focusChart
-        .ordinalColors(colorScheme)
-        .height(300)
+        .ordinalColors(colorSchemeBF)
         .dimension(dateDim)
+        .group(bugsPerDayGroup,"Bug")
+        .stack(featuresPerDayGroup,"Feature")
+        .height(300)
         .margins({top: 50, right: 20, bottom: 30, left: 20})
         .mouseZoomable(true)
         .rangeChart(overviewChart)
@@ -179,8 +180,6 @@ function makeWorkGraphs(error,workdata) {
         )
         .xUnits(d3.time.days)
         .yAxisLabel("Tickets")
-        .group(bugsPerDayGroup,"Bug")
-        .stack(featuresPerDayGroup,"Feature")
 
         .centerBar(true)
         .brushOn(false)
@@ -197,41 +196,8 @@ function makeWorkGraphs(error,workdata) {
         )
         .yAxis().ticks(4);
 
-
-
-    /*overviewChart.xAxis()
-        .ticks(d3.time.days,75)
-        .tickFormat(d3.time.format('%m-%d-%y'));*/
-
-    /*weekChart
-        .ordinalColors(colorScheme)
-        .height(100)
-        //.width(1000)
-        .dimension(weekDim)
-        //.margins({top: 50, right: 20, bottom: 30, left: 20})
-        .useViewBoxResizing(true)
-        .x(d3.time.scale().domain([minDate, maxDate]))
-        .xUnits(d3.time.weeks)
-        //.xUnits(d3.timeWeeks)
-        .xAxisPadding(40)
-        .yAxisLabel("Tickets")
-        .group(bugsPerWeekGroup,"Bug")
-        .stack(featuresPerWeekGroup,"Feature")
-        .elasticX(true)
-        .centerBar(true)
-        .brushOn(false)
-        .elasticY(true);
-
-    weekChart.yAxis().ticks(2);
-
-    weekChart.xAxis()
-        .ticks(d3.time.weeks,4)
-        .tickFormat(d3.time.format('%m-%d-%y'));*/
-
-
     statusChart
-        .ordinalColors(colorScheme)
-        //.width(300)
+        .ordinalColors(colorSchemeS)
         .height(250)
         .dimension(ticketStatusDim)
         .group(ticketStatusGroup)
@@ -241,7 +207,7 @@ function makeWorkGraphs(error,workdata) {
         .xAxis().ticks(4);
 
     ticketTypeChart
-        .ordinalColors(colorScheme)
+        .ordinalColors(colorSchemeBF)
         //.width(300)
         .height(250)
         .dimension(ticketTypeDim)
@@ -252,11 +218,16 @@ function makeWorkGraphs(error,workdata) {
         .xAxis().ticks(4);
 
     ticketHoursChart
-        .ordinalColors(colorScheme)
-        //.width(300)
-        .height(600)
+        .ordinalColors(colorSchemeS)
         .dimension(ticketDim)
         .group(ticketHoursGroup)
+        /*.colorAccessor(function(d){
+            console.log(d);
+        }
+        .colors(d3.scale.ordinal().domain([0,1])
+            .range(["#79CED7", "#C96A23"]))*/
+        //.width(300)
+        .height(600)
         .useViewBoxResizing(true)
         .elasticX(true)
         //.xAxisLabel("Hours")
@@ -264,5 +235,5 @@ function makeWorkGraphs(error,workdata) {
 
 
     dc.renderAll();
-    //showPage();
+    showPage();
 }

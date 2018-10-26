@@ -21,8 +21,8 @@
 
     {% block head_js %}{% endblock head_js %}
 </head>
-<body onload="showPage()" style="font-family: 'Raleway', sans-serif;">
-    <div id="loader"></div>
+<body style="font-family: 'Raleway', sans-serif;">
+
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
         <a class="navbar-brand text-center" href="/"><img src="{% static 'img/bird_yellow.png' %}" height="32px" width="32px">&nbsp;Quo Vadimus</a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
@@ -33,6 +33,7 @@
                 <li class="nav-item"><a class="nav-link" href="/" data-toggle="tooltip" data-placement="bottom" title="Home"><i class="fas fa-home fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">Home</p></a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'about' %}" data-toggle="tooltip" data-placement="bottom" title="About Us"><i class="fas fa-globe fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">About Us</p></a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'faq' %}" data-toggle="tooltip" data-placement="bottom" title="FAQ"><i class="fas fa-question-circle fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">FAQ</p></a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}" data-toggle="tooltip" data-placement="bottom" title="Contact Us!"><i class="fas fa-envelope fa-lg d-none d-sm-block"></i><span class="d-block d-sm-none">Contact Us</span></a></li>
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="fas fa-ticket-alt fa-lg d-none d-sm-block" data-toggle="tooltip" data-placement="bottom" title="Bugs/Features"></i><p class="d-block d-sm-none">Tickets</p></a>
                     <div class="dropdown-menu dropdown-menu-right">
@@ -40,7 +41,6 @@
                         <a class="dropdown-item" href="{% url 'tickets' subject_id=2 %}">Features</a>
                     </div>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}" data-toggle="tooltip" data-placement="bottom" title="Contact Us!"><i class="fas fa-envelope fa-lg d-none d-sm-block"></i><span class="d-block d-sm-none">Contact Us</span></a></li>
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="fas fa-chart-bar fa-lg d-none d-sm-block" data-toggle="tooltip" data-placement="bottom" title="Reports"></i><p class="d-block d-sm-none">Reports</p></a>
                     <div class="dropdown-menu dropdown-menu-right">
@@ -70,7 +70,7 @@
         <div class="alert alert-success container-fluid">
             <div class="messages">
                 {% for message in messages %}
-                    {{ message }}
+                    {{ message|striptags}}
                 {% endfor %}
             </div>
         </div>
@@ -91,11 +91,4 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
 <script type="text/javascript" src="{% static "js/base_jquery.js" %}"></script>
-<!--script>
-    $("#confirmationModal").on("show.bs.modal",function(e){
-        var button = $(e.relatedTarget);
-        var href = button.attr('data-href');
-        console.log(href);
-    })
-</script-->
 </html>

@@ -10,7 +10,16 @@
         background: url('/static/img/fire.gif') no-repeat center center;
     }
 
-    .featurette h1,h2,h3,h4,p {
+    .featurette > div h1 {
+        text-align: center;
+    }
+    .featurette > div h2 {
+        text-align: center;
+    }
+    .featurette > div h3 {
+        text-align: center;
+    }
+    .featurette > div h4 {
         text-align: center;
     }
 
@@ -138,3 +147,19 @@ legend {
 .progress-bar-donation {
     background-color: green;
 }
+
+.accordian > h2 {
+    margin: 20px 0;
+}
+
+/*.accordian > .card > .collapse > .card-body > p {
+    text-indent: 10px;
+}*/
+
+/*.accordian > .card {
+    max-width: 100%;
+}*/
+
+/*.accordian > .card > .card-header  {
+    word-wrap: break-word;
+}*/

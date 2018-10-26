@@ -107,10 +107,11 @@ def new_ticket(request, subject_id):
             subject.poll.save()
 
             messages.success(request, "You have created a new ticket!")
-
             return redirect(reverse('ticket', args=[ticket.pk]))
         else:
-            messages.error(request,ticket_form.errors)
+            for field,errors in ticket_form.errors.items():
+                #messages.error(request,ticket_form.errors)
+                messages.error(request,errors)
             return redirect(reverse('new_ticket',args={subject_id}))
     else:
         ticket_form = TicketForm()

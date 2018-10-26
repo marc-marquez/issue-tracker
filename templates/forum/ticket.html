@@ -4,7 +4,7 @@
 {% load stripe_extras %}
 {% block content %}
 
-<div class="container" style="margin-top: 20px">
+<div class="container" style="margin-top: 50px">
     <div class="row">
         <div class="col-md-12">
             <h2>{{ ticket.name }}</h2>
@@ -40,12 +40,12 @@
                 <tbody>
                     <tr>
                         <th>LAST POST BY</th>
-                        <th>VOTE RANK</th>
-                        <th>STATUS</th>
+                        <th class="text-center">VOTE RANK</th>
+                        <th class="text-center">STATUS</th>
                     </tr>
                     <tr>
                         <td>{{ ticket.posts.last.user.username }}</td>
-                        <td>#{{ ticket | get_vote_rank }}</td>
+                        <td class="text-center">#{{ ticket | get_vote_rank }}</td>
                         <td class="text-center"><div id="statusLabel" class="label label-default" style="background-color:{{ ticket.status|get_label_color }};color:white;font-size: medium">{{ ticket.status }}</div></td>
                     </tr>
                 </tbody>

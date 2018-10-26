@@ -12,3 +12,5 @@ function showAddCard() {
         x.style.display = "none";
     }
 }
+
+//window.onload = function(){ document.getElementById("loader").style.display = "none" }
