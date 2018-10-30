@@ -28,21 +28,25 @@ def voting_results(request,subject_id):
     subject = get_object_or_404(Subject, pk=subject_id)
     options = PollOption.objects.filter(poll_id=subject_id).annotate(vote_count=Count('votes')).order_by('-vote_count')
 
-    # get charge list
-    list = stripe.Charge.list()
-
-    # dict to get total donations for each ticket_id
-    total_donations = {}
-    for charge in list:
-        try:
-            current_id = int(charge['metadata']['ticket_id'])
-            if current_id not in total_donations:
-                total_donations[current_id] = 0
-            total_donations[current_id] += float(charge['amount'] / 100)
-        except:
-            print("No ticket_id found in charge.")
-
     if subject.name == 'Feature':
+        # get charge list.Stripe limit is 100 per query
+        list = []
+        charges = stripe.Charge.list(limit=100)
+
+        for charge in charges.auto_paging_iter():
+            list.append(charge)
+
+        # dict to get total donations for each ticket_id
+        total_donations = {}
+        for current_charge in list:
+            try:
+                current_id = int(current_charge['metadata']['ticket_id'])
+                if current_id not in total_donations:
+                    total_donations[current_id] = 0
+                total_donations[current_id] += float(current_charge['amount'] / 100)
+            except:
+                print("No ticket_id found in charge metadata.")
+
         for option in options:
             try:
                 option.ticket.feature.total_donations = total_donations[option.ticket.id]
@@ -334,13 +338,13 @@ def custom_donate(request,subject_id,ticket_id):
         try:
             customer = stripe.Customer.retrieve(request.user.stripe_id)
         except stripe.error.StripeError as e:
-            messages.error(request, "No customer registered with Stripe. Please add a credit card.")
+            messages.error(request, "No credit card on file. Please add a credit card.")
             return redirect(reverse('profile'))
 
         default_source = customer.default_source
 
         if default_source is None:
-            messages.error(request, "No credit card registered with Stripe. Please add a credit card.")
+            messages.error(request, "No credit card on file. Please add a credit card.")
             return redirect(reverse('profile'))
         else:
             default_card = customer.sources.retrieve(default_source)
