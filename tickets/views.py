@@ -253,11 +253,16 @@ def ticket_vote(request, ticket_id, subject_id,*donate_votes):
 
     #Check to see if voted on poll option is on bugs
     votes = subject.poll.votes.filter(user=request.user)
+
+    #previous http location
+    prev = request.META.get("HTTP_REFERER")
+
     if(subject.name == 'Bug'):
         for vote in votes:
             if (vote.option.ticket.id==ticket_id):
                 messages.error(request, "You already voted on this! ... You’re not trying to cheat are you?")
-                return redirect(reverse('tickets', args={subject_id}))
+                #return redirect(request.META.get("HTTP_REFERER"))
+                return redirect(prev)
 
     option = PollOption.objects.get(ticket_id=ticket_id)
 
@@ -269,10 +274,12 @@ def ticket_vote(request, ticket_id, subject_id,*donate_votes):
     else:
         option.votes.create(poll=subject.poll, user=request.user)
 
-    messages.success(request, "We've registered your vote(s)!")
+    messages.success(request, "We've registered your vote!")
 
-    return redirect(reverse('tickets', args={subject_id}))
+    return redirect(prev)
+    #return redirect(reverse('tickets', args={subject_id}))
 
+'''
 @login_required(login_url='/login/')
 def ticket_donate(request,ticket_id,subject_id):
     if request.method == 'POST':
@@ -309,6 +316,7 @@ def ticket_donate(request,ticket_id,subject_id):
             messages.error(request,"Could not process donation.")
 
     return redirect(reverse('tickets', args={subject_id}))
+'''
 
 @login_required(login_url='/login/')
 def custom_donate(request,subject_id,ticket_id):
@@ -387,7 +395,7 @@ def updateTicketDonationData(ticket):
 
     # Update feature with new donation total donations
     try:
-        ticket.feature.total_donations = total_donations[key]
+        ticket.feature.total_donations = total_donations[ticket.id]
     except:
         ticket.feature.total_donations = 0
     ticket.feature.save()

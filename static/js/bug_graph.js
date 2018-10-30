@@ -2,40 +2,6 @@ queue()
     .defer(d3.json,"/rest/work/log/custom/?format=json")
     .await(makeWorkGraphs);
 
-/*function zoom(svg){
-    const extent = [[margin.left, margin.top],[width-margin.right,height-margin.top]];
-
-    svg.call(d3.zoom()
-        .scaleExtent([1,8])
-        .translateExtent(extent)
-        .extent(extent)
-        .on("zoom",zoomed));
-
-    function zoomed(){
-        x.range([margin.left,width-margin.right].map(d=> d3.event.transform.applyX(d)));
-        svg.selectAll(".bars rect").attr("x",d=>x(d.date)).attr("width",x.bandwidth());
-        svg.selectAll(".x-axis").call(xAxis);
-    }
-}
-
-function zoomableBarChart(chart){
-    var width = chart.effectiveWidth() - chart.margin.left - chart.margin.right;
-    var height = chart.effectiveHeight() - chart.margin.top - chart.margin.bottom;
-    var marginOv = {top:500,right:chart.margin.right,bottom:20,left:chart.margin.left};
-    var heightOv = 500 - marginOv.top - marginOv.bottom;
-
-    var x = d3.time.scale().range([0,width]);
-    var y = d3.scale.linear().range([height,0]);
-    var xOv = d3.time.scale().range([0,width]);
-    var yOv = d3.scale.linear().range([heightOv,0]);
-
-    var xAxis = d3.svg.axis().scale(x).orient("bottom");
-    var yAxis = d3.svg.axis().scale(y).orient("left");
-    var xAxisOv = d3.svg.axis().scale(xOv).orient("bottom");
-
-    var chartBody = chart.select("g");
-}*/
-
 function makeWorkGraphs(error,workdata) {
 
     if (error) {
@@ -44,12 +10,7 @@ function makeWorkGraphs(error,workdata) {
     }
 
     var ndx = crossfilter(workdata);
-
-    //console.log(workdata);
-
-    //var dateFormatSpecifier = "%Y-%m-%d";
     var dateFormat = d3.time.format("%Y-%m-%d").parse;
-    /*var dateFormatParser = d3.timeParse(dateFormatSpecifier);*/
 
     workdata.forEach(function (d) {
         d.dd = dateFormat(d.date);
@@ -60,19 +21,8 @@ function makeWorkGraphs(error,workdata) {
     });
 
     var dateDim = ndx.dimension(function(d){
-        //return d3.time.day(dateFormat(d.date));
         return d.day;
     });
-
-    /*var weekDim = ndx.dimension(function(d){
-        //return d3.time.week(dateFormat(d.date));
-        return d.week;
-    });
-
-    var monthDim = ndx.dimension(function(d){
-        //return d3.time.month(dateFormat(d.date));
-        return d.month;
-    });*/
 
     var ticketStatusDim = ndx.dimension(function(d){
        return d.ticket_status;
@@ -92,54 +42,28 @@ function makeWorkGraphs(error,workdata) {
         return d.hours;
     });
 
-    /*var bugsPerMonthGroup = monthDim.group().reduceSum(function(d){
-        return d.ticket_type=="Bug";
-    });*/
-
     var bugsPerDayGroup = dateDim.group().reduceSum(function(d){
         return d.ticket_type=="Bug";
     });
 
-    /*var featuresPerMonthGroup = monthDim.group().reduceSum(function(d){
-        return d.ticket_type=="Feature";
-    });*/
-
     var featuresPerDayGroup = dateDim.group().reduceSum(function(d){
         return d.ticket_type=="Feature";
     });
-
-    /*var bugsPerWeekGroup = weekDim.group().reduceSum(function(d){
-        return d.ticket_type=="Bug";
-    });
-
-    var featuresPerWeekGroup = weekDim.group().reduceSum(function(d){
-        return d.ticket_type=="Feature";
-    });*/
 
     var ticketStatusGroup = ticketStatusDim.group();
     var ticketTypeGroup = ticketTypeDim.group();
 
     focusChart = dc.barChart("#focusChart");
     overviewChart = dc.barChart("#overviewChart");
-    //weekChart = dc.barChart("#weekChart");
     statusChart = dc.rowChart("#statusChart");
     ticketTypeChart = dc.rowChart("#ticketTypeChart");
     ticketHoursChart = dc.rowChart("#ticketHoursChart");
 
     var minDate = new Date(dateDim.bottom(1)[0]["date"]);
     var maxDate = new Date();
-    //console.log("min: "+minDate+",max: "+maxDate);
 
-    //var minWeekDate = new Date(2018,10,01);
-    //var maxWeekDate = new Date(2018,10,31);
-
-
-    //var colorSchemeS = ["#013369","#D50A0A","#008000","#FFA500","#FFFF00"];
-    //var colorScheme = ["#79CED7", "#C96A23","#66AFB2", "#D3D1C5", "#F5821F"];
-    //var colorScheme = ["#A07A19", "#AC30C0", "#EB9A72", "#BA86F5", "#EA22A8"];
-
-    /*var colorScheme = d3.scale.ordinal().domain(["Bug","Feature"])
-                                        .range(["#79CED7", "#C96A23"]);*/
+    var colorScheme = d3.scale.ordinal().domain(["Bug","Feature"])
+                                        .range(["#C96A23","#79CED7"]);
 
     var colorSchemeS = ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628'];
     var colorSchemeBF = ["#C96A23","#79CED7"];
@@ -207,8 +131,7 @@ function makeWorkGraphs(error,workdata) {
         .xAxis().ticks(4);
 
     ticketTypeChart
-        .ordinalColors(colorSchemeBF)
-        //.width(300)
+        .colors(colorScheme)
         .height(250)
         .dimension(ticketTypeDim)
         .group(ticketTypeGroup)
@@ -216,23 +139,22 @@ function makeWorkGraphs(error,workdata) {
         .elasticX(true)
         //.xAxisLabel("Number of Tickets")
         .xAxis().ticks(4);
+        /*.on('pretransition',function(overviewChart){
+            if(overviewChart.ticket_type == "Bug")
+                console.log("Bug")
+            else
+                console.log("Feature")
+        })*/
 
     ticketHoursChart
         .ordinalColors(colorSchemeS)
         .dimension(ticketDim)
         .group(ticketHoursGroup)
-        /*.colorAccessor(function(d){
-            console.log(d);
-        }
-        .colors(d3.scale.ordinal().domain([0,1])
-            .range(["#79CED7", "#C96A23"]))*/
-        //.width(300)
         .height(600)
         .useViewBoxResizing(true)
         .elasticX(true)
         //.xAxisLabel("Hours")
         .xAxis().ticks(4);
-
 
     dc.renderAll();
     showPage();
