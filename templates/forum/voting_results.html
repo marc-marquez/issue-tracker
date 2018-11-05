@@ -5,64 +5,37 @@
 <div class="jumbotron" style="background: url('/static/img/charting.jpg') no-repeat center center;background-size: cover;">
     <h1 style="display: inline-block; color: white;">{{ subject.name }} Voting Results</h1>&nbsp &nbsp<i style="display: inline-block;color: white;" class="fas fa-chart-bar"></i>
 </div>
- <!---This is the poll chart -->
-{#% for subject in subjects %#}
 <div class="container-fluid">
- <div class="row">
-     <!--div class="col-md-12"-->
+    <div class="row">
         {% if subject.poll %}
-           <!--div class="container-fluid"-->
-               <!--div class="row"-->
-                   <div class="col-md-8">
-                       {% for option in options %}
-                           {% if option.ticket.status != 'CLOSED' %}
-                           <div>
-                               <a href="{% url 'ticket' option.ticket_id %}">{{ option.ticket.name }}</a>
-                               <span class="float-right">(Votes:{{ option.vote_count }}) {{ option|vote_percentage|floatformat:2 }}%</span>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-info" role="progressbar"
-                                    aria-value="{{ option|vote_percentage }}" aria-valuemin="0"
-                                    aria-valuemax="100" style="width:{{ option|vote_percentage }}%;">
-                                    </div>
+           <div class="col-md-8">
+               {% for option in options %}
+                   {% if option.ticket.status != 'CLOSED' %}
+                   <div>
+                       <a href="{% url 'ticket' option.ticket_id %}">{{ option.ticket.name }}</a>
+                       <span class="float-right">(Votes:{{ option.vote_count }}) {{ option|vote_percentage|floatformat:2 }}%</span>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-info" role="progressbar"
+                            aria-value="{{ option|vote_percentage }}" aria-valuemin="0"
+                            aria-valuemax="100" style="width:{{ option|vote_percentage }}%;">
+                            </div>
+                        </div>
+                        {% if subject.name == 'Feature' %}
+                            <div class="progress" style="margin-top: 5px">
+                                <div class="progress-bar progress-bar-info progress-bar-donation" role="progressbar"
+                                aria-value="{{ option.ticket|donation_percentage }}" aria-valuemin="0"
+                                aria-valuemax="100" style="width:{{ option.ticket|donation_percentage }}%;">
                                 </div>
-                                {% if subject.name == 'Feature' %}
-                                    <div class="progress" style="margin-top: 5px">
-                                        <div class="progress-bar progress-bar-info progress-bar-donation" role="progressbar"
-                                        aria-value="{{ option.ticket|donation_percentage }}" aria-valuemin="0"
-                                        aria-valuemax="100" style="width:{{ option.ticket|donation_percentage }}%;">
-                                        </div>
-                                    </div>
-                                    <p style="display: inline-block">Donated: ${{ option.ticket.feature.total_donations|floatformat:2 }}</p>
-                                    <span class="float-right">Goal: ${{ option.ticket.feature.donation_goal|floatformat:2 }}</span>
-                               {% endif %}
-                           </div>
-                           <br>
-                           {% endif %}
-                      {% endfor %}
+                            </div>
+                            <p style="display: inline-block">Donated: ${{ option.ticket.feature.total_donations|floatformat:2 }}</p>
+                            <span class="float-right">Goal: ${{ option.ticket.feature.donation_goal|floatformat:2 }}</span>
+                       {% endif %}
                    </div>
-                   <!--hr>
-                   <div class="col-md-6">
-                       {#% for option in options %#}
-                           {#% if subject.name == 'Feature' %#}
-                                <a href="{#% url 'ticket' option.ticket_id %#}">{#{ option.ticket.name }#}</a>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-info" role="progressbar"
-                                    aria-value="{#{ option.ticket|donation_percentage }#}" aria-valuemin="0"
-                                    aria-valuemax="100" style="width:{#{ option.ticket|donation_percentage }#}%;">
-                                    </div>
-                                </div>
-                                <p style="display: inline-block">Donated: ${#{ option.ticket.feature.total_donations|floatformat:2 }#}</p>
-                                <span class="float-right">Goal: ${#{ option.ticket.feature.donation_goal|floatformat:2 }#}</span>
-                                <br>
-                           {#% endif %#}
-                      {#% endfor %#}
-                   </div-->
-               <!--/div-->
-           <!--/div-->
+                   <br>
+                   {% endif %}
+              {% endfor %}
+           </div>
         {% endif %}
-     <!--/div-->
- </div>
+    </div>
 </div>
-{#% endfor %#}
- <!---This is the poll chart -->
 {% endblock %}

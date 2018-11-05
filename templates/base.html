@@ -21,8 +21,8 @@
 
     {% block head_js %}{% endblock head_js %}
 </head>
-<body style="font-family: 'Raleway', sans-serif;">
-
+<body onload="showPage(false)">
+    <div id="loader"></div>
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
         <a class="navbar-brand text-center" href="/"><img src="{% static 'img/bird_yellow.png' %}" height="32px" width="32px">&nbsp;Quo Vadimus</a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
@@ -33,7 +33,7 @@
                 <li class="nav-item"><a class="nav-link" href="/" data-toggle="tooltip" data-placement="bottom" title="Home"><i class="fas fa-home fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">Home</p></a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'about' %}" data-toggle="tooltip" data-placement="bottom" title="About Us"><i class="fas fa-globe fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">About Us</p></a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'faq' %}" data-toggle="tooltip" data-placement="bottom" title="FAQ"><i class="fas fa-question-circle fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">FAQ</p></a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}" data-toggle="tooltip" data-placement="bottom" title="Contact Us!"><i class="fas fa-envelope fa-lg d-none d-sm-block"></i><span class="d-block d-sm-none">Contact Us</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}" data-toggle="tooltip" data-placement="bottom" title="Contact Us!"><i class="fas fa-envelope fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">Contact Us</p></a></li>
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="fas fa-ticket-alt fa-lg d-none d-sm-block" data-toggle="tooltip" data-placement="bottom" title="Bugs/Features"></i><p class="d-block d-sm-none">Tickets</p></a>
                     <div class="dropdown-menu dropdown-menu-right">
@@ -45,16 +45,16 @@
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="fas fa-chart-bar fa-lg d-none d-sm-block" data-toggle="tooltip" data-placement="bottom" title="Reports"></i><p class="d-block d-sm-none">Reports</p></a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a class="dropdown-item" href="{% url 'voting_results' subject_id=1 %}">Bugs Voting Results</a>
-                        <a class="dropdown-item" href="{% url 'voting_results' subject_id=2 %}">Features Voting Results</a>
-                        <a class="dropdown-item" href="{% url 'dashboard' %}">Work Dashboard</a>
+                        <a class="dropdown-item" href="{% url 'voting_results' subject_id=2 %}" onclick="showLoader()">Features Voting Results</a>
+                        <a class="dropdown-item" href="{% url 'dashboard' %}" onclick="showLoader()">Work Dashboard</a>
                     </div>
                 </li>
                 {% if user.is_authenticated %}
                     <li class="dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="fas fa-user fa-lg d-none d-sm-block"></i><p class="d-block d-sm-none">{{ user.username }}</p></a>
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="fas fa-user fa-lg d-none d-sm-block" data-toggle="tooltip" data-placement="bottom" title="User"></i><p class="d-block d-sm-none">{{ user.username }}</p></a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item d-none d-sm-block" style="background-color: yellow">{{ user.username }}</a>
-                            <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                            <a class="dropdown-item" href="{% url 'profile' %}" onclick="showLoader()">Profile</a>
                             <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
                             <div class="dropdown-divider"></div>
                         </div>
@@ -82,7 +82,7 @@
     </div>
     <hr>
     <div class="footer">
-        <small>Made By Marc Marquez</small>
+        <small>2018 - Made By Marc Marquez for Code Institute (Project 3)</small>
     </div>
 
 </body>

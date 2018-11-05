@@ -9,15 +9,14 @@ function makeWorkGraphs(error,workdata) {
         throw error;
     }
 
+    //showpage(true);
+
     var ndx = crossfilter(workdata);
     var dateFormat = d3.time.format("%Y-%m-%d").parse;
 
     workdata.forEach(function (d) {
         d.dd = dateFormat(d.date);
-        //d.month = d3.time.month(d.dd);
         d.day = d3.time.day(d.dd);
-        //d.year = d3.time.year(d.dd);
-        //d.week = d3.time.week(d.dd);
     });
 
     var dateDim = ndx.dimension(function(d){
@@ -157,5 +156,5 @@ function makeWorkGraphs(error,workdata) {
         .xAxis().ticks(4);
 
     dc.renderAll();
-    showPage();
+    showPage(false);
 }

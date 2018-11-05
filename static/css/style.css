@@ -1,3 +1,7 @@
+body {
+    font-family: 'Raleway', sans-serif;
+}
+
 @media (max-width: 767px){
     #loader {
         position: absolute;
@@ -28,7 +32,8 @@
     }
 }
 
-@media (max-width: 575px) {
+@media (max-width: 576px){
+
 }
 
 .chart-wrapper {
@@ -122,7 +127,6 @@ underline {
 }
 
 .jumbotron h1 {
-    /*font-size: 65px;*/
     display: inline-block;
 }
 .jumbotron i {
@@ -152,14 +156,6 @@ legend {
     margin: 20px 0;
 }
 
-/*.accordian > .card > .collapse > .card-body > p {
-    text-indent: 10px;
-}*/
-
-/*.accordian > .card {
-    max-width: 100%;
-}*/
-
-/*.accordian > .card > .card-header  {
-    word-wrap: break-word;
-}*/
+.error-msg {
+    color: red;
+}

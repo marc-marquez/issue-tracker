@@ -2,11 +2,11 @@ from django.contrib import messages, auth
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.template.context_processors import csrf
-from accounts.forms import UserRegistrationForm, UserLoginForm
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-from .models import User
 import stripe
+from accounts.forms import UserRegistrationForm, UserLoginForm
+from .models import User
 
 stripe.api_key = settings.STRIPE_SECRET
 
@@ -21,23 +21,17 @@ def register(request):
 
             try:
                 # Need to create a stripe token and save to database
-                customer = stripe.Customer.create(
-                    description="Customer for " + str(user.username),
-                    email=user.email,
-                    source=request.POST.get('stripeToken')
-                )
-                # Save Stripe token to database
-                user = User.objects.get(id=user.id)
-                user.stripe_id = customer.id
-                user.save()
+                customer = create_stripe_customer(user)
+                save_stripe_customer(customer.id,user.id)
             except:
                 print("Could not add user to Stripe.")
 
-            if user:
+            #if user:
+            if customer:
                 messages.success(request, "You have successfully registered. ")
                 return redirect(reverse('login'))
             else:
-                messages.error(request, "Unable register you at this time! ")
+                messages.error(request, "Unable to register you at this time! ")
     else:
         form = UserRegistrationForm()
 
@@ -52,15 +46,8 @@ def profile(request):
         customer = stripe.Customer.retrieve(request.user.stripe_id)
     except:
         #If no customer found on Stripe, create it.
-        customer = stripe.Customer.create(
-            description="Customer for " + str(request.user.username),
-            email=request.user.email,
-            source=request.POST.get('stripeToken')
-        )
-        #Save Stripe token to database
-        user = User.objects.get(id=request.user.id)
-        user.stripe_id = customer.id
-        user.save()
+        customer = create_stripe_customer(request.user)
+        save_stripe_customer(customer.id, request.user.id)
         return redirect(reverse('profile'))
 
     try:
@@ -68,9 +55,10 @@ def profile(request):
         default_source = customer.default_source
     except:
         cards = None
+        default_source = None
 
-    args = {'cards':cards,'default_source':default_source}
-    return render(request, 'profile.html',args)
+    args = {'cards':cards, 'default_source':default_source}
+    return render(request, 'profile.html', args)
 
 def login(request):
     if request.method == 'POST':
@@ -81,24 +69,20 @@ def login(request):
 
             if user is not None:
                 auth.login(request, user)
-                messages.success(request, "You have successfully logged in.")
+
                 #try to recover stripe id from stripe database
                 try:
-                    existing_stripe_customer = stripe.Customer.list(email=request.user.email, limit=1)
+                    existing_stripe_customer = stripe.Customer.list(email=request.user.email,
+                                                                    limit=1)
                     customer = stripe.Customer.retrieve(existing_stripe_customer.data[0]['id'])
                 except:
-                    customer = stripe.Customer.create(
-                        description="Customer for " + str(request.user.username),
-                        email=request.user.email,
-                        source=request.POST.get('stripeToken')
-                    )
-                finally:
-                    print("No existing Stripe customer found. Could not add Stripe customer.")
+                    customer = create_stripe_customer(user)
 
-                if(customer):
-                    user = User.objects.get(id=request.user.id)
-                    user.stripe_id = customer.id
-                    user.save()
+                if customer:
+                    save_stripe_customer(customer.id, user.id)
+                    messages.success(request, "You have successfully logged in.")
+                else:
+                    messages.error(request,"Could not find customer in database.")
 
                 return redirect(reverse('index'))
             else:
@@ -123,34 +107,19 @@ def add_card(request):
             #Check to see if customer exists in database, if not, redirect to profile
             try:
                 #try to find customer in stripe database first!
-                existing_stripe_customer = stripe.Customer.list(email=request.user.email,limit=1)
+                existing_stripe_customer = stripe.Customer.list(email=request.user.email, limit=1)
 
                 #if existing_stripe_customer:
                 customer = stripe.Customer.retrieve(existing_stripe_customer.data[0]['id'])
-                '''else:
-                    try:
-                        customer = stripe.Customer.create(
-                            description="Customer for " + str(request.user.username),
-                            email=request.user.email,
-                            source=request.POST.get('stripeToken')
-                        )
-                    except:
-                        print("Add Card: Could not create Stripe customer.")
-                        #messages.error(request,"Could not create Stripe customer.")'''
-
             except stripe.error.CardError as e:
-                message = str(e).split(":",maxsplit=1)[1]
-                messages.error(request,message)
+                message = str(e).split(":", maxsplit=1)[1]
+                messages.error(request, message)
                 return redirect(reverse('profile'))
 
-            if (customer):
-                #Add customer token to database
-                user = User.objects.get(id=request.user.id)
-                user.stripe_id = customer.id
-                user.save()
+            if customer:
+                save_stripe_customer(customer.id, request.user.id)
             else:
-                print("Add Card: Could not save Stripe customer.")
-                #messages.error(request, "Stripe customer was NOT created.")
+                print("ERROR: Could not save Stripe customer.")
         else:
             try:
                 customer = stripe.Customer.retrieve(request.user.stripe_id)
@@ -160,9 +129,9 @@ def add_card(request):
                 messages.error(request, message)
                 return redirect(reverse('profile'))
 
-            if (source):
-                #print(source)
-                messages.success(request,source.brand + " ending in (" + source.last4 + ") has been added to your account.")
+            if source:
+                messages.success(request, source.brand + " ending in (" + source.last4 +
+                                 ") has been added to your account.")
     else:
         return render(request, 'stripe/card_form.html')
 
@@ -171,7 +140,7 @@ def add_card(request):
     return redirect(reverse('profile'))
 
 @login_required(login_url='/login/')
-def delete_card(request,card_id):
+def delete_card(request, card_id):
     if request.method == 'POST':
         customer = stripe.Customer.retrieve(request.user.stripe_id)
         card = customer.sources.retrieve(card_id)
@@ -185,12 +154,12 @@ def delete_card(request,card_id):
             return redirect(reverse('profile'))
 
         if deleted_card.deleted:
-            messages.success(request,brand + " ending in (" + last4 + ") has been deleted.")
+            messages.success(request, brand + " ending in (" + last4 + ") has been deleted.")
 
     return redirect(reverse('profile'))
 
 @login_required(login_url='/login/')
-def set_default_card(request,card_id):
+def set_default_card(request, card_id):
     if request.method == 'POST':
         customer = stripe.Customer.retrieve(request.user.stripe_id)
         try:
@@ -203,6 +172,25 @@ def set_default_card(request,card_id):
 
         if customer.default_source == card_id:
             card = customer.sources.retrieve(card_id)
-            messages.success(request,card.brand + " ending in (" + card.last4 + ") has been set to default.")
+            messages.success(request, card.brand + " ending in (" + card.last4 +
+                             ") has been set to default.")
 
     return redirect(reverse('profile'))
+
+def create_stripe_customer(user):
+    customer = stripe.Customer.create(
+        description="Customer for " + str(user.username),
+        email=user.email,
+    )
+    return customer
+
+def save_stripe_customer(customer_id,user_id):
+    user = User.objects.get(id=user_id)
+    user.stripe_id = customer_id
+    user.save()
+    return
+
+
+
+
+

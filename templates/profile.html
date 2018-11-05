@@ -53,7 +53,7 @@
                                 {% if card.id != default_source %}
                                     <form action="{% url 'set_default_card' card_id=card.id %}" method="post">
                                         {% csrf_token %}
-                                        <td align="center"><button style="border:0" type="submit"><i style="color:black" class="far fa-star"></i></button></td>
+                                        <td align="center"><button style="border:0;cursor: pointer;" type="submit"><i style="color:black" class="far fa-star"></i></button></td>
                                     </form>
                                 {% else %}
                                     <td align="center"><i style="color:black" class="fas fa-star"></i></td>

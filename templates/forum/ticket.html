@@ -63,7 +63,7 @@
                             <strong>Donated: ${{ ticket.feature.total_donations|floatformat:2 }}</strong>
                             <span class="float-right">Goal: ${{ ticket.feature.donation_goal|floatformat:2 }}</span>
                             <div class="progress">
-                                <div class="progress-bar progress-bar-info" role="progressbar"
+                                <div class="progress-bar progress-bar-info progress-bar-donation" role="progressbar"
                                 aria-value="{{ ticket|donation_percentage }}" aria-valuemin="0"
                                 aria-valuemax="100" style="width:{{ ticket|donation_percentage }}%;">
                                 </div>

@@ -11,9 +11,6 @@ from polls.models import PollOption, Poll
 from django.conf import settings
 import stripe
 from django.db.models import Count
-#from rest_framework.response import Response
-#from rest_framework.views import APIView
-#from tickets.serializers import TicketSerializer, TicketCustomSerializer
 
 stripe.api_key = settings.STRIPE_SECRET
 
@@ -45,7 +42,7 @@ def voting_results(request,subject_id):
                     total_donations[current_id] = 0
                 total_donations[current_id] += float(current_charge['amount'] / 100)
             except:
-                print("No ticket_id found in charge metadata.")
+                print("No ticket_id found in Stripe charge metadata.")
 
         for option in options:
             try:

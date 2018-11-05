@@ -7,14 +7,14 @@
         <thead class="thead-light">
             <tr>
                 <th class="text-center">{{ post.user.username }}</th>
-                <th class="text-center d-none d-sm-table-cell">{{ post.user.posts.count }} Post(s)</th>
+                <th class="text-center d-none d-sm-table-cell">Posts: {{ post.user.posts.count }}</th>
                 <th class="text-center">
                     <time datetime="{{ post.created_at }}">Posted: {{ post.created_at|started_time }}
                     </time>
                 </th>
                 {% if post.user == user or user.is_staff %}
                    <th class="text-center"><a href="{% url 'edit_post' ticket.id post.id %}" data-toggle="tooltip" title="Edit Post"><i class="fas fa-edit"></i></a></th>
-                   <!--th class="text-center"><a href="{% url 'delete_post' ticket.id post.id %}" data-toggle="tooltip" title="Delete Post"><i style="color: red" class="fas fa-trash"></i></a></th-->
+                   <!--th class="text-center"><a href="{#% url 'delete_post' ticket.id post.id %#}" data-toggle="tooltip" title="Delete Post"><i style="color: red" class="fas fa-trash"></i></a></th-->
                    <th class="text-center"><a href="#confirmationModal" role="button" data-toggle="modal" data-href="{% url 'delete_post' ticket.id post.id %}"><i style="color: red" class="fas fa-trash" data-toggle="tooltip" title="Delete Post"></i></a></th>
                 {% else %}
                     <th class="text-center"><i class="fas fa-edit" disabled></i></th>
