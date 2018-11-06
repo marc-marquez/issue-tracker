@@ -22,7 +22,7 @@ def register(request):
             try:
                 # Need to create a stripe token and save to database
                 customer = create_stripe_customer(user)
-                save_stripe_customer(customer.id,user.id)
+                save_stripe_customer(customer.id, user.id)
             except:
                 print("Could not add user to Stripe.")
 
@@ -82,7 +82,7 @@ def login(request):
                     save_stripe_customer(customer.id, user.id)
                     messages.success(request, "You have successfully logged in.")
                 else:
-                    messages.error(request,"Could not find customer in database.")
+                    messages.error(request, "Could not find customer in database.")
 
                 return redirect(reverse('index'))
             else:
@@ -184,13 +184,7 @@ def create_stripe_customer(user):
     )
     return customer
 
-def save_stripe_customer(customer_id,user_id):
+def save_stripe_customer(customer_id, user_id):
     user = User.objects.get(id=user_id)
     user.stripe_id = customer_id
     user.save()
-    return
-
-
-
-
-

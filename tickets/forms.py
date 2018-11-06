@@ -26,10 +26,12 @@ class TicketForm(forms.ModelForm):
 
         return name
 
+
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['comment']
+
 
 class FeatureForm(forms.ModelForm):
 

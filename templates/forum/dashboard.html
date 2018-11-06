@@ -6,14 +6,13 @@
     <script src="{% static 'js/dc.js' %}"></script>
     <script src="{% static 'js/queue.js' %}"></script>
     <script src="{% static "js/keen.min.js" %}"></script>
-    <script src="{% static 'js/bug_graph.js' %}"></script>
+    <script src="{% static 'js/dashboard_graph.js' %}"></script>
 {% endblock head_js %}
 {% block content %}
- <div class="jumbotron" style="background: url('/static/img/charting.jpg') no-repeat center center;background-size: cover; margin-bottom: 13px">
-    <h1 style="display: inline-block;color: white;">Work Dashboard</h1>&nbsp &nbsp<i style="display: inline-block;color: white;" class="fas fa-chart-bar"></i>
- </div>
- <!--div id="loader"></div-->
- <div class="row">
+<div class="jumbotron" style="background: url('/static/img/charting.jpg') no-repeat center center;background-size: cover; margin-bottom: 13px">
+    <h1>Work Dashboard</h1>&nbsp &nbsp<i class="fas fa-chart-bar"></i>
+</div>
+<div class="row">
     <!-- Focus Bar Chart -->
     <div class="col-md-12">
         <div class="chart-wrapper">
@@ -22,27 +21,24 @@
         Scroll down to zoom out. Click and drag the mouse to the left or right to see the oldest and newest tickets."></i>
             </div>
             <div class="chart-stage">
-                <div id="focusChart" style="width: 100%"></div>
+                <div id="focusChart"></div>
             </div>
         </div>
     </div>
     <!-- Focus Bar Chart -->
- </div>
- <div class="row">
+</div>
+<div class="row">
     <!-- Overview Bar Chart -->
     <div class="col-md-12">
         <div class="chart-wrapper">
-            <!--div class="chart-title">
-                Tickets Worked on by Day
-            </div-->
             <div class="chart-stage">
-                <div id="overviewChart" style="width: 100%"></div>
+                <div id="overviewChart"></div>
             </div>
         </div>
     </div>
     <!-- Overview Bar Chart -->
- </div>
- <div class="row">
+</div>
+<div class="row">
     <!-- Ticket Type Row Chart -->
     <div class="col-md-6">
         <div class="chart-wrapper">
@@ -50,7 +46,7 @@
                 Ticket Type
             </div>
             <div class="chart-stage">
-                <div id="ticketTypeChart" style="width: 100%"></div>
+                <div id="ticketTypeChart"></div>
             </div>
         </div>
     </div>
@@ -62,13 +58,13 @@
                 Ticket Status
             </div>
             <div class="chart-stage">
-                <div id="statusChart" style="width: 100%"></div>
+                <div id="statusChart"></div>
             </div>
         </div>
     </div>
     <!-- Ticket Status Row Chart -->
- </div>
- <div class="row">
+</div>
+<div class="row">
     <!-- Ticket Hours Row Chart -->
     <div class="col-md-12">
         <div class="chart-wrapper">
@@ -76,10 +72,10 @@
                 Ticket Hours Logged
             </div>
             <div class="chart-stage">
-                <div id="ticketHoursChart" style="width: 100%"></div>
+                <div id="ticketHoursChart"></div>
             </div>
         </div>
     </div>
     <!-- Ticket Hours Row Chart -->
- </div>
+</div>
 {% endblock %}

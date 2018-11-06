@@ -1,29 +1,35 @@
 from __future__ import unicode_literals
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
-from django.contrib import messages, auth
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.template.context_processors import csrf
-from .forms import TicketForm, PostForm, FeatureForm, BugForm
+from django.conf import settings
+from django.db.models import Count
+import stripe
 from tickets.models import Subject, Post, Ticket, Bug, Feature
 from polls.models import PollOption, Poll
-from django.conf import settings
-import stripe
-from django.db.models import Count
+from .forms import TicketForm, PostForm, FeatureForm, BugForm
+
 
 stripe.api_key = settings.STRIPE_SECRET
+
 
 def forum(request):
     return render(request, 'forum/forum.html', {'subjects': Subject.objects.all()})
 
+
 def dashboard(request):
     return render(request, 'forum/dashboard.html')
 
-def voting_results(request,subject_id):
+
+def voting_results(request, subject_id):
     #for subject in Subject.objects.all():
     subject = get_object_or_404(Subject, pk=subject_id)
-    options = PollOption.objects.filter(poll_id=subject_id).annotate(vote_count=Count('votes')).order_by('-vote_count')
+    options = PollOption.objects.filter(poll_id=subject_id)\
+        .annotate(vote_count=Count('votes'))\
+        .order_by('-vote_count')
 
     if subject.name == 'Feature':
         # get charge list.Stripe limit is 100 per query
@@ -53,17 +59,18 @@ def voting_results(request,subject_id):
 
     return render(request, 'forum/voting_results.html', {'subject': subject, 'options': options})
 
+
 def tickets(request, subject_id):
     subject = get_object_or_404(Subject, pk=subject_id)
     return render(request, 'forum/tickets.html', {'subject': subject})
+
 
 @login_required(login_url='/login/')
 def new_ticket(request, subject_id):
     subject = get_object_or_404(Subject, pk=subject_id)
     if request.method == "POST":
         ticket_form = TicketForm(request.POST)
-        #if subject.name == 'Feature':
-        #    supplement_form = FeatureForm(request.POST,prefix="supplementform")
+
         if ticket_form.is_valid():
             ticket = ticket_form.save(False)
             ticket.subject = subject
@@ -83,7 +90,7 @@ def new_ticket(request, subject_id):
                     feature.total_donations = 0
                     feature.save()
             else:
-                print("Unknown subject -- " + subject.name)
+                print("WARNING: Unused subject -- " + subject.name)
 
             #if first ticket in subject then create poll
             try:
@@ -110,10 +117,9 @@ def new_ticket(request, subject_id):
             messages.success(request, "You have created a new ticket!")
             return redirect(reverse('ticket', args=[ticket.pk]))
         else:
-            for field,errors in ticket_form.errors.items():
-                #messages.error(request,ticket_form.errors)
-                messages.error(request,errors)
-            return redirect(reverse('new_ticket',args={subject_id}))
+            for field, errors in ticket_form.errors.items():
+                messages.error(request, errors)
+            return redirect(reverse('new_ticket', args={subject_id}))
     else:
         ticket_form = TicketForm()
         if subject.name == 'Feature':
@@ -134,6 +140,7 @@ def new_ticket(request, subject_id):
     args.update(csrf(request))
 
     return render(request, 'forum/ticket_form.html', args)
+
 
 @login_required(login_url='/login/')
 def edit_ticket(request, ticket_id):
@@ -159,7 +166,7 @@ def edit_ticket(request, ticket_id):
     else:
         ticket_form = TicketForm(instance=ticket)
         if ticket.subject.name == 'Feature':
-            feature = get_object_or_404(Feature,pk=ticket.feature.id)
+            feature = get_object_or_404(Feature, pk=ticket.feature.id)
             supplement_form = FeatureForm(instance=feature)
         else:
             bug = get_object_or_404(Bug, pk=ticket.bug.id)
@@ -175,11 +182,13 @@ def edit_ticket(request, ticket_id):
 
     return render(request, 'forum/ticket_form.html', args)
 
+
 def ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
     args = {'ticket': ticket}
     args.update(csrf(request))
     return render(request, 'forum/ticket.html', args)
+
 
 @login_required(login_url='/login/')
 def new_post(request, ticket_id):
@@ -187,7 +196,7 @@ def new_post(request, ticket_id):
 
     if request.method == "POST":
 
-        post_form = PostForm(request.POST,prefix="postform")
+        post_form = PostForm(request.POST, prefix="postform")
         if post_form.is_valid():
 
             postform = post_form.save(False)
@@ -210,6 +219,7 @@ def new_post(request, ticket_id):
     args.update(csrf(request))
 
     return render(request, 'forum/post_form.html', args)
+
 
 @login_required(login_url='/login/')
 def edit_post(request, ticket_id, post_id):
@@ -249,7 +259,7 @@ def delete_post(request, ticket_id, post_id):
 
 
 @login_required(login_url='/login/')
-def ticket_vote(request, ticket_id, subject_id,*donate_votes):
+def ticket_vote(request, ticket_id, subject_id, *donate_votes):
     subject = Subject.objects.get(id=subject_id)
 
     #Check to see if voted on poll option is on bugs
@@ -258,11 +268,11 @@ def ticket_vote(request, ticket_id, subject_id,*donate_votes):
     #previous http location
     prev = request.META.get("HTTP_REFERER")
 
-    if(subject.name == 'Bug'):
+    if subject.name == 'Bug':
         for vote in votes:
-            if (vote.option.ticket.id==ticket_id):
-                messages.error(request, "You already voted on this! ... You’re not trying to cheat are you?")
-                #return redirect(request.META.get("HTTP_REFERER"))
+            if vote.option.ticket.id == ticket_id:
+                messages.error(request,
+                               "You already voted on this! ... You’re not trying to cheat are you?")
                 return redirect(prev)
 
     option = PollOption.objects.get(ticket_id=ticket_id)
@@ -271,56 +281,17 @@ def ticket_vote(request, ticket_id, subject_id,*donate_votes):
         count = 0
         while count < donate_votes[0]:
             option.votes.create(poll=subject.poll, user=request.user)
-            count+=1
+            count += 1
     else:
         option.votes.create(poll=subject.poll, user=request.user)
 
     messages.success(request, "We've registered your vote!")
 
     return redirect(prev)
-    #return redirect(reverse('tickets', args={subject_id}))
 
-'''
-@login_required(login_url='/login/')
-def ticket_donate(request,ticket_id,subject_id):
-    if request.method == 'POST':
-        ticket = Ticket.objects.get(id=ticket_id)
-        subject = Subject.objects.get(id=subject_id)
-
-        try:
-            customer = stripe.Customer.retrieve(request.user.stripe_id)
-        except stripe.error.StripeError as e:
-            messages.error(request, "No credit card on file. Please add a credit card.")
-            #redirect to profile page to add a card
-            return redirect(reverse('profile'))
-
-        try:
-            #retrive list of cards for customer
-            cards = stripe.Customer.retrieve(customer.id).sources.list(object='card')
-            charge = stripe.Charge.create(
-                amount=1000,
-                currency="usd",
-                source=cards.data[0].id,
-                customer=customer.id,
-                description="Donation for the "+ticket.name+" "+subject.name,
-                metadata={'ticket_id':ticket.id}
-            )
-        except stripe.error.StripeError as e:
-            messages.error(request, e)
-            return redirect(reverse('tickets', args={subject_id}))
-
-        if(charge.status=='succeeded'):
-            messages.success(request,"Thanks for the $10 donation!")
-            #After successfull charge, add vote to ticket
-            ticket_vote(request, ticket_id, subject_id)
-        else:
-            messages.error(request,"Could not process donation.")
-
-    return redirect(reverse('tickets', args={subject_id}))
-'''
 
 @login_required(login_url='/login/')
-def custom_donate(request,subject_id,ticket_id):
+def custom_donate(request, subject_id, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
     subject = get_object_or_404(Subject, pk=subject_id)
     COST_PER_VOTE = 10
@@ -360,16 +331,15 @@ def custom_donate(request,subject_id,ticket_id):
             messages.error(request, e)
             return redirect(reverse('tickets', args={subject_id}))
 
-        if(charge.status=='succeeded'):
-            messages.success(request,"Thanks for the $" + str_amount + " donation!")
-            updateTicketDonationData(ticket)
-            ticket_vote(request, ticket_id, subject_id,votes)
+        if charge.status == 'succeeded':
+            messages.success(request, "Thanks for the $" + str_amount + " donation!")
+            update_ticket_donation_data(ticket)
+            ticket_vote(request, ticket_id, subject_id, votes)
         else:
-            messages.error(request,"Could not process donation.")
+            messages.error(request, "Could not process donation.")
 
         return redirect(reverse('tickets', args={subject_id}))
     else:
-        #return render(request, 'forum/donation_form.html',args={"ticket":ticket})
         pass
 
     args = {
@@ -379,7 +349,7 @@ def custom_donate(request,subject_id,ticket_id):
     return render(request, 'forum/donation_form.html', args)
 
 
-def updateTicketDonationData(ticket):
+def update_ticket_donation_data(ticket):
     # get charge list
     list = stripe.Charge.list()
 
@@ -400,22 +370,3 @@ def updateTicketDonationData(ticket):
     except:
         ticket.feature.total_donations = 0
     ticket.feature.save()
-    return
-
-'''
-class TicketView(APIView):
-
-    def get(self,request):
-        ticket_items = Ticket.objects.all()
-        serializer = TicketSerializer(ticket_items,many=True)
-        serialized_data = serializer.data
-        return Response(serialized_data)
-
-class TicketCustomView(APIView):
-
-    def get(self,request):
-        ticket_items = Ticket.objects.all()
-        serializer = TicketCustomSerializer(ticket_items,many=True)
-        serialized_data = serializer.data
-        return Response(serialized_data)
-'''

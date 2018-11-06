@@ -1,79 +1,67 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% block content %}
-    <div class="jumbotron" style="background: url('/static/img/cityscape.jpg') no-repeat center center;background-size: cover;">
-        <h1 style="color: white">About Quo Vadimus</h1>  <i style="color: white" class="fas fa-globe"></i>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card align-items-center">
-                    <img class="card-img-top img-fluid" src="{% static 'img/employee/trager.png'%}" style="max-width: 200px">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Calvin Trager</h5>
-                        <h5 class="card-sub-title">CEO/Founder</h5>
-                        <!--p class="card-text">About him</p-->
-                        <!--a href="#" class="btn btn-primary">Button</a-->
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card align-items-center">
-                    <img class="card-img-top img-fluid" src="../static/img/employee/photo-richard.png" style="max-width: 200px">
-                    <div class="card-body text-center">
-                        <h5 style="display: inline-block" class="card-title">Richard Hendricks</h5>&nbsp;<i style="display: inline-block;color: green" class="fab fa-pied-piper-hat"></i>
-                        <h5 class="card-sub-title">Chief Technical Officer</h5>
-                        <!--p class="card-text">About him</p-->
-                        <!--a href="#" class="btn btn-primary">Button</a-->
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card align-items-center">
-                    <img class="card-img-top img-fluid" src="../static/img/employee/photo-monica.png" style="max-width: 200px">
-                    <div class="card-body text-center">
-                        <h5 style="display: inline-block" class="card-title">Monica Hall</h5>&nbsp;<i style="display: inline-block;color: green" class="fab fa-pied-piper-hat"></i>
-                        <h5 class="card-sub-title">Chief Financial Officer</h5>
-                        <!--p class="card-text">About him</p-->
-                        <!--a href="#" class="btn btn-primary">Button</a-->
-                    </div>
+<div class="jumbotron" style="background: url('/static/img/cityscape.jpg') no-repeat center center; background-size: cover;">
+    <h1>About Quo Vadimus</h1>  <i class="fas fa-globe"></i>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 card-deck">
+            <div class="card align-items-center">
+                <img class="card-img-top img-fluid" src="{% static 'img/employee/trager.png'%}">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Calvin Trager</h5>
+                    <h5 class="card-sub-title">CEO/Founder</h5>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card align-items-center">
-                    <img class="card-img-top img-fluid" src="../static/img/employee/photo-jared.png" style="max-width: 200px">
-                    <div class="card-body text-center">
-                        <h5 style="display: inline-block" class="card-title">Jared Dunn</h5>&nbsp;<i style="display: inline-block;color: green" class="fab fa-pied-piper-hat"></i>
-                        <h5 class="card-sub-title">Chief Operations Officer</h5>
-                        <!--p class="card-text">About him</p-->
-                        <!--a href="#" class="btn btn-primary">Button</a-->
-                    </div>
+        <div class="col-md-4 card-deck">
+            <div class="card align-items-center">
+                <img class="card-img-top img-fluid" src="{% static 'img/employee/photo-richard.png'%}">
+                <div class="card-body text-center">
+                    <h5 style="display: inline-block" class="card-title">Richard Hendricks</h5>&nbsp;<i class="fab fa-pied-piper-hat pied-piper-style"></i>
+                    <h5 class="card-sub-title">Chief Technical Officer</h5>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card align-items-center">
-                    <img class="card-img-top img-fluid" src="../static/img/employee/photo-dinesh.png" style="max-width: 200px">
-                    <div class="card-body text-center">
-                        <h5 style="display: inline-block" class="card-title">Dinesh Chugtai</h5>&nbsp;<i style="display: inline-block;color: green" class="fab fa-pied-piper-hat"></i>
-                        <h5 class="card-sub-title">Senior Programmer</h5>
-                        <!--p class="card-text">About him</p-->
-                        <!--a href="#" class="btn btn-primary">Button</a-->
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card align-items-center">
-                    <img class="card-img-top img-fluid" src="../static/img/employee/photo-gilfoyle.png" style="max-width: 200px">
-                    <div class="card-body text-center">
-                        <h5 style="display: inline-block" class="card-title">Bertram Gilfoyle</h5>&nbsp;<i style="display: inline-block;color: green" class="fab fa-pied-piper-hat"></i>
-                        <h5 class="card-sub-title">Chief Systems Architect</h5>
-                        <!--p class="card-text">About him</p-->
-                        <!--a href="#" class="btn btn-primary">Button</a-->
-                    </div>
+        </div>
+        <div class="col-md-4 card-deck">
+            <div class="card align-items-center">
+                <img class="card-img-top img-fluid" src="{% static 'img/employee/photo-monica.png'%}">
+                <div class="card-body text-center">
+                    <h5 style="display: inline-block" class="card-title">Monica Hall</h5>&nbsp;<i class="fab fa-pied-piper-hat pied-piper-style"></i>
+                    <h5 class="card-sub-title">Chief Financial Officer</h5>
                 </div>
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-4 card-deck">
+            <div class="card align-items-center">
+                <img class="card-img-top img-fluid" src="{% static 'img/employee/photo-jared.png'%}">
+                <div class="card-body text-center">
+                    <h5 style="display: inline-block" class="card-title">Jared Dunn</h5>&nbsp;<i class="fab fa-pied-piper-hat pied-piper-style"></i>
+                    <h5 class="card-sub-title">Chief Operations Officer</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 card-deck">
+            <div class="card align-items-center">
+                <img class="card-img-top img-fluid" src="{% static 'img/employee/photo-dinesh.png'%}">
+                <div class="card-body text-center">
+                    <h5 style="display: inline-block" class="card-title">Dinesh Chugtai</h5>&nbsp;<i class="fab fa-pied-piper-hat pied-piper-style"></i>
+                    <h5 class="card-sub-title">Senior Programmer</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 card-deck">
+            <div class="card align-items-center">
+                <img class="card-img-top img-fluid" src="{% static 'img/employee/photo-gilfoyle.png'%}">
+                <div class="card-body text-center">
+                    <h5 style="display: inline-block" class="card-title">Bertram Gilfoyle</h5>&nbsp;<i class="fab fa-pied-piper-hat pied-piper-style"></i>
+                    <h5 class="card-sub-title">Chief Systems Architect</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

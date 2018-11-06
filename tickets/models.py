@@ -3,12 +3,14 @@ from django.utils import timezone
 from tinymce.models import HTMLField
 from django.conf import settings
 
+
 class Subject(models.Model):
     name = models.CharField(max_length=255)
     description = HTMLField()
 
     def __unicode__(self):
         return self.name
+
 
 class Ticket(models.Model):
     NEW = 'NEW'
@@ -41,14 +43,17 @@ class Ticket(models.Model):
     def __unicode__(self):
         return self.name
 
+
 class Post(models.Model):
     ticket = models.ForeignKey(Ticket, related_name='posts', on_delete='models.CASCADE')
     comment = HTMLField(blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts',on_delete='models.CASCADE')
     created_at = models.DateTimeField(default=timezone.now)
 
+
 class Bug(models.Model):
     ticket = models.OneToOneField(Ticket, on_delete='models.CASCADE')
+
 
 class Feature(models.Model):
     ticket = models.OneToOneField(Ticket, on_delete='models.CASCADE')

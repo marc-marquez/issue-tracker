@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="jumbotron" style="background: url('/static/img/profile.jpg') no-repeat center center;background-size: cover;">
-    <h1 style="display: inline-block;color:white">Profile</h1>&nbsp &nbsp<i style="display: inline-block;color:white;" class="fas fa-user"></i>
+<div class="jumbotron" style="background: url('/static/img/profile.jpg') no-repeat center center; background-size: cover;">
+    <h1>Profile</h1>&nbsp &nbsp<i class="fas fa-user"></i>
 </div>
 <div class="container">
     <div class="row">
@@ -58,10 +58,6 @@
                                 {% else %}
                                     <td align="center"><i style="color:black" class="fas fa-star"></i></td>
                                 {% endif %}
-                                <!--form action="{#% url 'delete_card' card_id=card.id %#}" method="post">
-                                    {#% csrf_token %#}
-                                    <td align="center"><button style="border:0" type="submit"><i style="color:red" class="fas fa-trash"></i></button></td>
-                                </form-->
                                 <td align="center"><a href="#confirmationModal" role="button" data-toggle="modal" data-href="{% url 'delete_card' card_id=card.id %}"><i style="color: red" class="fas fa-trash"></i></a></td>
                             </tr>
                         {% endfor %}

@@ -128,9 +128,11 @@ underline {
 
 .jumbotron h1 {
     display: inline-block;
+    color: white;
 }
 .jumbotron i {
     display: inline-block;
+    color: white;
 }
 
 legend {
@@ -139,6 +141,7 @@ legend {
 
 .card-img-top {
     margin-top: 10px;
+    max-width: 150px;
 }
 
 .card-sub-title {
@@ -158,4 +161,42 @@ legend {
 
 .error-msg {
     color: red;
+}
+
+.carousel-img {
+    object-fit: cover;
+    height: 70vh;
+}
+
+#featuretteContainer {
+    text-align: center;
+}
+
+.featurette-img{
+    object-fit:cover;
+    width: 100%;
+    height: 50vh;
+}
+
+.featurette > div h1 {
+    font-weight: 700;
+}
+.featurette > div h3 {
+    font-weight: 400;
+}
+.featurette > div h4 {
+    font-weight: 200;
+}
+
+.pied-piper-style {
+    display: inline-block;
+    color: green;
+}
+
+.message-margin {
+    margin-top: 50px;
+}
+
+.chart-stage > div {
+    width: 100%;
 }

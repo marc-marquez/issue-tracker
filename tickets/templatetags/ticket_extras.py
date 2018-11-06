@@ -1,11 +1,12 @@
-import arrow
+from django.db.models import Count
 from django import template
 from django.urls import reverse
-from django.contrib.auth import models
+import arrow
 from polls.models import PollOption
-from django.db.models import Count
+
 
 register = template.Library()
+
 
 @register.filter
 def get_total_subject_posts(subject):
@@ -30,19 +31,21 @@ def last_posted_user_name(ticket):
 def user_vote_button(ticket, subject, user):
     votes = subject.poll.votes.filter(user_id=user.id)
 
-    if(votes):
+    if votes:
         for vote in votes:
             #if bug, each user only gets one vote per ticket
-            if(ticket.subject.name == 'Bug'):
+            if ticket.subject.name == 'Bug':
                 # Check to see if already voted on this option
-                if(ticket.id == vote.option.ticket.id):
-                    return """<button class="btn btn-secondary" disabled data-toggle="tooltip" data-placement="bottom" title="Upvote"><i class="fas fa-thumbs-up"></i></button>"""
-
+                if ticket.id == vote.option.ticket.id:
+                    return """<button class="btn btn-secondary"
+                    disabled data-toggle="tooltip" data-placement="bottom" 
+                    title="Upvote"><i class="fas fa-thumbs-up"></i></button>"""
 
     if user.is_authenticated:
         link = """
         <div class="btn-vote">
-        <a href="%s" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Upvote"><i class="fas fa-thumbs-up"></i></a>
+        <a href="%s" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" 
+        title="Upvote"><i class="fas fa-thumbs-up"></i></a>
         </div>""" % reverse('cast_vote', kwargs={'ticket_id': ticket.id, 'subject_id': subject.id})
         return link
     return ""
@@ -50,13 +53,14 @@ def user_vote_button(ticket, subject, user):
 
 @register.filter
 def vote_percentage(ticket):
-   count = ticket.votes.count()
+    count = ticket.votes.count()
 
-   if count == 0:
-       return 0
+    if count == 0:
+        return 0
 
-   total_votes = ticket.poll.votes.count()
-   return (100 / total_votes) * count
+    total_votes = ticket.poll.votes.count()
+    return (100 / total_votes) * count
+
 
 @register.filter
 def get_label_color(status):
@@ -73,20 +77,21 @@ def get_label_color(status):
 
     return colors[status]
 
+
 @register.filter
 def get_vote_rank(ticket):
 
     subject_id = ticket.subject.id
 
-    options = PollOption.objects.filter(poll_id=subject_id).annotate(vote_count=Count('votes')).order_by('-vote_count')
+    options = PollOption.objects.filter(poll_id=subject_id)\
+        .annotate(vote_count=Count('votes'))\
+        .order_by('-vote_count')
 
     rank = 1
     for option in options:
         if option.ticket.id == ticket.id:
             return rank
         else:
-            rank+=1
+            rank += 1
 
     return rank
-
-
