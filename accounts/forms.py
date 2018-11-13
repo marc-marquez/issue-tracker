@@ -1,3 +1,6 @@
+"""
+Forms to register new users and login users.
+"""
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
@@ -5,6 +8,9 @@ from accounts.models import User
 
 
 class UserRegistrationForm(UserCreationForm):
+    """
+    Registration form
+    """
     password1 = forms.CharField(
         label='Password',
         widget=forms.PasswordInput
@@ -16,11 +22,18 @@ class UserRegistrationForm(UserCreationForm):
     )
 
     class Meta:
+        """
+        Fields to include and exclude from form
+        """
         model = User
         fields = ['email', 'password1', 'password2']
         exclude = ['username']
 
     def clean_password2(self):
+        """
+        Validates passwords match
+        :return: validated password
+        """
         password1 = self.cleaned_data.get('password1')
         password2 = self.cleaned_data.get('password2')
 
@@ -31,6 +44,10 @@ class UserRegistrationForm(UserCreationForm):
         return password2
 
     def clean_email(self):
+        """
+        Validates email does not exist in database
+        :return: validated email
+        """
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exists():
             message = "This email address already exists. Please choose another one. "
@@ -39,6 +56,11 @@ class UserRegistrationForm(UserCreationForm):
         return email
 
     def save(self, commit=True):
+        """
+        Saves the user to the database
+        :param commit: Commit save
+        :return: user instance
+        """
         instance = super(UserRegistrationForm, self).save(commit=False)
 
         # automatically set to email address to create a unique identifier
@@ -50,5 +72,8 @@ class UserRegistrationForm(UserCreationForm):
         return instance
 
 class UserLoginForm(forms.Form):
+    """
+    Login form
+    """
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)

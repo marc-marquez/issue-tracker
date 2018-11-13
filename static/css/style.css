@@ -11,7 +11,7 @@ body {
         width: 300px;
         height: 225px;
         transform: translate(-50%,-50%);
-        background: url('/static/img/fire.gif') no-repeat center center;
+        background: url('/static/img/loader/fire.gif') no-repeat center center;
     }
 
     .featurette > div h1 {
@@ -84,7 +84,7 @@ underline {
         width: 600px;
         height: 400px;
         transform: translate(-50%,-50%);
-        background: url('/static/img/fire_lg.gif') no-repeat center center;
+        background: url('/static/img/loader/fire_lg.gif') no-repeat center center;
     }
 
     .jumbotron h1 {

@@ -1,3 +1,14 @@
+"""
+These are the views to:
+    - Register users
+    - See a user profile
+    - Log in a user
+    - Log out a user
+    - Add a credit card to the user
+    - Delete a credit card from the user
+    - Set the default credit card of a user
+"""
+
 from django.contrib import messages, auth
 from django.urls import reverse
 from django.shortcuts import render, redirect
@@ -10,7 +21,13 @@ from .models import User
 
 stripe.api_key = settings.STRIPE_SECRET
 
+
 def register(request):
+    """
+    Creates registration html page
+    :param request: The request type
+    :return: register page
+    """
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
@@ -26,7 +43,6 @@ def register(request):
             except:
                 print("Could not add user to Stripe.")
 
-            #if user:
             if customer:
                 messages.success(request, "You have successfully registered. ")
                 return redirect(reverse('login'))
@@ -40,8 +56,14 @@ def register(request):
 
     return render(request, 'register.html', args)
 
+
 @login_required(login_url='/login/')
 def profile(request):
+    """
+    Creates the profile html page
+    :param request: The request type
+    :return: profile page
+    """
     try:
         customer = stripe.Customer.retrieve(request.user.stripe_id)
     except:
@@ -60,7 +82,13 @@ def profile(request):
     args = {'cards':cards, 'default_source':default_source}
     return render(request, 'profile.html', args)
 
+
 def login(request):
+    """
+    Creates the login page
+    :param request: The request type
+    :return: login page
+    """
     if request.method == 'POST':
         form = UserLoginForm(request.POST)
         if form.is_valid():
@@ -95,13 +123,25 @@ def login(request):
     args.update(csrf(request))
     return render(request, 'login.html', args)
 
+
 def logout(request):
+    """
+    Processes the logout
+    :param request: The request type
+    :return: Redirects to index page
+    """
     auth.logout(request)
     messages.success(request, 'You have successfully logged out.')
     return redirect(reverse('index'))
 
+
 @login_required(login_url='/login/')
 def add_card(request):
+    """
+    Adds credit card to Stripe customer
+    :param request: The request type
+    :return: Profile page with status message for successful or unsuccessful add.
+    """
     if request.method == 'POST':
         if not request.user.stripe_id:
             #Check to see if customer exists in database, if not, redirect to profile
@@ -139,8 +179,15 @@ def add_card(request):
     args.update(csrf(request))
     return redirect(reverse('profile'))
 
+
 @login_required(login_url='/login/')
 def delete_card(request, card_id):
+    """
+    Deletes credit card from Stripe customer
+    :param request: The request type
+    :param card_id: Stripe id for card being deleted
+    :return: Profile page with status message for successful or unsuccessful deletion.
+    """
     if request.method == 'POST':
         customer = stripe.Customer.retrieve(request.user.stripe_id)
         card = customer.sources.retrieve(card_id)
@@ -158,8 +205,15 @@ def delete_card(request, card_id):
 
     return redirect(reverse('profile'))
 
+
 @login_required(login_url='/login/')
 def set_default_card(request, card_id):
+    """
+    Sets the default credit card for the Stripe customer
+    :param request: The request type
+    :param card_id: Stripe id for card being set to default
+    :return: Profile page with status message for successful or unsuccessful default status.
+    """
     if request.method == 'POST':
         customer = stripe.Customer.retrieve(request.user.stripe_id)
         try:
@@ -177,14 +231,27 @@ def set_default_card(request, card_id):
 
     return redirect(reverse('profile'))
 
+
 def create_stripe_customer(user):
+    """
+    Creates a customer in the Stripe database
+    :param user: User that needs to be added as a Stripe customer
+    :return: Stripe customer object
+    """
     customer = stripe.Customer.create(
         description="Customer for " + str(user.username),
         email=user.email,
     )
     return customer
 
+
 def save_stripe_customer(customer_id, user_id):
+    """
+    Saves the stripe customer token id to local database
+    :param customer_id: Stripe id of customer
+    :param user_id: User id in local database
+    :return: None
+    """
     user = User.objects.get(id=user_id)
     user.stripe_id = customer_id
     user.save()

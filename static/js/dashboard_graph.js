@@ -2,14 +2,13 @@ queue()
     .defer(d3.json,"/rest/work/log/custom/?format=json")
     .await(makeWorkGraphs);
 
+/* Creates all the graphs in the work dashboard */
 function makeWorkGraphs(error,workdata) {
 
     if (error) {
         console.error("makeGraphs in bug_graph error on receiving dataset:", error.statusText);
         throw error;
     }
-
-    //showpage(true);
 
     var ndx = crossfilter(workdata);
     var dateFormat = d3.time.format("%Y-%m-%d").parse;
@@ -108,7 +107,6 @@ function makeWorkGraphs(error,workdata) {
         .brushOn(false)
         .elasticY(true);
 
-
     focusChart
         .legend(dc.legend()
             .legendText(function (d) {return d.name;})
@@ -126,7 +124,6 @@ function makeWorkGraphs(error,workdata) {
         .group(ticketStatusGroup)
         .useViewBoxResizing(true)
         .elasticX(true)
-        //.xAxisLabel("Number of Tickets")
         .xAxis().ticks(4);
 
     ticketTypeChart
@@ -136,14 +133,7 @@ function makeWorkGraphs(error,workdata) {
         .group(ticketTypeGroup)
         .useViewBoxResizing(true)
         .elasticX(true)
-        //.xAxisLabel("Number of Tickets")
         .xAxis().ticks(4);
-        /*.on('pretransition',function(overviewChart){
-            if(overviewChart.ticket_type == "Bug")
-                console.log("Bug")
-            else
-                console.log("Feature")
-        })*/
 
     ticketHoursChart
         .ordinalColors(colorSchemeS)
@@ -152,7 +142,6 @@ function makeWorkGraphs(error,workdata) {
         .height(600)
         .useViewBoxResizing(true)
         .elasticX(true)
-        //.xAxisLabel("Hours")
         .xAxis().ticks(4);
 
     dc.renderAll();

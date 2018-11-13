@@ -161,8 +161,11 @@ def edit_ticket(request, ticket_id):
 
             supplement_form.save()
             messages.success(request, "You have updated your ticket!")
-
             return redirect(reverse('ticket', args={ticket.pk}))
+        else:
+            for field, errors in ticket_form.errors.items():
+                messages.error(request, errors)
+            return redirect(reverse('edit_ticket', args={ticket.pk}))
     else:
         ticket_form = TicketForm(instance=ticket)
         if ticket.subject.name == 'Feature':

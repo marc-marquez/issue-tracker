@@ -20,7 +20,7 @@ class TicketForm(forms.ModelForm):
 
     def clean_name(self):
         name = self.cleaned_data.get('name')
-        if Ticket.objects.filter(name=name).exists():
+        if Ticket.objects.filter(name=name).exists() and self.instance.id is None:
             message = "This ticket name already exists. Please choose another one. "
             raise ValidationError(message)
 

@@ -1,3 +1,4 @@
+/* Event listener code used according to spec from https://stripe.com/docs/stripe-js/reference */
 var stripe = Stripe('pk_test_BfDz5kfXdE0xApIu8HYMfWEQ');
 var elements = stripe.elements();
 var style = {
@@ -34,7 +35,6 @@ form.addEventListener('submit', function(event) {
     } else {
       // Send the token to your server.
       stripeTokenHandler(result.token);
-      //console.log(result.id)
     }
   });
 });
@@ -49,6 +49,5 @@ function stripeTokenHandler(token) {
   form.appendChild(hiddenInput);
 
   // Submit the form
-  //console.log(token.id);
   form.submit();
 }
