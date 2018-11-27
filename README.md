@@ -163,39 +163,39 @@ The project is hosted on Heroku and is deployed through Github.
 
 ### Differences bewtween Development and Production Versions
 
-|                                 | Development | Production |
-| ------------                    | ----------- | ---------- |
-| Debug Mode                      | True        | False      |
-| Database                        | MySQL       | MySQL      |
-| Database Version                | 5.7.21      | 5.7.23-log |
-| Database Host                   | Local       | JawsDB     |
-| Web Host                        | Local       | Heroku     |
-| Site URL                        | localhost   | https://quo-vadimus.herokuapp.com/ |
-| Settings File (/root/settings/) | dev.py      | staging.py |
+|                                 | Development          | Production |
+| ------------                    | -----------          | ---------- |
+| Debug Mode                      | True                 | False      |
+| Database                        | MySQL                | MySQL      |
+| Database Version                | 5.7.21               | 5.7.23-log |
+| Database Host                   | Local                | JawsDB     |
+| Web Host                        | Local                | Heroku     |
+| Site URL                        | localhost            | https://quo-vadimus.herokuapp.com/ |
+| Config File (/root/settings/)   | dev.py               | staging.py |
 
+| Environment Variables           | Locally in .env file   | Config vars in Heroku |
+| ------------                    | -----------            | ---------- |
+| Database                        | LOCALHOST_DATABASE_URL | JAWSDB_URL |
+| Stripe Secret                   | STRIPE_SECRET          | STRIPE_SECRET |
+| Stripe Publishable              | STRIPE_PUBLISHABLE     | STRIPE_PUBLISHABLE |
 
-This section should describe the process you went through to deploy the project to a hosting platform (e.g. GitHub Pages or Heroku).
-
-In particular, you should provide all details of the differences between the deployed version and the development version, if any, including:
-- Different values for environment variables (Heroku Config Vars)?
-- Different configuration files?
-- Separate git branch?
-
-In addition, if it is not obvious, you should also describe how to run your code locally.
 
 ### Resources
 
 - JawsDB MySQL
 	- The project uses the JawsDB MySQL add-on to host the MySQL database.
-
+	- NOTE: Needed to use JawsDB over ClearDB because I am using Django 2.1 which is only supported with MySQL 5.6+.
 
 ## Credits
 
 ### Content
-- The text for section Y was copied from the [Wikipedia article Z](https://en.wikipedia.org/wiki/Z)
 
 ### Media
-- The photos used in this site were obtained from ...
+The photos used in this site were obtained from:
+	- https://www.wallpaperup.com/
+	- https://www.icon100.com/
+	- https://www.pinterest.com/
+	- https://www.google.com/ (Image Search)
 
 ### Acknowledgements
 
