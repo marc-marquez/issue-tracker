@@ -116,38 +116,63 @@ User Type: Registered User (Staff or Administrator)
 
 ## Technologies Used
 
-In this section, you should mention all of the languages, frameworks, libraries, and any other tools that you have used to construct this project. For each, provide its name, a link to its official site and a short sentence of why it was used.
-
 - [JQuery](https://jquery.com)
     - The project uses **JQuery** to simplify DOM manipulation.
 - [Django](https://www.djangoproject.com/)
-- [Python](https://www.python.org/)
+	- The project uses **Django** for rapid Web development using [Python](https://www.python.org/).
 - [Javascript](https://www.javascript.com/)
-
+	- The project uses **Javascript** libraries for chart development and data manipulation.
 - [Django REST Framework](https://www.django-rest-framework.org/)
+	- The project uses **Django REST Framework** to access the database and serialize the data using JSON.
 - [Django Choices](https://pypi.org/project/django-choices/)
-- [Django Tiny MCE](https://pypi.org/project/django-tinymce/)
-- [Django Emoticons](https://pypi.org/project/django-emoticons/)
+	- The project uses **Django Choices** as a way of declaring choices on Django fields.
+- [Django TinyMCE](https://pypi.org/project/django-tinymce/)
+	- The project uses **Django TinyMCE** to create a form field using the TinyMCE editor.
 - [Django Forms Bootstrap](https://pypi.org/project/django-forms-bootstrap/)
+	- The project uses **Django Forms Bootstrap** to render Django forms using Bootstrap.
 - [Stripe](https://stripe.com/)
-- [Dot ENV](https://pypi.org/project/python-dotenv/)
+	- The project uses **Stripe** to process payments (donations).
+- [DotENV](https://pypi.org/project/python-dotenv/)
+	- The project uses **DotENV** to manage environment variables in the project.
 - [Whitenoise](https://pypi.org/project/whitenoise/)
-
+	- The project uses **Whitenoise** to serve static files.
 - [Bootstrap](https://getbootstrap.com/)
+	- The project uses **Bootstrap** to create a responsive and mobile-first thinking website. 
 - [Font Awesome](https://fontawesome.com/)
+	- The project uses **Font Awesome** for the graphical icons.
 - [Bootstrap Table](http://bootstrap-table.wenzhixin.net.cn/)
+	- The project uses **Boostrap Table** to create interactive Bootstrap tables that can be sorted or filtered.
 - [DC.js](https://dc-js.github.io/dc.js/)
 - [D3.js](https://d3js.org/)
 - [Crossfilter.js](http://square.github.io/crossfilter/)
+	- The project uses these Javascript libraries to create charts using large datasets.
 - [Keen Dashboards](https://keen.github.io/dashboards/)
+	- The project uses **Keen Dashboards** to create responsive dashboards in Bootstrap. 
 - [Google Fonts](https://fonts.google.com/)
+	- The project uses **Google Fonts** for web-friendly readable fonts.
 - [Popper.js](https://popper.js.org/)
+	- The project uses the **Popper.js** Javascript library as a requirement for Bootstrap.
 
 ## Testing
 
 Go to this [page](https://docs.google.com/spreadsheets/d/15andB1vSunuoaMmfTk3OKhxBeOaI7kUSEpR_Bol_C5Q/edit?usp=sharing) to see test cases.
 
 ## Deployment
+
+The project is hosted on Heroku and is deployed through Github.
+
+### Differences bewtween Development and Production Versions
+
+|                                 | Development | Production |
+| ------------                    | ----------- | ---------- |
+| Debug Mode                      | True        | False      |
+| Database                        | MySQL       | MySQL      |
+| Database Version                | 5.7.21      | 5.7.23-log |
+| Database Host                   | Local       | JawsDB     |
+| Web Host                        | Local       | Heroku     |
+| Site URL                        | localhost   | https://quo-vadimus.herokuapp.com/ |
+| Settings File (/root/settings/) | dev.py      | staging.py |
+
 
 This section should describe the process you went through to deploy the project to a hosting platform (e.g. GitHub Pages or Heroku).
 
@@ -157,6 +182,11 @@ In particular, you should provide all details of the differences between the dep
 - Separate git branch?
 
 In addition, if it is not obvious, you should also describe how to run your code locally.
+
+### Resources
+
+- JawsDB MySQL
+	- The project uses the JawsDB MySQL add-on to host the MySQL database.
 
 
 ## Credits
