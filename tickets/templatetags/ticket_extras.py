@@ -38,8 +38,7 @@ def user_vote_button(ticket, subject, user):
                 # Check to see if already voted on this option
                 if ticket.id == vote.option.ticket.id:
                     return """<button class="btn btn-secondary"
-                    disabled data-toggle="tooltip" data-placement="bottom" 
-                    title="Upvote"><i class="fas fa-thumbs-up"></i></button>"""
+                    disabled><i class="fas fa-thumbs-up"></i></button>"""
 
     if user.is_authenticated:
         link = """

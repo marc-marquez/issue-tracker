@@ -26,6 +26,13 @@ class TicketForm(forms.ModelForm):
 
         return name
 
+    def clean_description(self):
+        description = self.cleaned_data.get('description')
+        if description is None:
+            message = "Description is required and cannot be left blank. "
+            raise ValidationError(message)
+
+        return description
 
 class PostForm(forms.ModelForm):
     class Meta:

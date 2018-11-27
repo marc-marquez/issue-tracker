@@ -99,7 +99,7 @@ def login(request):
                 auth.login(request, user)
 
                 #try to recover stripe id from stripe database
-                try:
+                '''try:
                     existing_stripe_customer = stripe.Customer.list(email=request.user.email,
                                                                     limit=1)
                     customer = stripe.Customer.retrieve(existing_stripe_customer.data[0]['id'])
@@ -110,8 +110,9 @@ def login(request):
                     save_stripe_customer(customer.id, user.id)
                     messages.success(request, "You have successfully logged in.")
                 else:
-                    messages.error(request, "Could not find customer in database.")
+                    messages.error(request, "Could not find customer in database.")'''
 
+                messages.success(request, "You have successfully logged in.")
                 return redirect(reverse('index'))
             else:
                 messages.error(request, "Your email or password was not recognized.")

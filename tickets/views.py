@@ -118,7 +118,8 @@ def new_ticket(request, subject_id):
             return redirect(reverse('ticket', args=[ticket.pk]))
         else:
             for field, errors in ticket_form.errors.items():
-                messages.error(request, errors)
+                format_error = field.capitalize() + " : " + errors
+                messages.error(request, format_error)
             return redirect(reverse('new_ticket', args={subject_id}))
     else:
         ticket_form = TicketForm()
@@ -164,7 +165,8 @@ def edit_ticket(request, ticket_id):
             return redirect(reverse('ticket', args={ticket.pk}))
         else:
             for field, errors in ticket_form.errors.items():
-                messages.error(request, errors)
+                format_error = field.capitalize() + " : " + errors
+                messages.error(request, format_error)
             return redirect(reverse('edit_ticket', args={ticket.pk}))
     else:
         ticket_form = TicketForm(instance=ticket)
