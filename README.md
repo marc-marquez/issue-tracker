@@ -188,14 +188,21 @@ The project is hosted on Heroku and is deployed through Github.
 
 ## Credits
 
+- Quo Vadimus is the name of the company the character Calvin Trager founded in the show, "Sports Night".
+- Pied Piper and Hooli are from the amazing HBO show, "Silicon Valley". Check it out!
+- Wayne Enterprises is from the Batman and DC franchises.
+- Stark Industries is from the Iron Man and Marvel franchises.
+- Dunder Mifflin is the ficticious company from the NBC show, "The Office".
+- Entertainment 720 is a hilariously failed company from the NBC show, "Parks and Recreation".
+
 ### Content
 
 ### Media
 The photos used in this site were obtained from:
-	- https://www.wallpaperup.com/
-	- https://www.icon100.com/
-	- https://www.pinterest.com/
-	- https://www.google.com/ (Image Search)
+- https://www.wallpaperup.com/
+- https://www.icon100.com/
+- https://www.pinterest.com/
+- https://www.google.com/ (Image Search)
 
 ### Acknowledgements
 
