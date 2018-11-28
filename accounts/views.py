@@ -41,13 +41,13 @@ def register(request):
                 customer = create_stripe_customer(user)
                 save_stripe_customer(customer.id, user.id)
             except:
-                print("Could not add user to Stripe.")
+                print('Could not add user to Stripe.')
 
             if customer:
-                messages.success(request, "You have successfully registered. ")
+                messages.success(request, 'You have successfully registered. ')
                 return redirect(reverse('login'))
             else:
-                messages.error(request, "Unable to register you at this time! ")
+                messages.error(request, 'Unable to register you at this time! ')
     else:
         form = UserRegistrationForm()
 
@@ -97,25 +97,10 @@ def login(request):
 
             if user is not None:
                 auth.login(request, user)
-
-                #try to recover stripe id from stripe database
-                '''try:
-                    existing_stripe_customer = stripe.Customer.list(email=request.user.email,
-                                                                    limit=1)
-                    customer = stripe.Customer.retrieve(existing_stripe_customer.data[0]['id'])
-                except:
-                    customer = create_stripe_customer(user)
-
-                if customer:
-                    save_stripe_customer(customer.id, user.id)
-                    messages.success(request, "You have successfully logged in.")
-                else:
-                    messages.error(request, "Could not find customer in database.")'''
-
-                messages.success(request, "You have successfully logged in.")
+                messages.success(request, 'You have successfully logged in.')
                 return redirect(reverse('index'))
             else:
-                messages.error(request, "Your email or password was not recognized.")
+                messages.error(request, 'Your email or password was not recognized.')
 
     else:
         form = UserLoginForm()
@@ -160,7 +145,7 @@ def add_card(request):
             if customer:
                 save_stripe_customer(customer.id, request.user.id)
             else:
-                print("ERROR: Could not save Stripe customer.")
+                print('ERROR: Could not save Stripe customer.')
         else:
             try:
                 customer = stripe.Customer.retrieve(request.user.stripe_id)
@@ -171,8 +156,8 @@ def add_card(request):
                 return redirect(reverse('profile'))
 
             if source:
-                messages.success(request, source.brand + " ending in (" + source.last4 +
-                                 ") has been added to your account.")
+                messages.success(request, source.brand + ' ending in (' + source.last4 +
+                                 ') has been added to your account.')
     else:
         return render(request, 'stripe/card_form.html')
 
@@ -202,7 +187,7 @@ def delete_card(request, card_id):
             return redirect(reverse('profile'))
 
         if deleted_card.deleted:
-            messages.success(request, brand + " ending in (" + last4 + ") has been deleted.")
+            messages.success(request, brand + ' ending in (' + last4 + ') has been deleted.')
 
     return redirect(reverse('profile'))
 
@@ -221,14 +206,14 @@ def set_default_card(request, card_id):
             customer.default_source = card_id
             customer.save()
         except stripe.error.CardError as e:
-            message = str(e).split(":", maxsplit=1)[1]
+            message = str(e).split(':', maxsplit=1)[1]
             messages.error(request, message)
             return redirect(reverse('profile'))
 
         if customer.default_source == card_id:
             card = customer.sources.retrieve(card_id)
-            messages.success(request, card.brand + " ending in (" + card.last4 +
-                             ") has been set to default.")
+            messages.success(request, card.brand + ' ending in (' + card.last4 +
+                             ') has been set to default.')
 
     return redirect(reverse('profile'))
 
@@ -240,7 +225,7 @@ def create_stripe_customer(user):
     :return: Stripe customer object
     """
     customer = stripe.Customer.create(
-        description="Customer for " + str(user.username),
+        description='Customer for ' + str(user.username),
         email=user.email,
     )
     return customer
