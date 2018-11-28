@@ -1,15 +1,15 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load staticfiles %}
 {% load ticket_extras %}
 {% load stripe_extras %}
 {% block content %}
-<div class="container message-margin">
-    <div class="row">
-        <div class="col-md-12">
+<div class='container message-margin'>
+    <div class='row'>
+        <div class='col-md-12'>
             <h2>{{ ticket.name }}</h2>
         </div>
-        <div class="col-md-12">
-            <table class="table">
+        <div class='col-md-12'>
+            <table class='table'>
                 <tbody>
                     <tr>
                         <th>DESCRIPTION</th>
@@ -20,8 +20,8 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-md-6">
-            <table class="table">
+        <div class='col-md-6'>
+            <table class='table'>
                 <tbody>
                     <tr>
                         <th>CREATED</th>
@@ -34,25 +34,25 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-md-6">
-            <table class="table">
+        <div class='col-md-6'>
+            <table class='table'>
                 <tbody>
                     <tr>
                         <th>LAST POST BY</th>
-                        <th class="text-center">VOTE RANK</th>
-                        <th class="text-center">STATUS</th>
+                        <th class='text-center'>VOTE RANK</th>
+                        <th class='text-center'>STATUS</th>
                     </tr>
                     <tr>
                         <td>{{ ticket.posts.last.user.username }}</td>
-                        <td class="text-center">#{{ ticket | get_vote_rank }}</td>
-                        <td class="text-center"><div id="statusLabel" class="label label-default" style="background-color:{{ ticket.status|get_label_color }};color:white;font-size: medium">{{ ticket.status }}</div></td>
+                        <td class='text-center'>#{{ ticket | get_vote_rank }}</td>
+                        <td class='text-center'><div id='statusLabel' class='label label-default' style='background-color:{{ ticket.status|get_label_color }};color:white;font-size: medium'>{{ ticket.status }}</div></td>
                     </tr>
                 </tbody>
             </table>
         </div>
         {% if ticket.subject.name == 'Feature' %}
-        <div class="col-md-12">
-            <table class="table">
+        <div class='col-md-12'>
+            <table class='table'>
                 <tbody>
                     <tr>
                         <th>DONATIONS</th>
@@ -60,11 +60,11 @@
                     <tr>
                         <td>
                             <strong>Donated: ${{ ticket.feature.total_donations|floatformat:2 }}</strong>
-                            <span class="float-right">Goal: ${{ ticket.feature.donation_goal|floatformat:2 }}</span>
-                            <div class="progress">
-                                <div class="progress-bar progress-bar-info progress-bar-donation" role="progressbar"
-                                aria-value="{{ ticket|donation_percentage }}" aria-valuemin="0"
-                                aria-valuemax="100" style="width:{{ ticket|donation_percentage }}%;">
+                            <span class='float-right'>Goal: ${{ ticket.feature.donation_goal|floatformat:2 }}</span>
+                            <div class='progress'>
+                                <div class='progress-bar progress-bar-info progress-bar-donation' role='progressbar'
+                                aria-value='{{ ticket|donation_percentage }}' aria-valuemin='0'
+                                aria-valuemax='100' style='width:{{ ticket|donation_percentage }}%;'>
                                 </div>
                             </div>
                         </td>
@@ -74,32 +74,32 @@
         </div>
         {% endif %}
     </div>
-    <div class="row">
-        <div class="col-md-12">
+    <div class='row'>
+        <div class='col-md-12'>
             <span>
                 {% if user.is_staff %}
-                    <a href="{% url 'edit_ticket' ticket.id %}" class="btn btn-info">Update ticket</a>
+                    <a href='{% url 'edit_ticket' ticket.id %}' class='btn btn-info'>Update ticket</a>
                 {% endif %}
                 {% if user.is_authenticated and ticket.status != 'CLOSED'%}
-                    <a href="{% url 'new_post' ticket.id %}" class="btn btn-primary">Add post</a>
+                    <a href='{% url 'new_post' ticket.id %}' class='btn btn-primary'>Add post</a>
                     {% if ticket.subject.name == 'Feature'%}
-                        <a href="{% url 'custom_donate' ticket.id ticket.subject.id%}"><button class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Donate"><i class="fas fa-gift"></i></button></a>
+                        <a href='{% url 'custom_donate' ticket.id ticket.subject.id%}'><button class='btn btn-success' data-toggle='tooltip' data-placement='bottom' title='Donate'><i class='fas fa-gift'></i></button></a>
                     {% else %}
-                        <div style="display: inline-block">
+                        <div style='display: inline-block'>
                             {% autoescape off %}
                             {% user_vote_button ticket ticket.subject user %}
                             {% endautoescape %}
                         </div>
                     {% endif %}
                 {% endif %}
-                <a href="{% url 'tickets' ticket.subject.id %}" class="btn btn-warning">Back to {{ ticket.subject.name }} Tracker</a>
+                <a href='{% url 'tickets' ticket.subject.id %}' class='btn btn-warning'>Back to {{ ticket.subject.name }} Tracker</a>
             </span>
         </div>
     </div>
     <br>
-    <div class="row">
+    <div class='row'>
         {% for post in ticket.posts.all %}
-            {% include "forum/post.html" %}
+            {% include 'forum/post.html' %}
         {% endfor %}
     </div>
 </div>

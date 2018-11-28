@@ -1,32 +1,32 @@
 {% extends 'base.html' %}
 {% load bootstrap_tags %}
 {% load staticfiles %}
-{% block head_js %}
-<script src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
-<script type="text/javascript">
+{#% block head_js %#}
+<!--script src='{#% static 'js/tinymce/tinymce.min.js' %#}'></script>
+<script type='text/javascript'>
     tinyMCE.init({
-        mode: "textareas",
-        theme: "modern",
-        plugins: "paste"
+        mode: 'textareas',
+        theme: 'modern',
+        plugins: 'paste'
     });
-</script>
-{% endblock %}
+</script-->
+{#% endblock %#}
 {% block content %}
-<div class="col-md-8 offset-md-2 message-margin">
-    <h1 style="font-weight: 300">Thanks for donating to our app!</h1>
-    <h3 style="font-weight: 700">{{ ticket.name }}</h3>
-    <p style="font-weight: 300"><strong>Description: </strong>{{ ticket.description | striptags }}</p>
-    <p style="font-weight: 300">The amount donated will be charged to the default card on your <a href="{% url 'profile' %}">profile</a> page</p>
-    <form method="post" action="{% url 'custom_donate' ticket.id subject.id %}">
+<div class='col-md-8 offset-md-2 message-margin'>
+    <h1 style='font-weight: 300'>Thanks for donating to our app!</h1>
+    <h3 style='font-weight: 700'>{{ ticket.name }}</h3>
+    <p style='font-weight: 300'><strong>Description: </strong>{{ ticket.description | striptags }}</p>
+    <p style='font-weight: 300'>The amount donated will be charged to the default card on your <a href='{% url 'profile' %}'>profile</a> page</p>
+    <form method='post' action='{% url 'custom_donate' ticket.id subject.id %}'>
         {% csrf_token %}
-        <div class="form-group">
-            <label for="amount">Donation Amount: </label>
-            <input type="number" id="amount" name="amount" required="" min=10 step=10 oninvalid="this.setCustomValidity('Please enter amounts in intervals of $10')" oninput="this.setCustomValidity('')"></input>
+        <div class='form-group'>
+            <label for='amount'>Donation Amount: </label>
+            <input type='number' id='amount' name='amount' required='' min=10 step=10 oninvalid="this.setCustomValidity('Please enter amounts in intervals of $10')" oninput="this.setCustomValidity('')"></input>
             <br>
-            <p style="font-weight: 700">For every $10 that you donate, one vote will be cast for this feature.</p>
+            <p style='font-weight: 700'>For every $10 that you donate, one vote will be cast for this feature.</p>
         </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-success">Donate</button>
+        <div class='form-group'>
+            <button type='submit' class='btn btn-success'>Donate</button>
         </div>
     </form>
 </div>

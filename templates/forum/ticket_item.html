@@ -1,35 +1,35 @@
 {% load ticket_extras %}
 {% load bootstrap_tags %}
 
-<section class="ticketItem">
+<section class='ticketItem'>
     <tr>
-        <td class="d-none d-sm-table-cell">
+        <td class='d-none d-sm-table-cell'>
             <p>#{{ ticket.id }}</p>
         </td>
         <td>
-            <a href="{% url 'ticket' ticket.id %}">
+            <a href='{% url 'ticket' ticket.id %}'>
             <p>{{ ticket.name | striptags | truncatechars:15}}</p>
             </a>
         </td>
-        <td class="d-none d-sm-table-cell">
+        <td class='d-none d-sm-table-cell'>
             <p>{{ ticket.description | striptags | truncatechars:50 }}</p>
         </td>
-        <td class="d-none d-sm-table-cell">
+        <td class='d-none d-sm-table-cell'>
             <p>{{ ticket.user }}</p>
         </td>
-        <td class="d-none d-sm-table-cell">
+        <td class='d-none d-sm-table-cell'>
             <p>{{ ticket.posts.last.user }}</p>
         </td>
         <td>
-            <p>{{ ticket.posts.last.created_at|date:"m/d/Y" }}</p>
+            <p>{{ ticket.posts.last.created_at|date:'m/d/Y' }}</p>
         </td>
         <td>
-            <div id="statusLabel" class="label label-default" style="background-color:{{ ticket.status|get_label_color }};color:white;font-size: medium">{{ ticket.status }}</div>
+            <div id='statusLabel' class='label label-default' style='background-color:{{ ticket.status|get_label_color }};color:white;font-size: medium'>{{ ticket.status }}</div>
         </td>
-        <td class="text-center">
+        <td class='text-center'>
             {% if user.is_authenticated and ticket.status != 'CLOSED'%}
                 {% if subject.name == 'Feature'%}
-                    <a href="{% url 'custom_donate' ticket.id subject.id%}"><button class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Donate"><i class="fas fa-gift"></i></button></a>
+                    <a href='{% url 'custom_donate' ticket.id subject.id%}'><button class='btn btn-success' data-toggle='tooltip' data-placement='bottom' title='Donate'><i class='fas fa-gift'></i></button></a>
                 {% else %}
                     {% autoescape off %}
                     {% user_vote_button ticket subject user %}

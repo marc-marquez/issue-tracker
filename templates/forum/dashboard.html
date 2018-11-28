@@ -1,78 +1,78 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load static %}
 {% block head_js %}
-    <script src="{% static 'js/crossfilter.js' %}"></script>
-    <script src="{% static 'js/d3.js' %}"></script>
-    <script src="{% static 'js/dc.js' %}"></script>
-    <script src="{% static 'js/queue.js' %}"></script>
-    <script src="{% static "js/keen.min.js" %}"></script>
-    <script src="{% static 'js/dashboard_graph.js' %}"></script>
+    <script src='{% static 'js/crossfilter.js' %}'></script>
+    <script src='{% static 'js/d3.js' %}'></script>
+    <script src='{% static 'js/dc.js' %}'></script>
+    <script src='{% static 'js/queue.js' %}'></script>
+    <script src='{% static 'js/keen.min.js' %}'></script>
+    <script src='{% static 'js/dashboard_graph.js' %}'></script>
 {% endblock head_js %}
 {% block content %}
-<div class="jumbotron" style="background: url('/static/img/jumbotrons/charting.jpg') no-repeat center center;background-size: cover; margin-bottom: 13px">
-    <h1>Work Dashboard</h1>&nbsp &nbsp<i class="fas fa-chart-bar"></i>
+<div class='jumbotron' style='background: url("/static/img/jumbotrons/charting.jpg") no-repeat center center;background-size: cover; margin-bottom: 13px'>
+    <h1>Work Dashboard</h1>&nbsp &nbsp<i class='fas fa-chart-bar'></i>
 </div>
-<div class="row">
+<div class='row'>
     <!-- Focus Bar Chart -->
-    <div class="col-md-12">
-        <div class="chart-wrapper">
-            <div class="chart-title">
-                Ticket History <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="Did you know that you can pan and zoom the Ticket History graph? Scroll up on the mouse wheel to zoom in on the timeline.
-        Scroll down to zoom out. Click and drag the mouse to the left or right to see the oldest and newest tickets."></i>
+    <div class='col-md-12'>
+        <div class='chart-wrapper'>
+            <div class='chart-title'>
+                Ticket History <i class='fas fa-question-circle' data-toggle='tooltip' data-placement='right' title='Did you know that you can pan and zoom the Ticket History graph? Scroll up on the mouse wheel to zoom in on the timeline.
+        Scroll down to zoom out. Click and drag the mouse to the left or right to see the oldest and newest tickets.'></i>
             </div>
-            <div class="chart-stage">
-                <div id="focusChart"></div>
+            <div class='chart-stage'>
+                <div id='focusChart'></div>
             </div>
         </div>
     </div>
     <!-- Focus Bar Chart -->
 </div>
-<div class="row">
+<div class='row'>
     <!-- Overview Bar Chart -->
-    <div class="col-md-12">
-        <div class="chart-wrapper">
-            <div class="chart-stage">
-                <div id="overviewChart"></div>
+    <div class='col-md-12'>
+        <div class='chart-wrapper'>
+            <div class='chart-stage'>
+                <div id='overviewChart'></div>
             </div>
         </div>
     </div>
     <!-- Overview Bar Chart -->
 </div>
-<div class="row">
+<div class='row'>
     <!-- Ticket Type Row Chart -->
-    <div class="col-md-6">
-        <div class="chart-wrapper">
-            <div class="chart-title">
+    <div class='col-md-6'>
+        <div class='chart-wrapper'>
+            <div class='chart-title'>
                 Ticket Type
             </div>
-            <div class="chart-stage">
-                <div id="ticketTypeChart"></div>
+            <div class='chart-stage'>
+                <div id='ticketTypeChart'></div>
             </div>
         </div>
     </div>
     <!-- Ticket Type Row Chart -->
     <!-- Ticket Status Row Chart -->
-    <div class="col-md-6">
-        <div class="chart-wrapper">
-            <div class="chart-title">
+    <div class='col-md-6'>
+        <div class='chart-wrapper'>
+            <div class='chart-title'>
                 Ticket Status
             </div>
-            <div class="chart-stage">
-                <div id="statusChart"></div>
+            <div class='chart-stage'>
+                <div id='statusChart'></div>
             </div>
         </div>
     </div>
     <!-- Ticket Status Row Chart -->
 </div>
-<div class="row">
+<div class='row'>
     <!-- Ticket Hours Row Chart -->
-    <div class="col-md-12">
-        <div class="chart-wrapper">
-            <div class="chart-title">
+    <div class='col-md-12'>
+        <div class='chart-wrapper'>
+            <div class='chart-title'>
                 Ticket Hours Logged
             </div>
-            <div class="chart-stage">
-                <div id="ticketHoursChart"></div>
+            <div class='chart-stage'>
+                <div id='ticketHoursChart'></div>
             </div>
         </div>
     </div>

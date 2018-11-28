@@ -1,9 +1,9 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load ticket_extras %}
 {% load bootstrap_tags %}
 {% block content %}
-<section class="subject">
-    <table width="100%">
+<section class='subject'>
+    <table width='100%'>
         <tr>
             <th></th>
             <th>Tickets</th>
@@ -12,9 +12,9 @@
         {% for subject in subjects %}
         <tr>
             <td>
-                <h2><a href="{% url "tickets" subject.id %}">{{ subject.name }}</a></h2>
+                <h2><a href='{% url 'tickets' subject.id %}'>{{ subject.name }}</a></h2>
                 <p>
-                    <a href="{% url "tickets" subject.id %}">
+                    <a href='{% url 'tickets' subject.id %}'>
                     {% autoescape off %}{{ subject.description }}{% endautoescape %}
                     </a>
                 </p>

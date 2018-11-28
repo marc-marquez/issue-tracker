@@ -1,25 +1,25 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load bootstrap_tags %}
 {% load staticfiles %}
 {% block head_js %}
-    <script type="text/javascript" src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script type="application/javascript">
-        tinyMCE.init({mode: "textareas", theme: 'modern', plugins: 'paste'})
+    <script type='text/javascript' src='{% static 'js/tinymce/tinymce.min.js' %}'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
+    <script type='application/javascript'>
+        tinyMCE.init({mode: 'textareas', theme: 'modern', plugins: 'paste'})
     </script>
 {% endblock %}
 
 {% block content %}
-<div class="col-md-8 offset-md-2 message-margin">
-   <form method="post" action="{{ form_action }}">
+<div class='col-md-8 offset-md-2 message-margin'>
+   <form method='post' action='{{ form_action }}'>
        <legend>Ticket Details</legend>
        {% csrf_token %}
-       <div class="form-group">
+       <div class='form-group'>
            {{ ticket_form | as_bootstrap }}
            {{ supplement_form | as_bootstrap }}
        </div>
-       <div class="form-group">
-           <button type="submit" class="btn btn-info">{{ button_text }}</button>
+       <div class='form-group'>
+           <button type='submit' class='btn btn-info'>{{ button_text }}</button>
        </div>
    </form>
 </div>

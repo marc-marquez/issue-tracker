@@ -2,24 +2,24 @@
 {% load bootstrap_tags %}
 {% load staticfiles %}
 {% block head_js %}
-<script src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
-<script type="text/javascript">
+<script src='{% static 'js/tinymce/tinymce.min.js' %}'></script>
+<script type='text/javascript'>
     tinyMCE.init({
-        mode: "textareas",
-        theme: "modern",
-        plugins: "paste",
+        mode: 'textareas',
+        theme: 'modern',
+        plugins: 'paste',
     });
 </script>
 {% endblock %}
 {% block content %}
-<section id="postform">
-    <div class="col-md-8 offset-md-2">
-        <form method="post" action="{{ form_action }}">
+<section id='postform'>
+    <div class='col-md-8 offset-md-2'>
+        <form method='post' action='{{ form_action }}'>
             <legend>Post Details</legend>
             {% csrf_token %}
             {{ post_form|as_bootstrap }}
-            <div class="form-group">
-                <button type="submit" class="btn btn-success">{{button_text}}</button>
+            <div class='form-group'>
+                <button type='submit' class='btn btn-success'>{{button_text}}</button>
             </div>
         </form>
     </div>

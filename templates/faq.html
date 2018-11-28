@@ -1,82 +1,82 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="jumbotron" style="background: url('/static/img/drop.jpg') no-repeat center center; background-size: cover;">
-    <h1>FAQ</h1>&nbsp; <i class="fas fa-question-circle"></i>
+<div class='jumbotron' style="background: url('/static/img/drop.jpg') no-repeat center center; background-size: cover;">
+    <h1>FAQ</h1>&nbsp; <i class='fas fa-question-circle'></i>
 </div>
-<div class="container">
-    <div class="accordian" id="faqAccordian">
+<div class='container'>
+    <div class='accordian' id='faqAccordian'>
         <h2>General Questions</h2>
-        <div class="card">
-            <div class="card-header" id="q1-heading">
-                <a class="collapsed" role="button" data-toggle="collapse" href="#q1-collapse" aria-expanded="true" aria-controls="q1-collapse">What does Quo Vadimus mean?</a>
+        <div class='card'>
+            <div class='card-header' id='q1-heading'>
+                <a class='collapsed' role='button' data-toggle='collapse' href='#q1-collapse' aria-expanded='true' aria-controls='q1-collapse'>What does Quo Vadimus mean?</a>
             </div>
-            <div id="q1-collapse" class="collapse" aria-labelledby="q1-heading" data-parent="#faqAccordian">
-                <div class="card-body">
+            <div id='q1-collapse' class='collapse' aria-labelledby='q1-heading' data-parent='#faqAccordian'>
+                <div class='card-body'>
                     <p>It's Latin. It means "Where are we going?"</p>
                 </div>
             </div>
         </div>
-        <div class="card">
-            <div class="card-header" id="q2-heading">
-                <a class="collapsed" role="button" data-toggle="collapse" href="#q2-collapse" aria-expanded="true" aria-controls="q2-collapse">Are all the companies and employees real?</a>
+        <div class='card'>
+            <div class='card-header' id='q2-heading'>
+                <a class='collapsed' role='button' data-toggle='collapse' href='#q2-collapse' aria-expanded='true' aria-controls='q2-collapse'>Are all the companies and employees real?</a>
             </div>
-            <div id="q2-collapse" class="collapse" aria-labelledby="q2-heading" data-parent="#faqAccordian">
-                <div class="card-body">
+            <div id='q2-collapse' class='collapse' aria-labelledby='q2-heading' data-parent='#faqAccordian'>
+                <div class='card-body'>
                     <p>Of course not, but i think now it's a good time to acknowledge where these come from:</p>
-                    <p>Quo Vadimus is the name of the company the character Calvin Trager founded in the show, "<a href="https://www.imdb.com/title/tt0165961/" target="_blank">Sports Night</a>".</p>
-                    <p>Pied Piper and Hooli are from the amazing HBO show, "<a href="https://www.hbo.com/silicon-valley" target="_blank">Silicon Valley</a>". Check it out!</p>
-                    <p>Wayne Enterprises is from the <a href="https://www.dccomics.com/characters/batman" target="_blank">Batman</a> and DC franchises.</p>
-                    <p>Stark Industries is from the <a href="https://www.marvel.com/characters/iron-man-tony-stark" target="_blank">Iron Man</a> and Marvel franchises.</p>
-                    <p>Dunder Mifflin is the ficticious company from the NBC show, "<a href="https://www.nbc.com/the-office" target="_blank">The Office</a>".</p>
-                    <p>Entertainment 720 is a hilariously failed company from the NBC show, "<a href="https://www.nbc.com/parks-and-recreation" target="_blank">Parks and Recreation</a>".</p>
+                    <p>Quo Vadimus is the name of the company the character Calvin Trager founded in the show, "<a href='https://www.imdb.com/title/tt0165961/' target='_blank'>Sports Night</a>".</p>
+                    <p>Pied Piper and Hooli are from the amazing HBO show, "<a href='https://www.hbo.com/silicon-valley' target='_blank'>Silicon Valley</a>". Check it out!</p>
+                    <p>Wayne Enterprises is from the <a href='https://www.dccomics.com/characters/batman' target='_blank'>Batman</a> and DC franchises.</p>
+                    <p>Stark Industries is from the <a href='https://www.marvel.com/characters/iron-man-tony-stark' target='_blank'>Iron Man</a> and Marvel franchises.</p>
+                    <p>Dunder Mifflin is the ficticious company from the NBC show, "<a href='https://www.nbc.com/the-office' target='_blank'>The Office</a>".</p>
+                    <p>Entertainment 720 is a hilariously failed company from the NBC show, "<a href='https://www.nbc.com/parks-and-recreation' target='_blank'>Parks and Recreation</a>".</p>
                 </div>
             </div>
         </div>
         <h2>Destiny Application</h2>
-        <div class="card">
-            <div class="card-header" id="q3-heading">
-                <a class="collapsed" role="button" data-toggle="collapse" href="#q3-collapse" aria-expanded="true" aria-controls="q3-collapse">How can I help Destiny become a better product?</a>
+        <div class='card'>
+            <div class='card-header' id='q3-heading'>
+                <a class='collapsed' role='button' data-toggle='collapse' href='#q3-collapse' aria-expanded='true' aria-controls='q3-collapse'>How can I help Destiny become a better product?</a>
             </div>
-            <div id="q3-collapse" class="collapse" aria-labelledby="q3-Heading" data-parent="#faqAccordian">
-                <div class="card-body">
+            <div id='q3-collapse' class='collapse' aria-labelledby='q3-Heading' data-parent='#faqAccordian'>
+                <div class='card-body'>
                     <p>We love getting kudos, but getting a pat on the back only goes so far. Tell us what's wrong
-                    and we'll get to work. Log bugs <a href="{% url 'tickets' subject_id=1 %}" target="_blank">here</a> or tell us
-                    how we can make the app better by adding a feature request <a href="{% url 'tickets' subject_id=2 %}" target="_blank">here</a>.</p>
+                    and we'll get to work. Log bugs <a href='{% url 'tickets' subject_id=1 %}' target='_blank'>here</a> or tell us
+                    how we can make the app better by adding a feature request <a href='{% url 'tickets' subject_id=2 %}' target='_blank'>here</a>.</p>
                 </div>
             </div>
         </div>
         <h2>Feature Request Tickets</h2>
-        <div class="card">
-            <div class="card-header" id="q4-heading">
-                <a class="collapsed" role="button" data-toggle="collapse" href="#q4-collapse" aria-expanded="true" aria-controls="q4-collapse">How do feature requests get implemented?</a>
+        <div class='card'>
+            <div class='card-header' id='q4-heading'>
+                <a class='collapsed' role='button' data-toggle='collapse' href='#q4-collapse' aria-expanded='true' aria-controls='q4-collapse'>How do feature requests get implemented?</a>
             </div>
-            <div id="q4-collapse" class="collapse" aria-labelledby="q4-heading" data-parent="#faqAccordian">
-                <div class="card-body">
-                    <p>Feature requests are worked on based off of the results of the "<a href="{% url 'voting_results' subject_id=2 %}" target="_blank">Features Voting Poll</a>". Users, like you,
+            <div id='q4-collapse' class='collapse' aria-labelledby='q4-heading' data-parent='#faqAccordian'>
+                <div class='card-body'>
+                    <p>Feature requests are worked on based off of the results of the <a href='{% url 'voting_results' subject_id=2 %}' target='_blank'>Features Voting Poll</a>. Users, like you,
                     can donate towards specific features to get implemented. Once the donation goal is achieved,
                     then our engineers will get to work on that feature.</p>
                 </div>
             </div>
         </div>
-        <div class="card">
-            <div class="card-header" id="q5-heading">
-                <a class="collapsed" role="button" data-toggle="collapse" href="#q5-collapse" aria-expanded="true" aria-controls="q5-collapse">How do I donate towards a feature?</a>
+        <div class='card'>
+            <div class='card-header' id='q5-heading'>
+                <a class='collapsed' role='button' data-toggle='collapse' href='#q5-collapse' aria-expanded='true' aria-controls='q5-collapse'>How do I donate towards a feature?</a>
             </div>
-            <div id="q5-collapse" class="collapse" aria-labelledby="q5-heading" data-parent="#faqAccordian">
-                <div class="card-body">
-                    <p>Go to the Features ticket page <a href="{% url 'tickets' subject_id=2 %}" target="_blank">here</a> and click on the <button class="btn btn-success disabled"><i class="fas fa-gift"></i></button> in the
+            <div id='q5-collapse' class='collapse' aria-labelledby='q5-heading' data-parent='#faqAccordian'>
+                <div class='card-body'>
+                    <p>Go to the Features ticket page <a href='{% url 'tickets' subject_id=2 %}' target='_blank'>here</a> and click on the <button class='btn btn-success disabled'><i class='fas fa-gift'></i></button> in the
                         "Donate" column. From there, you'be be guided through a donations form. </p>
-                    <p>Note: You'll need to have a credit card on file before donating towards a feature. You can add one in your profile, <a href="{% url 'profile' %}" target="_blank">here</a></p>
+                    <p>Note: You'll need to have a credit card on file before donating towards a feature. You can add one in your profile, <a href='{% url 'profile' %}' target='_blank'>here</a></p>
                 </div>
             </div>
         </div>
         <h2>Bug Tickets</h2>
-        <div class="card">
-            <div class="card-header" id="q6-heading">
-                <a class="collapsed" role="button" data-toggle="collapse" href="#q6-collapse" aria-expanded="true" aria-controls="q6-collapse">What's the difference between voting for bugs and voting for feature requests?</a>
+        <div class='card'>
+            <div class='card-header' id='q6-heading'>
+                <a class='collapsed' role='button' data-toggle='collapse' href='#q6-collapse' aria-expanded='true' aria-controls='q6-collapse'>What's the difference between voting for bugs and voting for feature requests?</a>
             </div>
-            <div id="q6-collapse" class="collapse" aria-labelledby="q6-heading" data-parent="#faqAccordian">
-                <div class="card-body">
+            <div id='q6-collapse' class='collapse' aria-labelledby='q6-heading' data-parent='#faqAccordian'>
+                <div class='card-body'>
                     <p>The main difference between voting for bugs and voting for features is that donations are not
                         needed to get bugs fixed. Users have already donated towards the feature. We've implemented it. Now,
                         there's a bug in the feature. Users shouldn't have to pay double to fix our mistakes. Voting for a bug let's us
@@ -85,12 +85,12 @@
                 </div>
             </div>
         </div>
-        <div class="card">
-            <div class="card-header" id="q7-heading">
-                <a class="collapsed" role="button" data-toggle="collapse" href="#q7-collapse" aria-expanded="true" aria-controls="q7-collapse">Wait, but all bugs should be fixed ASAP. Why aren't you working on all of them?</a>
+        <div class='card'>
+            <div class='card-header' id='q7-heading'>
+                <a class='collapsed' role='button' data-toggle='collapse' href='#q7-collapse' aria-expanded='true' aria-controls='q7-collapse'>Wait, but all bugs should be fixed ASAP. Why aren't you working on all of them?</a>
             </div>
-            <div id="q7-collapse" class="collapse" aria-labelledby="q7-heading" data-parent="#faqAccordian">
-                <div class="card-body">
+            <div id='q7-collapse' class='collapse' aria-labelledby='q7-heading' data-parent='#faqAccordian'>
+                <div class='card-body'>
                     <p>We agree! We want to fix all our bugs as quickly as possible. Our engineering team is always
                         finding more efficient processes and solutions to keep our customers happy.
                     </p>
