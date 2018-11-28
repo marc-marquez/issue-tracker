@@ -21,7 +21,7 @@ class TicketForm(forms.ModelForm):
     def clean_name(self):
         name = self.cleaned_data.get('name')
         if Ticket.objects.filter(name=name).exists() and self.instance.id is None:
-            message = "This ticket name already exists. Please choose another one. "
+            message = 'This ticket name already exists. Please choose another one. '
             raise ValidationError(message)
 
         return name
@@ -29,7 +29,7 @@ class TicketForm(forms.ModelForm):
     def clean_description(self):
         description = self.cleaned_data.get('description')
         if description is None:
-            message = "Description is required and cannot be left blank. "
+            message = 'Description is required and cannot be left blank. '
             raise ValidationError(message)
 
         return description

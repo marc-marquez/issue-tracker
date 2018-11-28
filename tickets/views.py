@@ -48,7 +48,7 @@ def voting_results(request, subject_id):
                     total_donations[current_id] = 0
                 total_donations[current_id] += float(current_charge['amount'] / 100)
             except:
-                print("No ticket_id found in Stripe charge metadata.")
+                print('No ticket_id found in Stripe charge metadata.')
 
         for option in options:
             try:
@@ -68,7 +68,7 @@ def tickets(request, subject_id):
 @login_required(login_url='/login/')
 def new_ticket(request, subject_id):
     subject = get_object_or_404(Subject, pk=subject_id)
-    if request.method == "POST":
+    if request.method == 'POST':
         ticket_form = TicketForm(request.POST)
 
         if ticket_form.is_valid():
@@ -82,7 +82,7 @@ def new_ticket(request, subject_id):
                 bug = Bug(ticket_id=ticket.id)
                 bug.save()
             elif subject.name == 'Feature':
-                supplement_form = FeatureForm(request.POST, prefix="supplementform")
+                supplement_form = FeatureForm(request.POST, prefix='supplementform')
                 if supplement_form.is_valid():
                     supplementform = supplement_form.save(False)
                     feature = Feature(ticket_id=ticket.id)
@@ -90,14 +90,14 @@ def new_ticket(request, subject_id):
                     feature.total_donations = 0
                     feature.save()
             else:
-                print("WARNING: Unused subject -- " + subject.name)
+                print('WARNING: Unused subject -- ' + subject.name)
 
             #if first ticket in subject then create poll
             try:
                 var = subject.poll
             except:
                 subject.poll = Poll()
-                subject.poll.question = "What " + subject.name.lower() + " should i work on?"
+                subject.poll.question = 'What ' + subject.name.lower() + ' should i work on?'
                 subject.poll.subject_id = subject_id
                 subject.poll.save()
 
@@ -114,26 +114,26 @@ def new_ticket(request, subject_id):
             #Save poll with new option
             subject.poll.save()
 
-            messages.success(request, "You have created a new ticket!")
+            messages.success(request, 'You have created a new ticket!')
             return redirect(reverse('ticket', args=[ticket.pk]))
         else:
             for field, errors in ticket_form.errors.items():
-                format_error = field.capitalize() + " : " + errors
+                format_error = field.capitalize() + ' : ' + errors
                 messages.error(request, format_error)
             return redirect(reverse('new_ticket', args={subject_id}))
     else:
         ticket_form = TicketForm()
         if subject.name == 'Feature':
-            supplement_form = FeatureForm(prefix="supplementform")
+            supplement_form = FeatureForm(prefix='supplementform')
         elif subject.name == 'Bug':
-            supplement_form = BugForm(prefix="supplementform")
+            supplement_form = BugForm(prefix='supplementform')
         else:
             pass
 
     args = {
         'ticket_form': ticket_form,
         'supplement_form': supplement_form,
-        'form_action': reverse('new_ticket', kwargs={"subject_id": subject.id}),
+        'form_action': reverse('new_ticket', kwargs={'subject_id': subject.id}),
         'button_text': 'Add New Ticket',
         'subject': subject,
     }
@@ -147,7 +147,7 @@ def new_ticket(request, subject_id):
 def edit_ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
 
-    if request.method == "POST":
+    if request.method == 'POST':
         ticket_form = TicketForm(request.POST, instance=ticket)
         if ticket_form.is_valid():
             ticket_form.save()
@@ -157,15 +157,15 @@ def edit_ticket(request, ticket_id):
                 supplement_form = FeatureForm(request.POST, instance=feature)
             else:
                 bug = get_object_or_404(Bug, pk=ticket.bug.id)
-                print("Ticket id (BUG): " + str(ticket.bug.id))
+                print('Ticket id (BUG): ' + str(ticket.bug.id))
                 supplement_form = BugForm(request.POST, instance=bug)
 
             supplement_form.save()
-            messages.success(request, "You have updated your ticket!")
+            messages.success(request, 'You have updated your ticket!')
             return redirect(reverse('ticket', args={ticket.pk}))
         else:
             for field, errors in ticket_form.errors.items():
-                format_error = field.capitalize() + " : " + errors
+                format_error = field.capitalize() + ' : ' + errors
                 messages.error(request, format_error)
             return redirect(reverse('edit_ticket', args={ticket.pk}))
     else:
@@ -180,7 +180,7 @@ def edit_ticket(request, ticket_id):
     args = {
         'ticket_form': ticket_form,
         'supplement_form': supplement_form,
-        'form_action': reverse('edit_ticket', kwargs={"ticket_id": ticket.id}),
+        'form_action': reverse('edit_ticket', kwargs={'ticket_id': ticket.id}),
         'button_text': 'Update Ticket'
     }
     args.update(csrf(request))
@@ -199,9 +199,9 @@ def ticket(request, ticket_id):
 def new_post(request, ticket_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
 
-    if request.method == "POST":
+    if request.method == 'POST':
 
-        post_form = PostForm(request.POST, prefix="postform")
+        post_form = PostForm(request.POST, prefix='postform')
         if post_form.is_valid():
 
             postform = post_form.save(False)
@@ -209,11 +209,11 @@ def new_post(request, ticket_id):
             postform.user = request.user
             postform.save()
 
-            messages.success(request, "Your post has been added to the ticket!")
+            messages.success(request, 'Your post has been added to the ticket!')
 
             return redirect(reverse('ticket', args={ticket.pk}))
     else:
-        post_form = PostForm(prefix="postform")
+        post_form = PostForm(prefix='postform')
 
 
     args = {
@@ -231,11 +231,11 @@ def edit_post(request, ticket_id, post_id):
     ticket = get_object_or_404(Ticket, pk=ticket_id)
     post = get_object_or_404(Post, pk=post_id)
 
-    if request.method == "POST":
+    if request.method == 'POST':
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
             form.save()
-            messages.success(request, "You have updated your ticket!")
+            messages.success(request, 'You have updated your ticket!')
 
             return redirect(reverse('ticket', args={ticket.pk}))
     else:
@@ -243,7 +243,7 @@ def edit_post(request, ticket_id, post_id):
 
     args = {
         'post_form': form,
-        'form_action': reverse('edit_post', kwargs={"ticket_id": ticket.id, "post_id": post.id}),
+        'form_action': reverse('edit_post', kwargs={'ticket_id': ticket.id, 'post_id': post.id}),
         'button_text': 'Update Post'
     }
     args.update(csrf(request))
@@ -255,10 +255,10 @@ def edit_post(request, ticket_id, post_id):
 def delete_post(request, ticket_id, post_id):
     post = get_object_or_404(Post, pk=post_id)
 
-    if request.method == "POST":
+    if request.method == 'POST':
         ticket_id = post.ticket.id
         post.delete()
-        messages.success(request, "Your post was deleted!")
+        messages.success(request, 'Your post was deleted!')
 
     return redirect(reverse('ticket', args={ticket_id}))
 
@@ -271,13 +271,13 @@ def ticket_vote(request, ticket_id, subject_id, *donate_votes):
     votes = subject.poll.votes.filter(user=request.user)
 
     #previous http location
-    prev = request.META.get("HTTP_REFERER")
+    prev = request.META.get('HTTP_REFERER')
 
     if subject.name == 'Bug':
         for vote in votes:
             if vote.option.ticket.id == ticket_id:
                 messages.error(request,
-                               "You already voted on this! ... You’re not trying to cheat are you?")
+                               'You already voted on this! ... You’re not trying to cheat are you?')
                 return redirect(prev)
 
     option = PollOption.objects.get(ticket_id=ticket_id)
@@ -290,7 +290,7 @@ def ticket_vote(request, ticket_id, subject_id, *donate_votes):
     else:
         option.votes.create(poll=subject.poll, user=request.user)
 
-    messages.success(request, "We've registered your vote!")
+    messages.success(request, 'We have registered your vote!')
 
     return redirect(prev)
 
@@ -311,13 +311,13 @@ def custom_donate(request, subject_id, ticket_id):
         try:
             customer = stripe.Customer.retrieve(request.user.stripe_id)
         except stripe.error.StripeError as e:
-            messages.error(request, "No credit card on file. Please add a credit card.")
+            messages.error(request, 'No credit card on file. Please add a credit card.')
             return redirect(reverse('profile'))
 
         default_source = customer.default_source
 
         if default_source is None:
-            messages.error(request, "No credit card on file. Please add a credit card.")
+            messages.error(request, 'No credit card on file. Please add a credit card.')
             return redirect(reverse('profile'))
         else:
             default_card = customer.sources.retrieve(default_source)
@@ -326,10 +326,10 @@ def custom_donate(request, subject_id, ticket_id):
             #retrive list of cards for customer
             charge = stripe.Charge.create(
                 amount=stripe_formatted_amount,
-                currency="usd",
+                currency='usd',
                 source=default_card.id,
                 customer=customer.id,
-                description="Donation for the "+ticket.name+" "+subject.name,
+                description='Donation for the '+ticket.name+' '+subject.name,
                 metadata={'ticket_id':ticket.id}
             )
         except stripe.error.StripeError as e:
@@ -337,11 +337,11 @@ def custom_donate(request, subject_id, ticket_id):
             return redirect(reverse('tickets', args={subject_id}))
 
         if charge.status == 'succeeded':
-            messages.success(request, "Thanks for the $" + str_amount + " donation!")
+            messages.success(request, 'Thanks for the $' + str_amount + ' donation!')
             update_ticket_donation_data(ticket)
             ticket_vote(request, ticket_id, subject_id, votes)
         else:
-            messages.error(request, "Could not process donation.")
+            messages.error(request, 'Could not process donation.')
 
         return redirect(reverse('tickets', args={subject_id}))
     else:
@@ -367,7 +367,7 @@ def update_ticket_donation_data(ticket):
                 total_donations[current_id] = 0
             total_donations[current_id] += float(charge['amount'] / 100)
         except:
-            print("No ticket_id found in charge.")
+            print('No ticket_id found in charge.')
 
     # Update feature with new donation total donations
     try:
