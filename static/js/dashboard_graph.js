@@ -1,19 +1,19 @@
 queue()
-    .defer(d3.json,"/rest/work/log/custom/?format=json")
+    .defer(d3.json,'/rest/work/log/custom/?format=json')
     .await(makeWorkGraphs);
 
 /* Creates all the graphs in the work dashboard */
 function makeWorkGraphs(error,workdata) {
 
     if (error) {
-        console.error("makeGraphs in bug_graph error on receiving dataset:", error.statusText);
+        console.error('makeGraphs in bug_graph error on receiving dataset:', error.statusText);
         throw error;
     }
 
     showLoader(true);
 
     var ndx = crossfilter(workdata);
-    var dateFormat = d3.time.format("%Y-%m-%d").parse;
+    var dateFormat = d3.time.format('%Y-%m-%d').parse;
 
     workdata.forEach(function (d) {
         d.dd = dateFormat(d.date);
@@ -43,37 +43,37 @@ function makeWorkGraphs(error,workdata) {
     });
 
     var bugsPerDayGroup = dateDim.group().reduceSum(function(d){
-        return d.ticket_type=="Bug";
+        return d.ticket_type=='Bug';
     });
 
     var featuresPerDayGroup = dateDim.group().reduceSum(function(d){
-        return d.ticket_type=="Feature";
+        return d.ticket_type=='Feature';
     });
 
     var ticketStatusGroup = ticketStatusDim.group();
     var ticketTypeGroup = ticketTypeDim.group();
 
-    focusChart = dc.barChart("#focusChart");
-    overviewChart = dc.barChart("#overviewChart");
-    statusChart = dc.rowChart("#statusChart");
-    ticketTypeChart = dc.rowChart("#ticketTypeChart");
-    ticketHoursChart = dc.rowChart("#ticketHoursChart");
+    focusChart = dc.barChart('#focusChart');
+    overviewChart = dc.barChart('#overviewChart');
+    statusChart = dc.rowChart('#statusChart');
+    ticketTypeChart = dc.rowChart('#ticketTypeChart');
+    ticketHoursChart = dc.rowChart('#ticketHoursChart');
 
-    var minDate = new Date(dateDim.bottom(1)[0]["date"]);
+    var minDate = new Date(dateDim.bottom(1)[0]['date']);
     var maxDate = new Date();
 
-    var colorScheme = d3.scale.ordinal().domain(["Bug","Feature"])
-                                        .range(["#C96A23","#79CED7"]);
+    var colorScheme = d3.scale.ordinal().domain(['Bug','Feature'])
+                                        .range(['#C96A23','#79CED7']);
 
     var colorSchemeS = ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628'];
-    var colorSchemeBF = ["#C96A23","#79CED7"];
+    var colorSchemeBF = ['#C96A23','#79CED7'];
 
     overviewChart
         .ordinalColors(colorSchemeBF)
         .height(50)
         .dimension(dateDim)
-        .group(bugsPerDayGroup,"Bug")
-        .stack(featuresPerDayGroup,"Feature")
+        .group(bugsPerDayGroup,'Bug')
+        .stack(featuresPerDayGroup,'Feature')
         .margins({top: 5, right: 20, bottom: 20, left: 20})
         .useViewBoxResizing(true)
         .x(d3.time.scale()
@@ -91,8 +91,8 @@ function makeWorkGraphs(error,workdata) {
     focusChart
         .ordinalColors(colorSchemeBF)
         .dimension(dateDim)
-        .group(bugsPerDayGroup,"Bug")
-        .stack(featuresPerDayGroup,"Feature")
+        .group(bugsPerDayGroup,'Bug')
+        .stack(featuresPerDayGroup,'Feature')
         .height(300)
         .margins({top: 50, right: 20, bottom: 30, left: 20})
         .mouseZoomable(true)
@@ -103,7 +103,7 @@ function makeWorkGraphs(error,workdata) {
             .domain([minDate, maxDate])
         )
         .xUnits(d3.time.days)
-        .yAxisLabel("Tickets")
+        .yAxisLabel('Tickets')
 
         .centerBar(true)
         .brushOn(false)
