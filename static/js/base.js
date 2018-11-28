@@ -1,8 +1,7 @@
+/* Function for showing loading screen */
 function showLoader(isLoading) {
-    console.log(window.location.href);
     var currentURL = window.location.href;
     var isDashboard = currentURL.includes("/report/dashboard/");
-    console.log("isDashboard = " + isDashboard);
 
     if (!isDashboard) {
         document.getElementById("loader").style.display = "none";
@@ -12,12 +11,9 @@ function showLoader(isLoading) {
         }
         else {
             var now = new Date().getTime();
-            console.log(now);
-            var waitTime = 5000;
-            /* 5 secs */
+            var waitTime = 5000; /* 5 secs */
             while (new Date().getTime() < now + waitTime) {
             }
-            console.log(new Date().getTime());
             document.getElementById("loader").style.display = "none";
         }
     }
