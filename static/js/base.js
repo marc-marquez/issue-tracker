@@ -4,7 +4,12 @@ function showLoader(isLoading) {
     var isDashboard = currentURL.includes("/report/dashboard/");
 
     if (!isDashboard) {
-        document.getElementById("loader").style.display = "none";
+        if (isLoading) {
+            document.getElementById("loader").style.display = "block";
+        }
+        else {
+            document.getElementById("loader").style.display = "none";
+        }
     } else {
         if (isLoading) {
             document.getElementById("loader").style.display = "block";
