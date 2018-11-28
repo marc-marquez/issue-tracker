@@ -1,21 +1,29 @@
-//document.getElementsByClassName("dropdown-item").onclick = function(){showLoader()};
+function showLoader(isLoading) {
+    console.log(window.location.href);
+    var currentURL = window.location.href;
+    var isDashboard = currentURL.includes("/report/dashboard/");
+    console.log("isDashboard = " + isDashboard);
 
-function showPage(isDashboardLoading){
-    if (!isDashboardLoading) {
+    if (!isDashboard) {
         document.getElementById("loader").style.display = "none";
     } else {
-        document.getElementById("loader").style.display = "block";
+        if (isLoading) {
+            document.getElementById("loader").style.display = "block";
+        }
+        else {
+            var now = new Date().getTime();
+            console.log(now);
+            var waitTime = 5000;
+            /* 5 secs */
+            while (new Date().getTime() < now + waitTime) {
+            }
+            console.log(new Date().getTime());
+            document.getElementById("loader").style.display = "none";
+        }
     }
-    //document.getElementById("outer").style.display = "block";
-    //document.getElementById("outer").style.opacity = 1;
 }
 
-function showLoader(){
-    document.getElementById("loader").style.display = "block";
-    //document.getElementById("outer").style.display = "none";
-    //document.getElementById("outer").style.opacity = 0;
-}
-
+/* Function to show the "Add Credit Card" div the profile section when hitting the button */
 function showAddCard() {
     var x = document.getElementById("addCardDiv");
     if (x.style.display === "none") {
@@ -24,7 +32,3 @@ function showAddCard() {
         x.style.display = "none";
     }
 }
-
-
-
-//window.onload = function(){ document.getElementById("loader").style.display = "none" }

@@ -10,6 +10,8 @@ function makeWorkGraphs(error,workdata) {
         throw error;
     }
 
+    showLoader(true);
+
     var ndx = crossfilter(workdata);
     var dateFormat = d3.time.format("%Y-%m-%d").parse;
 
@@ -145,5 +147,5 @@ function makeWorkGraphs(error,workdata) {
         .xAxis().ticks(4);
 
     dc.renderAll();
-    showPage(false);
+    showLoader(false);
 }

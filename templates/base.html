@@ -21,7 +21,8 @@
 
     {% block head_js %}{% endblock head_js %}
 </head>
-<body onload="showPage(false)">
+<!--body onload="showPage(false)"-->
+<body onload="showLoader(false)">
     <div id="loader"></div>
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
         <a class="navbar-brand text-center" href="/"><img src="{% static 'img/bird_yellow.png' %}" height="32px" width="32px">&nbsp;Quo Vadimus</a>
@@ -37,16 +38,16 @@
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="fas fa-ticket-alt fa-lg d-none d-sm-block" data-toggle="tooltip" data-placement="bottom" title="Tickets"></i><p class="d-block d-sm-none">Tickets</p></a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="{% url 'tickets' subject_id=1 %}">Bugs</a>
-                        <a class="dropdown-item" href="{% url 'tickets' subject_id=2 %}">Features</a>
+                        <a class="dropdown-item" href="{% url 'tickets' subject_id=1 %}" onclick="showLoader(true)">Bugs</a>
+                        <a class="dropdown-item" href="{% url 'tickets' subject_id=2 %}" onclick="showLoader(true)">Features</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="fas fa-chart-bar fa-lg d-none d-sm-block" data-toggle="tooltip" data-placement="bottom" title="Reports"></i><p class="d-block d-sm-none">Reports</p></a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a class="dropdown-item" href="{% url 'voting_results' subject_id=1 %}">Bugs Voting Results</a>
-                        <a class="dropdown-item" href="{% url 'voting_results' subject_id=2 %}" onclick="showLoader()">Features Voting Results</a>
-                        <a class="dropdown-item" href="{% url 'dashboard' %}" onclick="showLoader()">Work Dashboard</a>
+                        <a class="dropdown-item" href="{% url 'voting_results' subject_id=2 %}" onclick="showLoader(true)">Features Voting Results</a>
+                        <a class="dropdown-item" href="{% url 'dashboard' %}" onclick="showLoader(true)">Work Dashboard</a>
                     </div>
                 </li>
                 {% if user.is_authenticated %}
@@ -54,7 +55,7 @@
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true"><i class="fas fa-user fa-lg d-none d-sm-block" data-toggle="tooltip" data-placement="bottom" title="User"></i><p class="d-block d-sm-none">{{ user.username }}</p></a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item d-none d-sm-block" style="background-color: yellow">{{ user.username }}</a>
-                            <a class="dropdown-item" href="{% url 'profile' %}" onclick="showLoader()">Profile</a>
+                            <a class="dropdown-item" href="{% url 'profile' %}" onclick="showLoader(true)">Profile</a>
                             <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
                             <div class="dropdown-divider"></div>
                         </div>
@@ -80,8 +81,9 @@
        {% block content %}
        {% endblock %}
     </div>
+
     <hr>
-    <div class="footer">
+    <div class="footer text-center">
         <small>2018 - Made By Marc Marquez for Code Institute (Project 3)</small>
     </div>
 

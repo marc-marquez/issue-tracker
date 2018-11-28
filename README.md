@@ -188,7 +188,7 @@ The project is hosted on Heroku and is deployed through Github.
 
 ## Credits
 
-Various details of this website uses companies and characters from some of my favorite shows and movies:
+Various details of this website uses companies and characters from some of my favorite TV shows and movies:
 - Quo Vadimus is the name of the company the character Calvin Trager founded in the show, "[Sports Night](https://www.imdb.com/title/tt0165961/)".
 - Pied Piper and Hooli are from the amazing HBO show, "[Silicon Valley](https://www.hbo.com/silicon-valley)". Check it out!
 - Wayne Enterprises is from the [Batman](https://www.dccomics.com/characters/batman) and DC franchises.
