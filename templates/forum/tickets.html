@@ -12,18 +12,18 @@
             <a href='{% url 'new_ticket' subject.id %}' class='btn btn-primary'>New {{ subject.name }} Ticket</a>
             <hr>
             {% endif %}
-            <table id='ticketTable' class='table table-hover table-striped responsive table-no-bordered' style='width: 100%'>
+            <table id='ticketTable' class='table table-hover table-striped display responsive table-no-bordered' style='width: 100%'>
                 <thead class='thead-light'>
-                    <th class='d-none d-sm-table-cell'>Id</th>
-                    <th>Title</th>
-                    <th class='d-none d-sm-table-cell'>Reported By</th>
-                    <th class='d-none d-sm-table-cell'>Last Post By</th>
-                    <th>Last Updated</th>
-                    <th class='text-center'>Status</th>
+                    <th class='min-tablet'>Id</th>
+                    <th class='all'>Title</th>
+                    <th class='min-tablet'>Reported By</th>
+                    <th class='desktop'>Last Post By</th>
+                    <th class='min-tablet'>Last Updated</th>
+                    <th class='text-center all'>Status</th>
                     {% if subject.name == 'Feature'%}
-                    <th class='text-center'>Donate</th>
+                    <th class='text-center all'>Donate</th>
                     {% else %}
-                    <th class='text-center'>Upvote</th>
+                    <th class='text-center all'>Upvote</th>
                     {% endif %}
                 </thead>
                 <tbody>

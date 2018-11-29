@@ -3,6 +3,9 @@ $(document).ready(function(){
     $('#ticketTable').DataTable({
         'autoWidth':true,
         'responsive':true,
+        'responsive': {
+            details: false
+        },
         'columnDefs': [
             {responsivePriority: 3, targets: 0},
             {responsivePriority: 1, targets: 1},
