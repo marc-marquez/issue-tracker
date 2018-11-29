@@ -12,15 +12,16 @@
             <a href='{% url 'new_ticket' subject.id %}' class='btn btn-primary'>New {{ subject.name }} Ticket</a>
             <hr>
             {% endif %}
-            <table class='table table-responsive-xs table-hover table-no-bordered' data-toggle='table' data-pagination='true' data-search='true'>
+            <!--table id='ticketTable' class='table table-responsive-xs table-hover table-no-bordered' data-toggle='table' data-pagination='true' data-search='true'-->
+            <table id='ticketTable' class='table table-hover table-striped responsive table-no-bordered' style='width: 100%'>
                 <thead class='thead-light'>
                     <th class='d-none d-sm-table-cell'>Id</th>
-                    <th data-sortable='true' data-field='title'>Title</th>
-                    <th class='d-none d-sm-table-cell'>Description</th>
-                    <th class='d-none d-sm-table-cell' data-sortable='true' data-field='reporter'>Reported By</th>
-                    <th class='d-none d-sm-table-cell' data-sortable='true' data-field='lastpostby'>Last Post By</th>
-                    <th data-sortable='true' data-field='updated'>Last Updated</th>
-                    <th class= 'text-center' data-sortable='true' data-field='status'>Status</th>
+                    <th>Title</th>
+                    <!--th class='d-none d-sm-table-cell'>Description</th-->
+                    <th class='d-none d-sm-table-cell'>Reported By</th>
+                    <th class='d-none d-sm-table-cell'>Last Post By</th>
+                    <th>Last Updated</th>
+                    <th class='text-center'>Status</th>
                     {% if subject.name == 'Feature'%}
                     <th class='text-center'>Donate</th>
                     {% else %}

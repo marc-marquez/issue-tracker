@@ -7,13 +7,13 @@
             <p>#{{ ticket.id }}</p>
         </td>
         <td>
-            <a href='{% url 'ticket' ticket.id %}'>
-            <p>{{ ticket.name | striptags | truncatechars:15}}</p>
+            <a href='{% url 'ticket' ticket.id %}' data-toggle='tooltip' data-placement='right' data-html='true' title='{{ ticket.description | truncatechars:200  }}'>
+            <p>{{ ticket.name | striptags | truncatechars:100 }}</p>
             </a>
         </td>
-        <td class='d-none d-sm-table-cell'>
-            <p>{{ ticket.description | striptags | truncatechars:50 }}</p>
-        </td>
+        <!--td class='d-none d-sm-table-cell'>
+            <p>{#{ ticket.description | striptags | truncatechars:50 }#}</p>
+        </td-->
         <td class='d-none d-sm-table-cell'>
             <p>{{ ticket.user }}</p>
         </td>
@@ -24,7 +24,7 @@
             <p>{{ ticket.posts.last.created_at|date:'m/d/Y' }}</p>
         </td>
         <td>
-            <div id='statusLabel' class='label label-default' style='background-color:{{ ticket.status|get_label_color }};color:white;font-size: medium'>{{ ticket.status }}</div>
+            <div id='statusLabel' class='label label-default' style='background-color:{{ ticket.status|get_label_color }};color:white;font-size: medium;text-align: center'>{{ ticket.status }}</div>
         </td>
         <td class='text-center'>
             {% if user.is_authenticated and ticket.status != 'CLOSED'%}
