@@ -206,3 +206,11 @@ The photos used in this site were obtained from:
 ### Acknowledgements
 
 - I received inspiration for this project from my wife. She encouraged me to follow my dreams of getting back into coding.
+
+## Authors
+
+- **Marc Marquez** - [Github Page](https://github.com/marc-marquez/)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
