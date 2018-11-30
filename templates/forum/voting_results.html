@@ -8,28 +8,27 @@
 <div class='container-fluid'>
     <div class='row'>
         {% if subject.poll %}
-           <div class='col-md-8'>
+           <div class='col-md-8 offset-md-2'>
                {% for option in options %}
                    {% if option.ticket.status != 'CLOSED' %}
                    <div>
-                       <a href='{% url 'ticket' option.ticket_id %}'>{{ option.ticket.name }}</a>
-                       <span class='float-right'>(Votes:{{ option.vote_count }}) {{ option|vote_percentage|floatformat:2 }}%</span>
-                        <div class='progress'>
+                        <a href='{% url 'ticket' option.ticket_id %}'>{{ option.ticket.name }}</a>
+                        <div class='progress' style='height: 1.2rem'>
                             <div class='progress-bar progress-bar-info' role='progressbar'
                             aria-value='{{ option|vote_percentage }}' aria-valuemin='0'
-                            aria-valuemax='100' style='width:{{ option|vote_percentage }}%;'>
+                            aria-valuemax='100' style='width:{{ option|vote_percentage }}%;'><span style='position: absolute;right: 20px;color: black;font-size: .95rem;'>(Votes:{{ option.vote_count }}) {{ option|vote_percentage|floatformat:2 }}%</span>
                             </div>
                         </div>
                         {% if subject.name == 'Feature' %}
-                            <div class='progress' style='margin-top: 5px'>
+                            <div class='progress' style='margin-top: 5px;height: 1.2rem'>
                                 <div class='progress-bar progress-bar-info progress-bar-donation' role='progressbar'
                                 aria-value='{{ option.ticket|donation_percentage }}' aria-valuemin='0'
                                 aria-valuemax='100' style='width:{{ option.ticket|donation_percentage }}%;'>
+                                <span style='position: absolute;left: 20px;color: black;font-size: .95rem;'>Donated: ${{ option.ticket.feature.total_donations|floatformat:2 }}</span>
+                                <span style='position: absolute;right: 20px;color: black;font-size: .95rem;'>Goal: ${{ option.ticket.feature.donation_goal|floatformat:2 }}</span>
                                 </div>
                             </div>
-                            <p style='display: inline-block'>Donated: ${{ option.ticket.feature.total_donations|floatformat:2 }}</p>
-                            <span class='float-right'>Goal: ${{ option.ticket.feature.donation_goal|floatformat:2 }}</span>
-                       {% endif %}
+                        {% endif %}
                    </div>
                    <br>
                    {% endif %}

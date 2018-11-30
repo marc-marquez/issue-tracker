@@ -6,8 +6,7 @@
     <table class='table table-sm' width='100%'>
         <thead class='thead-light'>
             <tr>
-                <th class='text-left' style='min-width: 250px'>{{ post.user.username }}</th>
-                <th class='text-left d-none d-sm-table-cell' style='width: 150px'>Posts: {{ post.user.posts.count }}</th>
+                <th class='text-left' style='min-width: 200px;max-width: 300px;'>{{ post.user.username }}<br>Posts: {{ post.user.posts.count }}</th>
                 <th class='text-left'>
                     <time datetime='{{ post.created_at }}'>Posted: {{ post.created_at|started_time }}
                     </time>
@@ -16,8 +15,8 @@
                 <th class='text-center'><a href='{% url 'edit_post' ticket.id post.id %}' data-toggle='tooltip' title='Edit Post'><i class='fas fa-edit'></i></a></th>
                 <th class='text-center'><a href='#confirmationModal' role='button' data-toggle='modal' data-href='{% url 'delete_post' ticket.id post.id %}'><i style='color: red' class='fas fa-trash' data-toggle='tooltip' title='Delete Post'></i></a></th>
                 {% else %}
-                <th class='text-center'><i class='fas fa-edit' disabled></i></th>
-                <th class='text-center'><i class='fas fa-trash' disabled></i></th>
+                <th class='text-center' style='width: 10px'><i class='fas fa-edit' disabled></i></th>
+                <th class='text-center' style='width: 10px'><i class='fas fa-trash' disabled></i></th>
                 {% endif %}
             </tr>
         </thead>
