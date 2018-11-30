@@ -140,8 +140,8 @@ User Type: Registered User (Staff or Administrator)
 	- The project uses **Bootstrap** to create a responsive and mobile-first thinking website. 
 - [Font Awesome](https://fontawesome.com/)
 	- The project uses **Font Awesome** for the graphical icons.
-- [Bootstrap Table](http://bootstrap-table.wenzhixin.net.cn/)
-	- The project uses **Boostrap Table** to create interactive Bootstrap tables that can be sorted or filtered.
+- [DataTables](https://datatables.net/)
+	- The project uses **DataTables** to create interactive Bootstrap tables that can be sorted or filtered.
 - [DC.js](https://dc-js.github.io/dc.js/)
 - [D3.js](https://d3js.org/)
 - [Crossfilter.js](http://square.github.io/crossfilter/)
@@ -196,8 +196,6 @@ Various details of this website uses companies and characters from some of my fa
 - Dunder Mifflin is the ficticious company from the NBC show, "[The Office](https://www.nbc.com/the-office)".
 - Entertainment 720 is a hilariously failed company from the NBC show, "[Parks and Recreation](https://www.nbc.com/parks-and-recreation)".
 
-### Content
-
 ### Media
 The photos used in this site were obtained from:
 - https://www.wallpaperup.com/
@@ -207,4 +205,4 @@ The photos used in this site were obtained from:
 
 ### Acknowledgements
 
-- I received inspiration for this project from X
+- I received inspiration for this project from my wife. She encouraged me to follow my dreams of getting back into coding.
