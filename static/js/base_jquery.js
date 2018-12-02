@@ -6,17 +6,6 @@ $(document).ready(function(){
         'responsive': {
             details: false
         },
-        'columnDefs': [
-            {responsivePriority: 3, targets: 0},
-            {responsivePriority: 1, targets: 1},
-            {'width': '30%', targets: 1},
-            {responsivePriority: 6, targets: 2},
-            {responsivePriority: 7, targets: 3},
-            {responsivePriority: 5, targets: 4},
-            {responsivePriority: 2, targets: 5},
-            {responsivePriority: 4, targets: 6},
-            {'width': '5%', targets: 6},
-        ],
         drawCallback: function () {
             $('[data-toggle="tooltip"]').tooltip();
         }
