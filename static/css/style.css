@@ -201,3 +201,7 @@ legend {
 .chart-stage > div {
     width: 100%;
 }
+
+.footer {
+    background-color: #343a40;
+}

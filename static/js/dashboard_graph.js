@@ -74,7 +74,7 @@ function makeWorkGraphs(error,workdata) {
         .dimension(dateDim)
         .group(bugsPerDayGroup,'Bug')
         .stack(featuresPerDayGroup,'Feature')
-        .margins({top: 5, right: 20, bottom: 20, left: 20})
+        .margins({top: 5, right: 20, bottom: 20, left: 30})
         .useViewBoxResizing(true)
         .x(d3.time.scale()
             .domain([minDate, maxDate])
@@ -103,8 +103,7 @@ function makeWorkGraphs(error,workdata) {
             .domain([minDate, maxDate])
         )
         .xUnits(d3.time.days)
-        .yAxisLabel('Tickets')
-
+        .yAxisLabel('Number of Events')
         .centerBar(true)
         .brushOn(false)
         .elasticY(true);
