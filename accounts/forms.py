@@ -21,6 +21,8 @@ class UserRegistrationForm(UserCreationForm):
         widget=forms.PasswordInput
     )
 
+    email = forms.EmailField()
+
     class Meta:
         """
         Fields to include and exclude from form
