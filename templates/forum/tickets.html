@@ -20,10 +20,12 @@
                     <th class='desktop'>Last Post By</th>
                     <th class='text-center min-tablet-l'>Last Updated</th>
                     <th class='text-center all'>Status</th>
-                    {% if subject.name == 'Feature'%}
-                    <th class='text-center min-tablet-p'>Donate</th>
-                    {% else %}
-                    <th class='text-center min-tablet-p'>Upvote</th>
+                    {% if user.is_authenticated %}
+                        {% if subject.name == 'Feature'%}
+                        <th class='text-center min-tablet-p'>Donate</th>
+                        {% else %}
+                        <th class='text-center min-tablet-p'>Upvote</th>
+                        {% endif %}
                     {% endif %}
                 </thead>
                 <tbody>
