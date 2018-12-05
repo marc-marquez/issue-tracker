@@ -80,17 +80,25 @@
                 {% if user.is_staff %}
                     <a href='{% url 'edit_ticket' ticket.id %}' class='btn btn-info'>Update ticket</a>
                 {% endif %}
-                {% if user.is_authenticated and ticket.status != 'CLOSED'%}
-                    <a href='{% url 'new_post' ticket.id %}' class='btn btn-primary'>Add post</a>
-                    {% if ticket.subject.name == 'Feature'%}
-                        <a href='{% url 'custom_donate' ticket.id ticket.subject.id%}'><button class='btn btn-success' data-toggle='tooltip' data-placement='bottom' title='Donate'><i class='fas fa-gift'></i></button></a>
+                {#% if user.is_authenticated and ticket.status != 'CLOSED'%#}
+                {% if ticket.status != 'CLOSED' %}
+                    {% if user.is_authenticated %}
+                        <a href='{% url 'new_post' ticket.id %}' class='btn btn-primary'>Add post</a>
+                        {% if ticket.subject.name == 'Feature'%}
+                            <a href='{% url 'custom_donate' ticket.id ticket.subject.id%}'><button class='btn btn-success'>Donate</button></a>
+                        {% else %}
+                            <div style='display: inline-block'>
+                                {% autoescape off %}
+                                {% user_vote_button ticket ticket.subject user %}
+                                {% endautoescape %}
+                            </div>
+                        {% endif %}
                     {% else %}
-                        <div style='display: inline-block'>
-                            {% autoescape off %}
-                            {% user_vote_button ticket ticket.subject user %}
-                            {% endautoescape %}
-                        </div>
+                        {% if ticket.subject.name == 'Feature'%}
+                            <a href='{% url 'login' %}?next={{ request.path }}'><button class='btn btn-success'>Log in to Donate</button></a>
+                        {% endif %}
                     {% endif %}
+                {% else %}
                 {% endif %}
                 <a href='{% url 'tickets' ticket.subject.id %}' class='btn btn-warning'>Back to {{ ticket.subject.name }} Tracker</a>
             </span>

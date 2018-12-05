@@ -98,7 +98,10 @@ def login(request):
             if user is not None:
                 auth.login(request, user)
                 messages.success(request, 'You have successfully logged in.')
-                return redirect(reverse('index'))
+                if 'next' in request.POST:
+                    return redirect(request.POST.get('next'))
+                else:
+                    return redirect(reverse('index'))
             else:
                 messages.error(request, 'Your email or password was not recognized.')
 
