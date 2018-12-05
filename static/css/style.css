@@ -9,7 +9,7 @@ pre {
 
 @media (max-width: 767px){
     #loader {
-        position: absolute;
+        position: fixed;
         left: 50%;
         top: 50%;
         z-index: 100;
@@ -82,7 +82,7 @@ underline {
 @media (min-width: 768px) {
 
     #loader {
-        position: absolute;
+        position: fixed;
         left: 50%;
         top: 50%;
         z-index: 100;
