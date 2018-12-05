@@ -1,30 +1,27 @@
-/* Function for showing loading screen */
-function showLoader(isLoading) {
+/* Function to show loading screen */
+function showLoader(isPageLoading,isJSLoading) {
     var currentURL = window.location.href;
     var isDashboard = currentURL.includes('/report/dashboard/');
 
-    if (!isDashboard) {
-        if (isLoading) {
+    if (isDashboard) {
+        if (isJSLoading) {
             document.getElementById('loader').style.display = 'block';
         }
         else {
             document.getElementById('loader').style.display = 'none';
         }
-    } else {
-        if (isLoading) {
+    }
+    else {
+        if(isPageLoading){
             document.getElementById('loader').style.display = 'block';
         }
         else {
-            var now = new Date().getTime();
-            var waitTime = 5000; /* 5 secs */
-            while (new Date().getTime() < now + waitTime) {
-            }
             document.getElementById('loader').style.display = 'none';
         }
     }
 }
 
-/* Function to show the 'Add Credit Card' div the profile section when hitting the button */
+/* Function to show the 'Add Credit Card' div in the profile page when hitting the button */
 function showAddCard() {
     var x = document.getElementById('addCardDiv');
     if (x.style.display === 'none') {
