@@ -17,6 +17,9 @@
                 <div>
                     <form action={% url 'add_card'%} method='post' id='card-form'>
                         {% csrf_token %}
+                        {% if request.GET.next %}
+                            <input type='hidden' name='next' value='{{ request.GET.next }}'>
+                        {% endif %}
                         <div class='form-row'>
                             <div id='card-element' class='form-control' style='background-color: lightcyan;'>
                             <!-- a Stripe Element will be inserted here. -->

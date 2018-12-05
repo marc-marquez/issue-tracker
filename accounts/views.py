@@ -44,8 +44,9 @@ def register(request):
                 print('Could not add user to Stripe.')
 
             if customer:
-                messages.success(request, 'You have successfully registered. ')
-                return redirect(reverse('login'))
+                messages.success(request, 'You have successfully registered. You are now logged in.')
+                auth.login(request, user)
+                return redirect(reverse('index'))
             else:
                 messages.error(request, 'Unable to register you at this time! ')
     else:
@@ -161,6 +162,8 @@ def add_card(request):
             if source:
                 messages.success(request, source.brand + ' ending in (' + source.last4 +
                                  ') has been added to your account.')
+                if 'next' in request.POST:
+                    return redirect(request.POST.get('next'))
     else:
         return render(request, 'stripe/card_form.html')
 

@@ -312,13 +312,15 @@ def custom_donate(request, subject_id, ticket_id):
             customer = stripe.Customer.retrieve(request.user.stripe_id)
         except stripe.error.StripeError as e:
             messages.error(request, 'No credit card on file. Please add a credit card.')
-            return redirect(reverse('profile'))
+            #return redirect(reverse('profile'))
+            return redirect(reverse('profile')+'?next='+request.path)
 
         default_source = customer.default_source
 
         if default_source is None:
             messages.error(request, 'No credit card on file. Please add a credit card.')
-            return redirect(reverse('profile'))
+            #return redirect(reverse('profile'))
+            return redirect(reverse('profile') + '?next=' + request.path)
         else:
             default_card = customer.sources.retrieve(default_source)
 

@@ -1,3 +1,7 @@
+"""
+Form that create/modify bug and feature tickets and posts
+"""
+
 from django import forms
 from .models import Ticket, Post, Feature, Bug
 from django.core.exceptions import ValidationError
