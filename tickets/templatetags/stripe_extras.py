@@ -1,3 +1,10 @@
+"""
+These added function are used to:
+    - Get ticket donations value
+    - Get ticket donations list
+    - Get the percentage value of a donation towards its goal
+"""
+
 import stripe
 from django import template
 
@@ -7,6 +14,11 @@ register = template.Library()
 
 @register.filter
 def get_ticket_donation_value(option):
+    """
+        Gets ticket donation value of a ticket
+        :param option: The ticket requested to get the donation value of
+        :return: donation value
+    """
 
     try:
         total_donations = option.ticket.feature.total_donations
@@ -17,6 +29,11 @@ def get_ticket_donation_value(option):
 
 
 def get_donations_list():
+    """
+        Get the entire donations list from the Stripe database
+        :return: donations list
+    """
+
     # get charge list
     list = stripe.Charge.list()
 
@@ -35,7 +52,11 @@ def get_donations_list():
 
 @register.filter
 def donation_percentage(ticket):
-
+    """
+        Gets the percentage value of the donations earned in relation to donations goal
+        :param ticket: The ticket requested to get the donation percentage of
+        :return: percentage value of donations earned
+    """
     if ticket.feature.donation_goal == 0:
         return 0
 

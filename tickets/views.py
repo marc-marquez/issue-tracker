@@ -1,3 +1,20 @@
+"""
+These are the views to:
+    - Render forum
+    - Render work dashboard
+    - Render voting results for a subject
+    - Add a new ticket to a subject
+    - Edit a ticket in a subject
+    - Render all tickets for a subject
+    - Render a specific ticket in a subject
+    - Add a new post to a ticket
+    - Edit a post in a ticket
+    - Delete a post from a ticket
+    - Cast vote(s) for a ticket
+    - Donate towards a ticket
+    - Update the ticket donation data in the database
+"""
+
 from __future__ import unicode_literals
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
@@ -17,15 +34,33 @@ stripe.api_key = settings.STRIPE_SECRET
 
 
 def forum(request):
+    """
+    Renders forum page
+    :param request: Type of request
+    :return: forum page
+    """
+
     return render(request, 'forum/forum.html', {'subjects': Subject.objects.all()})
 
 
 def dashboard(request):
+    """
+    Renders work dashboard page
+    :param request: Type of request
+    :return: work dashboard page
+    """
+
     return render(request, 'forum/dashboard.html')
 
 
 def voting_results(request, subject_id):
-    #for subject in Subject.objects.all():
+    """
+    Render voting results page for a subject
+    :param request: Type of request
+    :param subject_id: Requested subject for voting results (e.g. Bug, Feature)
+    :return: Voting results page for specific subject
+    """
+
     subject = get_object_or_404(Subject, pk=subject_id)
     options = PollOption.objects.filter(poll_id=subject_id)\
         .annotate(vote_count=Count('votes'))\
@@ -61,12 +96,25 @@ def voting_results(request, subject_id):
 
 
 def tickets(request, subject_id):
+    """
+    Render tickets page for a subject
+    :param request: Type of request
+    :param subject_id: Requested subject for voting results (e.g. Bug, Feature)
+    :return: Tickets page for a specific subject
+    """
     subject = get_object_or_404(Subject, pk=subject_id)
     return render(request, 'forum/tickets.html', {'subject': subject})
 
 
 @login_required(login_url='/login/')
 def new_ticket(request, subject_id):
+    """
+    Add a new ticket to a subject in the database
+    :param request: Type of request
+    :param subject_id: Requested subject for new ticket (e.g. Bug, Feature)
+    :return: Render ticket form (GET) or Save new ticket to database (POST)
+    """
+
     subject = get_object_or_404(Subject, pk=subject_id)
     if request.method == 'POST':
         ticket_form = TicketForm(request.POST)
@@ -145,6 +193,14 @@ def new_ticket(request, subject_id):
 
 @login_required(login_url='/login/')
 def edit_ticket(request, ticket_id):
+    """
+    Edit an existing ticket in the database
+    :param request: Type of request
+    :param ticket_id: Requested ticket to be edited
+    :return: Render ticket form with data from database (GET) or
+             Save edited ticket to database (POST)
+    """
+
     ticket = get_object_or_404(Ticket, pk=ticket_id)
 
     if request.method == 'POST':
@@ -189,6 +245,13 @@ def edit_ticket(request, ticket_id):
 
 
 def ticket(request, ticket_id):
+    """
+    Render ticket page for a requested ticket
+    :param request: Type of request
+    :param ticket_id: Requested ticket to be viewed
+    :return: Render ticket page
+    """
+
     ticket = get_object_or_404(Ticket, pk=ticket_id)
     args = {'ticket': ticket}
     args.update(csrf(request))
@@ -197,6 +260,13 @@ def ticket(request, ticket_id):
 
 @login_required(login_url='/login/')
 def new_post(request, ticket_id):
+    """
+    Add a new post to a ticket in the database
+    :param request: Type of request
+    :param ticket_id: Requested ticket to add post to
+    :return: Render post form (GET) or Save new post to database (POST)
+    """
+
     ticket = get_object_or_404(Ticket, pk=ticket_id)
 
     if request.method == 'POST':
@@ -228,6 +298,14 @@ def new_post(request, ticket_id):
 
 @login_required(login_url='/login/')
 def edit_post(request, ticket_id, post_id):
+    """
+    Edit an existing post to a ticket in the database
+    :param request: Type of request
+    :param ticket_id: Requested ticket where post exists
+    :param post_id: Requested post to be edited
+    :return: Render post form with data from database (GET) or Save edited post to database (POST)
+    """
+
     ticket = get_object_or_404(Ticket, pk=ticket_id)
     post = get_object_or_404(Post, pk=post_id)
 
@@ -253,6 +331,14 @@ def edit_post(request, ticket_id, post_id):
 
 @login_required(login_url='/login/')
 def delete_post(request, ticket_id, post_id):
+    """
+    Delete an existing post to a ticket in the database
+    :param request: Type of request
+    :param ticket_id: Requested ticket where post exists
+    :param post_id: Requested post to be deleted
+    :return: Render ticket page (GET) or Delete post from database (POST)
+    """
+
     post = get_object_or_404(Post, pk=post_id)
 
     if request.method == 'POST':
@@ -265,6 +351,15 @@ def delete_post(request, ticket_id, post_id):
 
 @login_required(login_url='/login/')
 def ticket_vote(request, ticket_id, subject_id, *donate_votes):
+    """
+    Cast vote(s) for a ticket
+    :param request: Type of request
+    :param ticket_id: Requested ticket to cast vote(s) for
+    :param subject_id: Requested subject of ticket for casting vote(s)
+    :param donate_votes (optional): Number of votes to be cast if based on donation amount
+    :return: Render page used to cast vote (tickets page or ticket page)
+    """
+
     subject = Subject.objects.get(id=subject_id)
 
     #Check to see if voted on poll option is on bugs
@@ -297,6 +392,14 @@ def ticket_vote(request, ticket_id, subject_id, *donate_votes):
 
 @login_required(login_url='/login/')
 def custom_donate(request, subject_id, ticket_id):
+    """
+    Donate towards a ticket
+    :param request: Type of request
+    :param ticket_id: Requested ticket to donate to
+    :param subject_id: Requested subject of ticket
+    :return: Render donation page (GET) or Process donations through Stripe (POST)
+    """
+
     ticket = get_object_or_404(Ticket, pk=ticket_id)
     subject = get_object_or_404(Subject, pk=subject_id)
     COST_PER_VOTE = 10
@@ -357,6 +460,12 @@ def custom_donate(request, subject_id, ticket_id):
 
 
 def update_ticket_donation_data(ticket):
+    """
+    Update the ticket donation data in the database
+    :param ticket: Requested ticket to be updated
+    :return: Save updated donation data in the database
+    """
+
     # get charge list
     list = stripe.Charge.list()
 

@@ -67,6 +67,10 @@ pre {
     transition: transform 2s ease, -webkit-transform 2s ease;
 }
 
+.carousel-inner {
+    background: black;
+}
+
 red {
     color: red
 }
@@ -167,6 +171,7 @@ legend {
 .carousel-img {
     object-fit: cover;
     height: 70vh;
+    opacity: .5;
 }
 
 #featuretteContainer {

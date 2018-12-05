@@ -80,7 +80,6 @@
                 {% if user.is_staff %}
                     <a href='{% url 'edit_ticket' ticket.id %}' class='btn btn-info'>Update ticket</a>
                 {% endif %}
-                {#% if user.is_authenticated and ticket.status != 'CLOSED'%#}
                 {% if ticket.status != 'CLOSED' %}
                     {% if user.is_authenticated %}
                         <a href='{% url 'new_post' ticket.id %}' class='btn btn-primary'>Add post</a>
