@@ -28,11 +28,11 @@
             <table id='ticketTable' class='table table-hover table-striped display responsive table-no-bordered' style='width: 100%'>
                 <thead class='thead-light'>
                     <th class='min-tablet'>Id</th>
-                    <th class='all' data-step='3' data-intro='Click on the title of an existing {{ subject.name | lower }} to see a more detailed view where you can post a comment to our dev team or communicate with other users.'>Title</th>
+                    <th class='all' data-step='3' data-intro='Click on the title of a {{ subject.name | lower }} to see a more detailed view where you can post a comment to our dev team or communicate with other users.'>Title</th>
                     <th class='min-tablet-l'>Reported By</th>
                     <th class='desktop'>Last Post By</th>
                     <th class='text-center min-tablet-l'>Last Updated</th>
-                    <th class='text-center all' data-step='4' data-intro='Sort a column using the arrows to help you find what you are looking for.'>Status</th>
+                    <th class='text-center all' data-step='4' data-intro='Sort a column using the arrows to help you find the {{ subject.name | lower }} you are seeking.'>Status</th>
                     {% if user.is_authenticated %}
                         {% if subject.name == 'Feature'%}
                         <th class='text-center min-tablet-p' data-step='5' data-intro="Click to donate towards a feature you would like see added. Monitor donation progress on the <a href='{% url 'voting_results' subject_id=2 %}'>Features Voting Results</a> page. Once the donation goal is achieved, we will get to work implementing that feature.">Donate</th>
