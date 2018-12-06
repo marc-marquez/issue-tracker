@@ -35,9 +35,9 @@
                     <th class='text-center all' data-step='4' data-intro='Click on the arrows to sort the columns and help you find what you are looking for.'>Status</th>
                     {% if user.is_authenticated %}
                         {% if subject.name == 'Feature'%}
-                        <th class='text-center min-tablet-p' data-step='5' data-intro='Click to donate towards a particular feature. Once the donation goal is achieved, we will get to work implementing that feature.'>Donate</th>
+                        <th class='text-center min-tablet-p' data-step='5' data-intro="Click to donate towards a particular feature. Monitor donation progress on the <a href='{% url 'voting_results' subject_id=2 %}'>Features Voting Results</a> page. Once the donation goal is achieved, we will get to work implementing that feature.">Donate</th>
                         {% else %}
-                        <th class='text-center min-tablet-p' data-step='5' data-intro='Click to vote on bugs that you would like to see fixed. Each user is eligible to vote once per bug.'>Vote</th>
+                        <th class='text-center min-tablet-p' data-step='5' data-intro="Click to vote on bugs that you would like to see fixed. Each user is eligible to vote once per bug. Monitor polling results on the <a href='{% url 'voting_results' subject_id=1 %}'>Bugs Voting Results</a> page. Bugs higher on the list will get worked on ASAP.">Vote</th>
                         {% endif %}
                     {% endif %}
                 </thead>
