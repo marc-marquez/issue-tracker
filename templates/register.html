@@ -2,7 +2,7 @@
 {% load bootstrap_tags %}
 {% block content %}
 <div class='row form-margin'>
-    <div class='col-md-6 offset-md-3'>
+    <div class='col-md-6 offset-md-3 message-margin'>
         <form role='form' method='post' action='{% url 'register' %}'>
             <legend>Create a new account</legend>
             {% csrf_token %}
