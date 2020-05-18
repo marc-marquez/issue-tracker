@@ -16,4 +16,4 @@ six==1.11.0
 stripe==2.8.1
 urllib3==1.23
 gunicorn==19.5
-djangorestframework==3.8.2
+djangorestframework==3.9.1
