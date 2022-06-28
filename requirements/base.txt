@@ -1,4 +1,4 @@
-arrow==0.12.1
+arrow==0.15.1
 beautifulsoup4==4.6.3
 certifi==2018.8.24
 chardet==3.0.4
